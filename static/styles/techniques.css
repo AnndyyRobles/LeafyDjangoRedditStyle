@@ -1,0 +1,435 @@
+/* Estilos para las técnicas de cultivo */
+
+/* Componente de técnicas en la página principal */
+.topics-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.techniques-box {
+  background-color: var(--color-light);
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.techniques-box__header {
+  padding: 1.5rem;
+  background-color: #06968a;
+  border-radius: 5px 5px 0 0;
+}
+
+.techniques-box__header h2 {
+  font-size: 1.6rem;
+  color: var(--color-light);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.techniques-box__header p {
+  color: var(--color-light);
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.techniques-box__content {
+  padding: 1.5rem;
+}
+
+.techniques-box__content p {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  color: #06968a;
+}
+
+.techniques-list {
+  list-style: none;
+}
+
+.technique-link {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  background-color: var(--color-light-gray);
+  color: #06968a;
+  font-weight: 500;
+}
+
+.technique-link:hover {
+  background-color: #06968a;
+  color: var(--color-light);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.technique-icon {
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background-color: #06968a;
+  border-radius: 50%;
+  padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.technique-link:hover .technique-icon {
+  background-color: var(--color-light);
+}
+
+.technique-icon svg {
+  width: 100%;
+  height: 100%;
+  color: var(--color-light);
+}
+
+.technique-link:hover .technique-icon svg {
+  color: #06968a;
+}
+
+/* Página de listado de técnicas */
+.techniques-container {
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.techniques-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.techniques-header h1 {
+  font-size: 3.6rem;
+  color: #06968a;
+  margin-bottom: 1rem;
+}
+
+.techniques-header p {
+  font-size: 1.8rem;
+  color: var(--color-gray);
+}
+
+.techniques-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
+  gap: 3rem;
+}
+
+.technique-card {
+  background-color: var(--color-light);
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.technique-card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+}
+
+.technique-card__image {
+  height: 20rem;
+  overflow: hidden;
+}
+
+.technique-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.technique-card__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-dark-light);
+  color: var(--color-light);
+}
+
+.technique-card__placeholder svg {
+  margin-bottom: 1rem;
+  color: #06968a;
+}
+
+.technique-card__placeholder span {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.technique-card:hover .technique-card__image img {
+  transform: scale(1.05);
+}
+
+.technique-card__content {
+  padding: 2rem;
+}
+
+.technique-card__content h2 {
+  font-size: 2.2rem;
+  color: var(--color-dark);
+  margin-bottom: 1.5rem;
+}
+
+.technique-card__stats {
+  display: flex;
+  margin-bottom: 1.5rem;
+  gap: 2rem;
+}
+
+.technique-card__stats .stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 1.2rem;
+  color: var(--color-gray);
+  margin-bottom: 0.3rem;
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #06968a;
+}
+
+.technique-card__description {
+  font-size: 1.4rem;
+  color: var(--color-gray);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.empty-techniques {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 5rem;
+  background-color: var(--color-light);
+  border-radius: 1rem;
+}
+
+.empty-techniques p {
+  font-size: 1.8rem;
+  color: var(--color-gray);
+}
+
+/* Página de detalle de técnica */
+.technique-detail-layout {
+  margin-top: 0;
+}
+
+.technique-detail-container {
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.technique-hero {
+  height: 40rem;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Usar JavaScript para establecer la imagen de fondo */
+.technique-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+  z-index: 1;
+}
+
+.technique-hero.no-image::before {
+  background-image: none;
+  background-color: transparent;
+}
+
+.technique-hero__content {
+  position: relative;
+  z-index: 2;
+}
+
+.technique-hero__content {
+  width: 100%;
+  padding: 3rem;
+  color: var(--color-light);
+}
+
+.technique-hero__content h1 {
+  font-size: 4.2rem;
+  margin-bottom: 2rem;
+  text-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.5);
+}
+
+.technique-stats {
+  display: flex;
+  gap: 3rem;
+}
+
+.technique-stats .stat {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+}
+
+.technique-stats .stat-label {
+  font-size: 1.4rem;
+  color: var(--color-light-gray);
+}
+
+.technique-stats .stat-value {
+  font-size: 2rem;
+  color: var(--color-main-light);
+}
+
+.technique-content {
+  background-color: var(--color-light);
+  padding: 3rem;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.technique-nav {
+  margin-bottom: 2rem;
+}
+
+.technique-nav .btn--link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.6rem;
+}
+
+.technique-tabs {
+  margin-top: 2rem;
+}
+
+.tabs-header {
+  display: flex;
+  border-bottom: 2px solid var(--color-light-gray);
+  margin-bottom: 2rem;
+}
+
+.tab-item {
+  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  color: var(--color-gray);
+}
+
+.tab-item:hover {
+  color: #06968a;
+}
+
+.tab-item.active {
+  color: #06968a;
+  border-bottom-color: var(--color-main);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.content-section {
+  margin-bottom: 3rem;
+}
+
+.content-section h2 {
+  font-size: 2.4rem;
+  color: var(--color-dark);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-light-gray);
+}
+
+.content-section p,
+.benefits-list,
+.limitations-list,
+.materials-list,
+.setup-instructions,
+.maintenance-tips,
+.plants-list {
+  font-size: 1.6rem;
+  line-height: 1.8;
+  color: var(--color-gray);
+}
+
+.setup-images {
+  margin-top: 2rem;
+}
+
+.setup-image {
+  width: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.setup-images-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background-color: var(--color-light-gray);
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.setup-images-placeholder svg {
+  margin-bottom: 1.5rem;
+  color: var(--color-dark-light);
+}
+
+.setup-images-placeholder p {
+  font-size: 1.4rem;
+  color: var(--color-gray);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .techniques-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .technique-hero {
+    height: 30rem;
+  }
+  
+  .technique-hero__content h1 {
+    font-size: 3.2rem;
+  }
+  
+  .tabs-header {
+    flex-wrap: wrap;
+  }
+  
+  .tab-item {
+    padding: 1rem 1.5rem;
+    font-size: 1.4rem;
+  }
+}

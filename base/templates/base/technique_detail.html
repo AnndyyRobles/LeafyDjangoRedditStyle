@@ -1,0 +1,149 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<main class="layout technique-detail-layout">
+  <div class="container technique-detail-container">
+    <!-- Hero Section -->
+    <div class="technique-hero" {% if technique.main_image %}data-image-url="{{ technique.main_image.url }}"{% endif %}>
+      <div class="technique-hero__content">
+        <h1>{{ technique.name }}</h1>
+        <div class="technique-stats">
+          <div class="stat">
+            <span class="stat-label">Difficulty</span>
+            <span class="stat-value">{{ technique.difficulty_level }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Cost</span>
+            <span class="stat-value">{{ technique.estimated_cost }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="technique-content">
+      <!-- Navigation -->
+      <div class="technique-nav">
+        <a href="{% url 'techniques' %}" class="btn btn--link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+          Back to Techniques
+        </a>
+      </div>
+      
+      <!-- Tabs -->
+      <div class="technique-tabs">
+        <div class="tabs">
+          <div class="tabs-header">
+            <div class="tab-item active" data-tab="overview">Overview</div>
+            <div class="tab-item" data-tab="setup">Setup Instructions</div>
+            <div class="tab-item" data-tab="maintenance">Maintenance</div>
+            <div class="tab-item" data-tab="plants">Recommended Plants</div>
+          </div>
+          
+          <div class="tabs-content">
+            <!-- Overview Tab -->
+            <div class="tab-content active" id="overview">
+              <div class="content-section">
+                <h2>Description</h2>
+                <p>{{ technique.description }}</p>
+              </div>
+              
+              <div class="content-section">
+                <h2>Benefits</h2>
+                <div class="benefits-list">
+                  {{ technique.benefits|linebreaks }}
+                </div>
+              </div>
+              
+              <div class="content-section">
+                <h2>Limitations</h2>
+                <div class="limitations-list">
+                  {{ technique.limitations|linebreaks }}
+                </div>
+              </div>
+              
+              <div class="content-section">
+                <h2>Space Requirements</h2>
+                <p>{{ technique.space_requirements }}</p>
+              </div>
+            </div>
+            
+            <!-- Setup Instructions Tab -->
+            <div class="tab-content" id="setup">
+              <div class="content-section">
+                <h2>Materials Needed</h2>
+                <div class="materials-list">
+                  {{ technique.materials_needed|linebreaks }}
+                </div>
+              </div>
+              
+              <div class="content-section">
+                <h2>Step-by-Step Instructions</h2>
+                <div class="setup-instructions">
+                  {{ technique.setup_instructions|linebreaks }}
+                </div>
+                
+                {% if technique.step_images %}
+                <div class="setup-images">
+                  <img src="{{ technique.step_images.url }}" alt="Setup steps for {{ technique.name }}" class="setup-image">
+                </div>
+                {% else %}
+                <div class="setup-images-placeholder">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                  </svg>
+                  <p>Setup instructions diagram will be available soon</p>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            
+            <!-- Maintenance Tab -->
+            <div class="tab-content" id="maintenance">
+              <div class="content-section">
+                <h2>Maintenance Tips</h2>
+                <div class="maintenance-tips">
+                  {{ technique.maintenance_tips|linebreaks }}
+                </div>
+              </div>
+            </div>
+            
+            <!-- Recommended Plants Tab -->
+            <div class="tab-content" id="plants">
+              <div class="content-section">
+                <h2>Recommended Plants</h2>
+                <div class="plants-list">
+                  {{ technique.recommended_plants|linebreaks }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Tab functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabItems = document.querySelectorAll('.tab-item');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabItems.forEach(item => {
+      item.addEventListener('click', function() {
+        // Remove active class from all tabs
+        tabItems.forEach(tab => tab.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        this.classList.add('active');
+        const tabId = this.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+  });
+</script>
+{% endblock %}

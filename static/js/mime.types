@@ -1,0 +1,6 @@
+# MIME Types configuration
+text/html                             html htm shtml
+text/css                              css
+application/javascript                js
+text/xml                              xml
+application/json                      json

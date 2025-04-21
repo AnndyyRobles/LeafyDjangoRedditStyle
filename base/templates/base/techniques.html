@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<main class="layout">
+  <div class="container techniques-container">
+    <div class="techniques-header">
+      <h1>Cultivation Techniques</h1>
+      <p>Discover innovative ways to grow your plants</p>
+    </div>
+
+    <div class="techniques-grid">
+      {% for technique in techniques %}
+      <div class="technique-card">
+        <div class="technique-card__image">
+          {% if technique.main_image %}
+          <img src="{{ technique.main_image.url }}" alt="{{ technique.name }} cultivation technique">
+          {% else %}
+          <div class="technique-card__placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>{{ technique.name }}</span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="technique-card__content">
+          <h2>{{ technique.name }}</h2>
+          <div class="technique-card__stats">
+            <div class="stat">
+              <span class="stat-label">Difficulty</span>
+              <span class="stat-value">{{ technique.difficulty_level }}</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Cost</span>
+              <span class="stat-value">{{ technique.estimated_cost }}</span>
+            </div>
+          </div>
+          <p class="technique-card__description">{{ technique.description|truncatechars:150 }}</p>
+          <a href="{% url 'technique' technique.id %}" class="btn btn--main">View Tutorial</a>
+        </div>
+      </div>
+      {% empty %}
+      <div class="empty-techniques">
+        <p>No cultivation techniques available yet.</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+{% endblock %}

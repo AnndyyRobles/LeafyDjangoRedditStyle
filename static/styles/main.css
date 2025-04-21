@@ -1,0 +1,45 @@
+body{
+    background-color: #e4f3f2;
+}
+
+/* Estilos para separar los componentes de Plant Guides y Recent Activities */
+.activities {
+    margin-bottom: 25px;
+    border-radius: 8px;
+}
+
+/* Estilos para la columna derecha */
+.activities-column {
+    display: flex;
+    flex-direction: column;
+    gap: 50px; /* Aumentado de 30px a 50px para mayor separación */
+}
+
+/* Añadir bordes sutiles a los recuadros para mejor separación visual */
+.activities-column .activities {
+    border: 1px solid rgba(6, 150, 138, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    padding-bottom: 20px;
+}
+
+.guides-banner {
+    padding: 15px;
+}
+
+.guides-banner h3 {
+    color: #06968a;
+    margin-bottom: 10px;
+}
+
+.guides-banner__link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #06968a;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.guides-banner__link:hover {
+    color: #06968a;
+    transform: translateX(5px);
+}

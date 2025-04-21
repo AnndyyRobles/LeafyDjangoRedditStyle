@@ -1,0 +1,201 @@
+{%  extends 'main.html' %}
+{% block content %}
+
+<main class="guide-detail-container">
+  <div class="guide-hero">
+    <div class="guide-hero__overlay"></div>
+    <div class="guide-hero__image" data-bg-url="{{ guide.guide_picture.url }}"></div>
+    <div class="guide-hero__content">
+      <div class="guide-hero__back">
+        <a href="{% url 'guides' %}" aria-label="Back to guides">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
+            <title>Back to guides</title>
+            <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
+          </svg>
+          Back to Guides
+        </a>
+      </div>
+      
+      <h1 class="guide-hero__title">{{ guide.common_name }}</h1>
+      <p class="guide-hero__scientific">{{ guide.scientific_name }}</p>
+      
+      <div class="guide-hero__categories">
+        {% for category in categories %}
+        <a href="{% url 'guides' %}?q={{ category.name }}" class="guide-category">{{ category.name }}</a>
+        {% endfor %}
+      </div>
+      
+      {% if guide.author == request.user %}
+      <div class="guide-actions">
+        <a href="{% url 'update-guide' guide.id %}" class="btn btn--edit">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 32 32">
+            <title>Edit guide</title>
+            <path d="M27.307 6.756l-3.57-3.582-18.252 18.256v3.581h3.57l18.252-18.255zM31.132 2.922l-2.144-2.147c-0.979-0.98-2.562-0.98-3.541 0l-2.149 2.15 3.57 3.582 4.264-4.265c0.393-0.393 0.393-1.030 0-1.42z"></path>
+          </svg>
+          Edit
+        </a>
+        <a href="{% url 'delete-guide' guide.id %}" class="btn btn--delete">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 32 32">
+            <title>Delete guide</title>
+            <path d="M27.314 6.314l-1.314-1.314-9.686 9.686-9.686-9.686-1.314 1.314 9.686 9.686-9.686 9.686 1.314 1.314 9.686-9.686 9.686 9.686 1.314-1.314-9.686-9.686 9.686-9.686z"></path>
+          </svg>
+          Delete
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  
+  <div class="guide-overview">
+    <div class="guide-stats">
+      <div class="guide-stat">
+        <div class="guide-stat__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <title>Difficulty level</title>
+            <path d="M12 15.5C14.21 15.5 16 13.71 16 11.5V6H12C9.79 6 8 7.79 8 10V15.5H12Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M20 15.5H12V20.5H20V15.5Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M8 15.5H4V20.5H8V15.5Z" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="guide-stat__content">
+          <h3>Difficulty</h3>
+          <p>{{ guide.difficulty }}</p>
+        </div>
+      </div>
+      
+      <div class="guide-stat">
+        <div class="guide-stat__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <title>Growing season</title>
+            <path d="M12 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M4.93 4.93L7.76 7.76" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16.24 16.24L19.07 19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M2 12H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M18 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M4.93 19.07L7.76 16.24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16.24 7.76L19.07 4.93" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="guide-stat__content">
+          <h3>Growing Season</h3>
+          <p>{{ guide.growing_season }}</p>
+        </div>
+      </div>
+      
+      <div class="guide-stat">
+        <div class="guide-stat__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <title>Days to harvest</title>
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="guide-stat__content">
+          <h3>Days to Harvest</h3>
+          <p>{{ guide.days_to_harvest }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="guide-author-card">
+      <div class="guide-author-card__avatar">
+        <img src="{{guide.author.avatar.url}}" alt="{{ guide.author.name }}" loading="lazy" />
+      </div>
+      <div class="guide-author-card__info">
+        <h3>Guide by</h3>
+        <a href="{% url 'user-profile' guide.author.id %}" class="guide-author-card__name">{{ guide.author.name }}</a>
+        <p class="guide-author-card__date">{{ guide.created|date:"F d, Y" }}</p>
+      </div>
+    </div>
+  </div>
+  
+  <div class="guide-tabs">
+    <div class="guide-tabs__nav">
+      <button class="guide-tab active" data-tab="description">Description</button>
+      <button class="guide-tab" data-tab="growing">Growing</button>
+      <button class="guide-tab" data-tab="care">Care</button>
+      <button class="guide-tab" data-tab="harvest">Harvest</button>
+    </div>
+    
+    <div class="guide-tabs__content">
+      <div class="guide-tab-panel active" id="description-panel">
+        <div class="guide-section">
+          <h2>Description</h2>
+          <p>{{ guide.description }}</p>
+        </div>
+      </div>
+      
+      <div class="guide-tab-panel" id="growing-panel">
+        <div class="guide-section">
+          <h2>Germination</h2>
+          <p>{{ guide.germination }}</p>
+        </div>
+        
+        <div class="guide-section">
+          <h2>Transplanting</h2>
+          <p>{{ guide.transplanting }}</p>
+        </div>
+      </div>
+      
+      <div class="guide-tab-panel" id="care-panel">
+        <div class="guide-section">
+          <h2>Watering</h2>
+          <p>{{ guide.watering }}</p>
+        </div>
+        
+        <div class="guide-section">
+          <h2>Sunlight</h2>
+          <p>{{ guide.sunlight }}</p>
+        </div>
+        
+        <div class="guide-section">
+          <h2>Extra Care</h2>
+          <p>{{ guide.extra_care }}</p>
+        </div>
+      </div>
+      
+      <div class="guide-tab-panel" id="harvest-panel">
+        <div class="guide-section">
+          <h2>Harvesting</h2>
+          <p>{{ guide.harvest }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // Tab functionality and background image setup
+  document.addEventListener('DOMContentLoaded', function() {
+    // Setup tabs
+    const tabs = document.querySelectorAll('.guide-tab');
+    const panels = document.querySelectorAll('.guide-tab-panel');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Remove active class from all tabs and panels
+        tabs.forEach(t => t.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        
+        // Add active class to current tab
+        this.classList.add('active');
+        
+        // Show corresponding panel
+        const tabId = this.getAttribute('data-tab');
+        document.getElementById(`${tabId}-panel`).classList.add('active');
+      });
+    });
+    
+    // Setup background images
+    const heroImages = document.querySelectorAll('.guide-hero__image[data-bg-url]');
+    heroImages.forEach(img => {
+      const bgUrl = img.getAttribute('data-bg-url');
+      if (bgUrl) {
+        img.style.backgroundImage = `url('${bgUrl}')`;
+      }
+    });
+  });
+</script>
+
+{% endblock content %}
