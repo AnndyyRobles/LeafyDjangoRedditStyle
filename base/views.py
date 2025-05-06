@@ -88,18 +88,31 @@ def home(request):
 
 def room(request, pk):
     room = Room.objects.get(id=pk)
-    room_messages = room.message_set.all().order_by('-created')
+    # Solo obtener mensajes principales (depth=0)
+    room_messages = room.message_set.filter(depth=0).order_by('-created')
 
     participants = room.participants.all()
 
     if request.method == 'POST':
+        parent_id = request.POST.get('parent_id')
+        depth = 0
+        parent = None
+        
+        # Si es una respuesta a otro mensaje
+        if parent_id:
+            parent = Message.objects.get(id=parent_id)
+            # Limitar la profundidad a 2 niveles (0, 1, 2)
+            depth = min(parent.depth + 1, 2)
+            
         message = Message.objects.create(
-            user = request.user,
-            room = room,
-            body = request.POST.get('body')
+            user=request.user,
+            room=room,
+            body=request.POST.get('body'),
+            parent=parent,
+            depth=depth
         )
         room.participants.add(request.user)
-        return redirect('room', pk = room.id)
+        return redirect('room', pk=room.id)
 
     context = {'room' : room, 'room_messages' : room_messages, 'participants' : participants}
     return render(request, 'base/room.html', context)

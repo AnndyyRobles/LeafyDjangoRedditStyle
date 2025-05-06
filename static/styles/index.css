@@ -1,0 +1,21 @@
+/* Main CSS file that imports all modular components */
+
+/* Base styles and variables */
+@import url("base.css");
+
+/* Component-specific styles */
+@import url("buttons.css");
+@import url("avatars.css");
+@import url("layout.css");
+@import url("header.css");
+@import url("forms.css");
+@import url("activities.css");
+@import url("rooms.css");
+@import url("topics.css");
+@import url("profile.css");
+
+/* Keep existing specialized CSS files */
+@import url("guides.css");
+@import url("techniques.css");
+
+/* Any additional custom styles can be added here */

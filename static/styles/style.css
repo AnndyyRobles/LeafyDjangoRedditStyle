@@ -464,14 +464,19 @@ a {
   max-width: 1300px;
   margin: 0 auto;
   gap: 2rem;
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
 }
 
 .layout--2 > .container > div:first-child {
   flex-basis: 72%;
+  max-width: 72%;
 }
 
 .layout--2 > .container > div:last-child {
   flex-basis: 24%;
+  max-width: 24%;
 }
 /*========== Layout Box ==========*/
 
@@ -1016,6 +1021,7 @@ a {
   overflow: hidden;
   position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
 }
 
 .room-container {
@@ -1023,11 +1029,15 @@ a {
   margin: 0 auto;
   width: 95%;
   padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 .room {
   width: 100%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 @media screen and (max-width: 900px) {
@@ -1090,6 +1100,7 @@ a {
 .room__header {
   position: relative;
   margin-bottom: 1.5rem;
+  width: 100%;
 }
 
 @media screen and (max-width: 500px) {
@@ -1104,8 +1115,8 @@ a {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
   width: 100%;
+  align-items: flex-start;
 }
 
 @media screen and (max-width: 500px) {
@@ -1164,6 +1175,7 @@ a {
   margin-bottom: 4rem;
   height: 64%;
   padding: 0 1rem;
+  width: 100%;
 }
 
 .threads h3 {
@@ -1181,7 +1193,8 @@ a {
   padding: 0 0 5rem 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  width: 100%;
 }
 
 .thread {
@@ -1190,7 +1203,7 @@ a {
   margin: 2rem auto;
   padding: 2.2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  width: 90%;
+  width: 95%;
   max-width: 1000px;
 }
 

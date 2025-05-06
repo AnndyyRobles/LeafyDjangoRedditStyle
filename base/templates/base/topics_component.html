@@ -5,13 +5,10 @@
     <ul class="topics__list">
       <li>
         <a href="{% url 'home' %}" {% if not request.GET.q %}class="active"{% endif %}>All<span>{{topics.count}}</span></a>
-      </li>
-
-      {% for topic in topics %}
+      </li>{% for topic in topics %}
       <li>
         <a href="{% url 'home' %}?q={{topic.name}}" {% if request.GET.q == topic.name %}class="active"{% endif %}>{{topic.name}}<span>{{topic.room_set.all.count}}</span></a>
-      </li>
-      {% endfor %}
+      </li>{% endfor %}
     </ul>
     <a class="btn btn--link" href="{% url 'topics' %}">
       More

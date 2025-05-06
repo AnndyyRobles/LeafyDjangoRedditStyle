@@ -1,0 +1,23 @@
+/* Techniques component styling */
+
+.guides-banner {
+  padding: 15px;
+}
+
+.guides-banner h3 {
+  color: #06968a;
+  margin-bottom: 10px;
+}
+
+.guides-banner__link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #06968a;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.guides-banner__link:hover {
+  color: #06968a;
+  transform: translateX(5px);
+}

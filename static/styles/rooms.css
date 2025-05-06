@@ -1,0 +1,286 @@
+/*========== Room Components ==========*/
+
+.room {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-dark);
+  border-radius: 0.7rem;
+  overflow: hidden;
+}
+
+.room__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-dark-light);
+  padding: 1rem 2rem;
+}
+
+.room__topLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.room__topLeft h3 {
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-light);
+}
+
+.room__topLeft svg {
+  width: 1.6rem;
+  height: 1.6rem;
+  fill: var(--color-light);
+}
+
+.room__topRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.room__topRight svg {
+  fill: var(--color-main-light);
+}
+
+.room__box {
+  padding: 1rem 1rem 0 1rem;
+  height: 80.5vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+  .room__box {
+    padding-left: 2.5rem;
+    padding-right: 2rem;
+    height: 80.5vh;
+    overflow-y: auto;
+    padding-bottom: 0;
+  }
+}
+
+.room__info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.room__info h3 {
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: #06968a;
+}
+
+.room__hosted p {
+  text-transform: uppercase;
+  color: var(--color-gray);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 2;
+}
+
+.room__author {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.room__author:hover {
+  text-decoration: underline;
+}
+
+.room__topics {
+  padding: 0.5rem 1.5rem;
+  background: var(--color-dark-light);
+  color: var(--color-light);
+  display: inline-block;
+  font-size: 1.4rem;
+  border-radius: 1.5rem;
+  margin: 1rem 0;
+}
+
+.room__conversation {
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+  height: 64%;
+  padding: 0 1rem;
+}
+
+.threads h3 {
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-gray);
+}
+
+.threads {
+  background: var(--color-bg);
+  border-radius: 0.7rem;
+  overflow-y: auto;
+  height: 100%;
+  margin-top: 0;
+  padding: 0 0 5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.thread {
+  background: var(--color-dark-medium);
+  border-radius: 0.7rem;
+  margin: 2rem auto;
+  padding: 2.2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 1000px;
+}
+
+.thread__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.thread__top svg {
+  fill: var(--color-dark-light);
+}
+
+.thread__author {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.thread__authorInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.thread__details {
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
+}
+
+.message {
+  margin-left: 4.2rem;
+  margin-top: 1rem;
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--color-light);
+}
+
+.room__message {
+  padding: 1.5rem 2rem;
+  position: absolute;
+  z-index: 111;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--color-dark);
+  border-top: 1px solid var(--color-dark-medium);
+}
+
+.room__message > form > input {
+  resize: none;
+  background: #06968a;
+  color: var(--color-light);
+  border: none;
+  outline: none;
+  border-radius: 0.7rem;
+  height: 4.5rem;
+  width: 100%;
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.room__message > form > input::placeholder {
+  color: var(--color-dark);
+}
+
+.participants__top span {
+  color: #06968a;
+  font-size: 1.3rem;
+  text-transform: none;
+}
+
+.participants__top {
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.participants__list {
+  padding: 1.2rem;
+  height: 82.5vh;
+  overflow-y: auto;
+  padding-bottom: 2rem;
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.participant:hover {
+  background-color: var(--color-dark-medium);
+}
+
+.participant p {
+  color: var(--color-light-gray);
+  line-height: 1.2;
+}
+
+.participant span {
+  display: block;
+  font-weight: 500;
+  color: var(--color-gray);
+  font-size: 1.4rem;
+}
+
+.thread__likes {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.btn-like {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-light-gray);
+  font-size: 1.3rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  background-color: var(--color-dark-light);
+  transition: all 0.3s ease;
+}
+
+.btn-like:hover {
+  background-color: var(--color-main);
+  color: var(--color-light);
+}
+
+.btn-like.liked {
+  background-color: var(--color-main);
+  color: var(--color-light);
+}
+
+.leaf-icon {
+  font-size: 1.2rem;
+}

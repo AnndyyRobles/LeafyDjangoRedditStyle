@@ -1,0 +1,72 @@
+/*========== Buttons and Interactive Components ==========*/
+
+.btn {
+  background-color: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all ease-in-out 0.3s;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  font-weight: 500;
+}
+
+.btn--link {
+  border-radius: 0;
+  padding: 0;
+  color: #06968a;
+  box-shadow: none;
+  margin: 1.5rem;
+}
+
+.btn--link:hover {
+  text-decoration: underline;
+}
+
+.btn--mainn {
+  background-color: #06968a;
+  color: var(--color-light);
+}
+
+.btn--main {
+  background: black;
+  color: white;
+  box-shadow: 1.5px 1.5px 2px rgb(5, 85, 78);
+  margin-right: 15px;
+  height: 29px;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn--dark {
+  background-color: var(--color-dark-medium);
+  color: var(--color-main-light);
+}
+
+.btn > svg {
+  fill: currentColor;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.btn--pill {
+  border-radius: 10rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 6px 2.5rem;
+  color: #06968a;
+  background: transparent;
+  border: 2px solid #06968a;
+}
+
+.action-button {
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

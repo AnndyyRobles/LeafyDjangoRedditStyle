@@ -1,0 +1,67 @@
+/*========== Topics and Tags ==========*/
+
+.topics__header {
+  margin-bottom: 2rem;
+}
+
+.topics__header h2 {
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--color-light);
+}
+
+.topics__list {
+  list-style: none;
+  margin-bottom: 3rem;
+}
+
+.topics__list li a {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+  font-weight: 500;
+  color: var(--color-light-gray);
+  transition: all 0.3s ease-in-out;
+}
+
+.topics__list li a.active,
+.topics__list li a:hover {
+  color: var(--color-main);
+}
+
+.topics__list li a span {
+  padding: 0.5rem 1rem;
+  background-color: var(--color-dark);
+  border-radius: 3px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--color-light);
+}
+
+.topics-page a:hover {
+  text-decoration: underline;
+}
+
+.topic-tag {
+  background-color: #06968a; /* Color base turquesa */
+  color: var(--color-light);
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  font-size: 1.3rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.delete-item {
+  background: none;
+  border: none;
+  padding: 0.5rem 0.7rem;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.delete-item:hover {
+  background-color: var(--color-dark-light);
+}
