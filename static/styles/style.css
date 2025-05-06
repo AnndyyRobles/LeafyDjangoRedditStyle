@@ -904,8 +904,26 @@ a {
 =>  Create Room
 ================================*/
 
-.create-room.layout .layout__box {
+.create-room.layout, .room-form.layout {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  padding: 0 2rem;
+}
+
+.create-room.layout .layout__box, .room-form.layout .layout__box {
   max-width: 68rem;
+  margin: 0 auto;
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: 100%;
+  min-height: 0;
+}
+
+.create-room.layout .layout__body, .room-form.layout .layout__body {
+  margin: 2rem;
+  padding-bottom: 2rem;
 }
 
 /*==============================

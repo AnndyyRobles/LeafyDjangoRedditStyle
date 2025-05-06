@@ -123,10 +123,12 @@
 
 .technique-card {
   background-color: var(--color-light);
-  border-radius: 1rem;
+  border-radius: 2rem;
   overflow: hidden;
   box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 2rem;
+  border: 2px solid #06968a;
 }
 
 .technique-card:hover {
@@ -134,74 +136,117 @@
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
 }
 
-.technique-card__image {
-  height: 20rem;
-  overflow: hidden;
+/* Estilos para las tarjetas de técnicas */
+.technique-card-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-family: cursive;
+  color: #06968a;
+  text-align: center;
 }
 
-.technique-card__image img {
+.technique-images-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.technique-image-main {
+  flex: 2;
+  border: 2px solid #06968a;
+  border-radius: 2rem;
+  overflow: hidden;
+  height: 18rem;
+}
+
+.technique-image-secondary {
+  flex: 1;
+  border: 2px solid #06968a;
+  border-radius: 2rem;
+  overflow: hidden;
+  height: 18rem;
+}
+
+.technique-image-small {
+  flex: 1;
+  border: 2px solid #06968a;
+  border-radius: 2rem;
+  overflow: hidden;
+  height: 10rem;
+}
+
+.technique-image-main img,
+.technique-image-secondary img,
+.technique-image-small img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
 }
 
-.technique-card__placeholder {
-  width: 100%;
-  height: 100%;
+.technique-meta {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: var(--color-dark-light);
-  color: var(--color-light);
+  margin-top: 2rem;
+  justify-content: space-between;
 }
 
-.technique-card__placeholder svg {
-  margin-bottom: 1rem;
+.technique-author {
+  flex: 1;
+  text-align: left;
+  font-family: cursive;
   color: #06968a;
 }
 
-.technique-card__placeholder span {
-  font-size: 1.6rem;
-  font-weight: 500;
+.technique-likes {
+  flex: 1;
+  text-align: center;
+  font-family: cursive;
+  color: #06968a;
 }
 
-.technique-card:hover .technique-card__image img {
-  transform: scale(1.05);
+.technique-date {
+  flex: 1;
+  text-align: right;
+  font-family: cursive;
+  color: #06968a;
 }
 
-.technique-card__content {
-  padding: 2rem;
-}
-
-.technique-card__content h2 {
-  font-size: 2.2rem;
-  color: var(--color-dark);
-  margin-bottom: 1.5rem;
-}
-
-.technique-card__stats {
+.technique-stats {
   display: flex;
-  margin-bottom: 1.5rem;
-  gap: 2rem;
+  margin-top: 1rem;
+  justify-content: space-between;
 }
 
-.technique-card__stats .stat {
-  display: flex;
-  flex-direction: column;
-}
-
-.stat-label {
-  font-size: 1.2rem;
+.technique-participants {
+  flex: 1;
+  text-align: left;
   color: var(--color-gray);
-  margin-bottom: 0.3rem;
 }
 
-.stat-value {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #06968a;
+.technique-type {
+  flex: 1;
+  text-align: right;
+  color: var(--color-gray);
+  font-style: italic;
+}
+
+.technique-actions {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.empty-techniques {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  background-color: var(--color-light);
+  border-radius: 1rem;
+  box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.1);
+}
+
+.empty-techniques p {
+  font-size: 1.8rem;
+  color: var(--color-gray);
+  margin-bottom: 2rem;
 }
 
 .technique-card__description {

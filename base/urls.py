@@ -32,4 +32,8 @@ urlpatterns = [
     # Cultivation Techniques URLs
     path('techniques/', views.techniquesHome, name='techniques'),
     path('technique/<str:pk>/', views.techniqueDetail, name='technique'),
+    path('create-technique/', views.createTechnique, name='create-technique'),
+    path('update-technique/<str:pk>/', views.updateTechnique, name='update-technique'),
+    path('delete-technique/<str:pk>/', views.deleteTechnique, name='delete-technique'),
+    path('like-technique/<str:pk>/', views.likeTechnique, name='like-technique'),
 ]

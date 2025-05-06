@@ -1,0 +1,55 @@
+/* Estilos para las etiquetas de tu00e9cnicas y niveles de dificultad */
+.techniques-preview, .difficulty-preview {
+  margin-top: 15px;
+}
+
+.techniques-preview h4, .difficulty-preview h4 {
+  font-size: 0.9rem;
+  color: var(--color-gray);
+  margin-bottom: 10px;
+}
+
+.techniques-tags, .difficulty-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.technique-tag, .difficulty-tag {
+  background-color: #06968a;
+  color: var(--color-light);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.technique-tag:hover, .difficulty-tag:hover {
+  opacity: 0.85;
+  color: var(--color-white);
+}
+
+/* Estilos especu00edficos para los niveles de dificultad */
+.difficulty-tag.beginner {
+  background-color: #4CAF50; /* Verde para principiante */
+}
+
+.difficulty-tag.intermediate {
+  background-color: #FFC107; /* Amarillo para intermedio */
+}
+
+.difficulty-tag.advanced {
+  background-color: #F44336; /* Rojo para avanzado */
+}
+
+.difficulty-tag.expert {
+  background-color: #9C27B0; /* Morado para experto */
+}
+
+.form__info {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-gray);
+  margin-top: 5px;
+}

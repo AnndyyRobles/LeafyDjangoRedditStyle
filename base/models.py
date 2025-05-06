@@ -98,9 +98,12 @@ class CultivationTechnique(models.Model):
         ('Hydroponics', 'Hydroponics'),
         ('Recycled Materials', 'Recycled Materials'),
         ('Aquaponics', 'Aquaponics'),
+        ('Other', 'Other'),
     )
     
-    name = models.CharField(max_length=50, choices=TECHNIQUE_CHOICES, unique=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='techniques')
+    name = models.CharField(max_length=50, choices=TECHNIQUE_CHOICES)
+    title = models.CharField(max_length=100, help_text='A descriptive title for your technique', null=True, blank=True, default='Mi Técnica de Cultivo')
     description = models.TextField(help_text='General description of the cultivation technique')
     setup_instructions = models.TextField(help_text='Step-by-step instructions on how to set up this cultivation system')
     maintenance_tips = models.TextField(help_text='Tips for maintaining the cultivation system')
@@ -112,13 +115,18 @@ class CultivationTechnique(models.Model):
     benefits = models.TextField(help_text='Benefits of using this cultivation technique')
     limitations = models.TextField(help_text='Limitations or challenges of this technique')
     main_image = models.ImageField(upload_to='technique_images/', help_text='Main image showing the cultivation technique')
-    step_images = models.ImageField(upload_to='technique_steps/', blank=True, null=True, help_text='Additional images showing setup steps')
+    image_second = models.ImageField(upload_to='technique_images/', blank=True, null=True, help_text='Second image of the technique')
+    image_third = models.ImageField(upload_to='technique_images/', blank=True, null=True, help_text='Third image of the technique')
+    image_fourth = models.ImageField(upload_to='technique_images/', blank=True, null=True, help_text='Fourth image of the technique')
+    likes = models.ManyToManyField(User, related_name='technique_likes', blank=True)
+    participants = models.ManyToManyField(User, related_name='technique_participants', blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.name
+        return self.title
     
     class Meta:
         verbose_name = 'Cultivation Technique'
         verbose_name_plural = 'Cultivation Techniques'
+        ordering = ['-created']

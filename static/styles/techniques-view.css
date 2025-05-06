@@ -1,0 +1,157 @@
+/* Estilos específicos para la vista de técnicas */
+/* Estos estilos solo afectan a la vista de técnicas y no interfieren con otras vistas */
+
+/* Aseguramos que las columnas tengan exactamente el mismo ancho que en la vista principal */
+/* La clase layout--3 ya está definida en layout.css con grid-template-columns: 1fr 3fr 1fr */
+
+/* Aplicamos estilos específicos a las columnas en la vista de técnicas */
+/* Nos aseguramos de que las columnas tengan el mismo ancho que en la vista principal */
+/* No necesitamos modificar el grid-template-columns ya que está definido en layout.css */
+
+/* Estilos para las tarjetas de técnicas */
+.technique-card {
+  background-color: var(--color-dark);
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 2rem;
+  border: 2px solid #06968a;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.technique-card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+}
+
+.technique-card-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-family: cursive;
+  color: #06968a;
+  text-align: center;
+}
+
+.technique-images-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.technique-image-main {
+  flex: 2;
+  border: 2px solid #06968a;
+  border-radius: 2rem;
+  overflow: hidden;
+  height: 18rem;
+}
+
+.technique-image-secondary {
+  flex: 1;
+  border: 2px solid #06968a;
+  border-radius: 2rem;
+  overflow: hidden;
+  height: 18rem;
+}
+
+.technique-image-small {
+  flex: 1;
+  border: 2px solid #06968a;
+  border-radius: 2rem;
+  overflow: hidden;
+  height: 10rem;
+}
+
+.technique-image-main img,
+.technique-image-secondary img,
+.technique-image-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.technique-meta {
+  display: flex;
+  margin-top: 2rem;
+  justify-content: space-between;
+}
+
+.technique-author {
+  flex: 1;
+  text-align: left;
+  font-family: cursive;
+  color: #06968a;
+}
+
+.technique-likes {
+  flex: 1;
+  text-align: center;
+}
+
+.technique-date {
+  flex: 1;
+  text-align: right;
+}
+
+.technique-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.technique-participants {
+  flex: 1;
+  text-align: left;
+}
+
+.technique-type {
+  flex: 1;
+  text-align: right;
+  color: #06968a;
+}
+
+.technique-actions {
+  margin-top: 1.5rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.technique-actions .btn--main {
+  background-color: #06968a;
+  color: var(--color-light);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: auto;
+}
+
+.technique-actions .btn--main:hover {
+  background-color: #057a70;
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.empty-techniques {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  background-color: var(--color-dark);
+  border-radius: 1rem;
+  box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.3);
+  border: 2px solid #06968a;
+}
+
+.empty-techniques p {
+  font-size: 1.8rem;
+  color: var(--color-light-gray);
+  margin-bottom: 2rem;
+}

@@ -18,10 +18,26 @@
   background-color: rgba(26, 127, 21, 0.03);
 }
 
-.create-guide .layout__box {
+.create-guide.layout {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  padding: 0 2rem;
+}
+
+.create-guide.layout .layout__box {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  min-height: 0;
+}
+
+.create-guide.layout .layout__body {
+  margin: 2rem;
+  padding-bottom: 2rem;
 }
 
 .guide-form__grid {

@@ -1,0 +1,259 @@
+/* Estilos específicos para la vista de técnicas */
+
+/* Estructura principal para la vista de técnicas */
+/* Sobrescribimos solo para la vista de técnicas */
+.techniques-view.layout.layout--3 {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 3rem;
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+@media screen and (max-width: 900px) {
+  .techniques-view.layout.layout--3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Estilos específicos para las columnas */
+.techniques-view .topics {
+  background-color: var(--color-dark);
+  border-radius: 5px;
+  padding: 1.5rem;
+  border: 1.5px solid rgba(6,150,138,1);
+  margin-bottom: 2rem;
+}
+
+.techniques-view .topics__list {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+
+.techniques-view .topics__list li {
+  margin-bottom: 0.8rem;
+}
+
+.techniques-view .topic-link {
+  display: block;
+  padding: 0.8rem 1rem;
+  border-radius: 0.5rem;
+  color: var(--color-light-gray);
+  transition: all 0.3s ease;
+}
+
+.techniques-view .topic-link:hover {
+  background-color: rgba(6,150,138,0.2);
+  color: #06968a;
+}
+
+.techniques-view .topics__header h2 {
+  background-color: #06968a;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 1rem 1.5rem;
+  color: var(--color-light);
+  letter-spacing: 1px;
+  font-size: 1.4rem;
+  margin: -1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 5px 5px 0 0;
+}
+
+.techniques-view .roomList {
+  background: var(--color-dark);
+  border-radius: 5px;
+  padding: 2rem;
+  border: 1.5px solid rgba(6,150,138,1);
+}
+
+.techniques-view .techniques-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(6,150,138,0.3);
+}
+
+.techniques-view .techniques-header h1 {
+  font-size: 3.2rem;
+  color: #06968a;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(6,150,138,0.3);
+}
+
+.techniques-view .techniques-header p {
+  font-size: 1.6rem;
+  color: var(--color-light-gray);
+}
+
+.techniques-view .activities {
+  background-color: var(--color-dark);
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1.5px solid rgba(6,150,138,1);
+  padding: 1.5rem;
+}
+
+.techniques-view .activities__header h2 {
+  background-color: #06968a;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 1rem 1.5rem;
+  color: var(--color-light);
+  letter-spacing: 1px;
+  font-size: 1.4rem;
+  margin: -1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 5px 5px 0 0;
+}
+
+/* Estilos para las tarjetas de técnicas */
+.technique-card {
+  background-color: var(--color-dark);
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 2rem;
+  border: 2px solid #06968a;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.technique-card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+}
+
+.technique-card-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-family: cursive;
+  color: #06968a;
+  text-align: center;
+}
+
+.technique-images-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.technique-image-main {
+  flex: 2;
+  border: 2px solid #06968a;
+  border-radius: 2rem;
+  overflow: hidden;
+  height: 18rem;
+}
+
+.technique-image-secondary {
+  flex: 1;
+  border: 2px solid #06968a;
+  border-radius: 2rem;
+  overflow: hidden;
+  height: 18rem;
+}
+
+.technique-image-small {
+  flex: 1;
+  border: 2px solid #06968a;
+  border-radius: 2rem;
+  overflow: hidden;
+  height: 10rem;
+}
+
+.technique-image-main img,
+.technique-image-secondary img,
+.technique-image-small img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.technique-meta {
+  display: flex;
+  margin-top: 2rem;
+  justify-content: space-between;
+  color: var(--color-light-gray);
+}
+
+.technique-author {
+  flex: 1;
+  text-align: left;
+  font-family: cursive;
+  color: #06968a;
+}
+
+.technique-likes {
+  flex: 1;
+  text-align: center;
+}
+
+.technique-date {
+  flex: 1;
+  text-align: right;
+}
+
+.technique-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  color: var(--color-light-gray);
+}
+
+.technique-participants {
+  flex: 1;
+  text-align: left;
+}
+
+.technique-type {
+  flex: 1;
+  text-align: right;
+  color: #06968a;
+}
+
+.technique-actions {
+  margin-top: 1.5rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.technique-actions .btn--main {
+  background-color: #06968a;
+  color: var(--color-light);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: auto;
+}
+
+.technique-actions .btn--main:hover {
+  background-color: #057a70;
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.empty-techniques {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  background-color: var(--color-dark);
+  border-radius: 1rem;
+  box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.3);
+  border: 2px solid #06968a;
+}
+
+.empty-techniques p {
+  font-size: 1.8rem;
+  color: var(--color-light-gray);
+  margin-bottom: 2rem;
+}

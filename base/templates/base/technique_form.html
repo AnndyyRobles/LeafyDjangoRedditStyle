@@ -1,0 +1,169 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<main class="create-room layout">
+  <div class="container">
+    <div class="layout__box">
+      <div class="layout__boxHeader">
+        <div class="layout__boxTitle">
+          <a href="{% url 'techniques' %}" title="Volver a la lista de técnicas">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+              <title>arrow-left</title>
+              <path
+                d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
+              </path>
+            </svg>
+            <span class="sr-only">Volver</span>
+          </a>
+          <h3>{% if technique %}Editar{% else %}Crear{% endif %} Técnica de Cultivo</h3>
+        </div>
+      </div>
+
+      <div class="layout__body">
+        <form class="form" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="form__group">
+            <label for="name">Tipo de Técnica</label>
+            <input type="text" name="name" id="name" list="technique-list" placeholder="Selecciona un tipo de técnica" value="{% if technique %}{{ technique.name }}{% endif %}" required autocomplete="off">
+            <datalist id="technique-list">
+              {% for choice_id, choice_label in difficulty_choices %}
+              <option value="{{ choice_id }}">{{ choice_label }}</option>
+              {% endfor %}
+            </datalist>
+            <small class="form__info">Elige un tipo de técnica existente o haz clic en una de las opciones abajo</small>
+            
+            <div class="techniques-preview">
+              <h4>Tipos de Técnicas:</h4>
+              <div class="techniques-tags">
+                {% for choice_id, choice_label in difficulty_choices %}
+                <div class="technique-tag" onclick="selectTechnique('{{ choice_id }}')">{{ choice_label }}</div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          
+          <script>
+            function selectTechnique(techniqueName) {
+              document.getElementById('name').value = techniqueName;
+            }
+          </script>
+
+          <div class="form__group">
+            <label for="title">Título de tu Técnica</label>
+            <input id="title" name="title" type="text" placeholder="Ej: Mi técnica vertical para cultivar fresas" value="{% if technique %}{{ technique.title }}{% endif %}" required />
+          </div>
+
+          <div class="form__group">
+            <label for="description">Descripción General</label>
+            <textarea name="description" id="description" placeholder="Describe tu técnica de cultivo..." required>{% if technique %}{{ technique.description }}{% endif %}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="setup_instructions">Instrucciones de Configuración</label>
+            <textarea name="setup_instructions" id="setup_instructions" placeholder="Paso a paso para configurar esta técnica...">{% if technique %}{{ technique.setup_instructions }}{% endif %}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="maintenance_tips">Consejos de Mantenimiento</label>
+            <textarea name="maintenance_tips" id="maintenance_tips" placeholder="Consejos para mantener el sistema...">{% if technique %}{{ technique.maintenance_tips }}{% endif %}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="recommended_plants">Plantas Recomendadas</label>
+            <textarea name="recommended_plants" id="recommended_plants" placeholder="Tipos de plantas que funcionan bien con esta técnica...">{% if technique %}{{ technique.recommended_plants }}{% endif %}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="space_requirements">Requisitos de Espacio</label>
+            <textarea name="space_requirements" id="space_requirements" placeholder="Requisitos de espacio y ubicaciones ideales...">{% if technique %}{{ technique.space_requirements }}{% endif %}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="difficulty_level">Nivel de Dificultad</label>
+            <input type="text" name="difficulty_level" id="difficulty_level" list="difficulty-list" placeholder="Selecciona un nivel de dificultad" value="{% if technique %}{{ technique.difficulty_level }}{% endif %}" required autocomplete="off">
+            <datalist id="difficulty-list">
+              {% for choice_id, choice_label in difficulty_levels %}
+              <option value="{{ choice_id }}">{{ choice_label }}</option>
+              {% endfor %}
+            </datalist>
+            <small class="form__info">Elige un nivel de dificultad o haz clic en una de las opciones abajo</small>
+            
+            <div class="difficulty-preview">
+              <h4>Niveles de Dificultad:</h4>
+              <div class="difficulty-tags">
+                {% for choice_id, choice_label in difficulty_levels %}
+                <div class="difficulty-tag {% if choice_id == 'beginner' %}beginner{% elif choice_id == 'intermediate' %}intermediate{% elif choice_id == 'advanced' %}advanced{% elif choice_id == 'expert' %}expert{% endif %}" onclick="selectDifficulty('{{ choice_id }}')">{{ choice_label }}</div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          
+          <script>
+            function selectDifficulty(difficultyLevel) {
+              document.getElementById('difficulty_level').value = difficultyLevel;
+            }
+          </script>
+
+          <div class="form__group">
+            <label for="estimated_cost">Costo Estimado</label>
+            <input id="estimated_cost" name="estimated_cost" type="text" placeholder="Ej: $50-100" value="{% if technique %}{{ technique.estimated_cost }}{% endif %}" required />
+          </div>
+
+          <div class="form__group">
+            <label for="materials_needed">Materiales Necesarios</label>
+            <textarea name="materials_needed" id="materials_needed" placeholder="Lista de materiales necesarios...">{% if technique %}{{ technique.materials_needed }}{% endif %}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="benefits">Beneficios</label>
+            <textarea name="benefits" id="benefits" placeholder="Beneficios de usar esta técnica...">{% if technique %}{{ technique.benefits }}{% endif %}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="limitations">Limitaciones</label>
+            <textarea name="limitations" id="limitations" placeholder="Limitaciones o desafíos de esta técnica...">{% if technique %}{{ technique.limitations }}{% endif %}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="main_image">Imagen Principal</label>
+            {% if technique.main_image %}
+            <p class="current-image">Imagen actual: {{ technique.main_image.url }}</p>
+            {% endif %}
+            <input type="file" name="main_image" id="main_image" accept="image/*" {% if not technique %}required{% endif %} />
+          </div>
+
+          <div class="form__group">
+            <label for="image_second">Segunda Imagen</label>
+            {% if technique.image_second %}
+            <p class="current-image">Imagen actual: {{ technique.image_second.url }}</p>
+            {% endif %}
+            <input type="file" name="image_second" id="image_second" accept="image/*" />
+          </div>
+
+          <div class="form__group">
+            <label for="image_third">Tercera Imagen</label>
+            {% if technique.image_third %}
+            <p class="current-image">Imagen actual: {{ technique.image_third.url }}</p>
+            {% endif %}
+            <input type="file" name="image_third" id="image_third" accept="image/*" />
+          </div>
+
+          <div class="form__group">
+            <label for="image_fourth">Cuarta Imagen</label>
+            {% if technique.image_fourth %}
+            <p class="current-image">Imagen actual: {{ technique.image_fourth.url }}</p>
+            {% endif %}
+            <input type="file" name="image_fourth" id="image_fourth" accept="image/*" />
+          </div>
+
+          <div class="form__action">
+            <a class="btn btn--dark" href="{% url 'techniques' %}">Cancelar</a>
+            <button class="btn btn--main" type="submit">{% if technique %}Actualizar{% else %}Crear{% endif %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
-from .models import Room, Topic, Message, User, PlantCategory, PlantGuide
+from .models import Room, Topic, Message, User, PlantCategory, PlantGuide, CultivationTechnique
 from .forms import RoomForm, UserForm, MyUserCreationForm
 # Create your views here.
 #rooms = [
@@ -390,18 +390,144 @@ def likeMessage(request, pk):
     
     # Redirigir a la página anterior
     referer = request.META.get('HTTP_REFERER')
-    if referer:
-        return redirect(referer)
     return redirect('room', pk=message.room.id)
 
 
 # Cultivation Techniques Views
 def techniquesHome(request):
-    techniques = CultivationTechnique.objects.all()
-    context = {'techniques': techniques}
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    techniques = CultivationTechnique.objects.filter(
+        Q(name__icontains=q) | 
+        Q(title__icontains=q) | 
+        Q(description__icontains=q)
+    )
+    topics = Topic.objects.all()[0:5]
+    room_messages = Message.objects.all()[0:3]
+    
+    context = {
+        'techniques': techniques, 
+        'topics': topics, 
+        'room_messages': room_messages
+    }
     return render(request, 'base/techniques.html', context)
 
 def techniqueDetail(request, pk):
     technique = get_object_or_404(CultivationTechnique, id=pk)
     context = {'technique': technique}
     return render(request, 'base/technique_detail.html', context)
+
+@login_required(login_url='login')
+def createTechnique(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        setup_instructions = request.POST.get('setup_instructions')
+        maintenance_tips = request.POST.get('maintenance_tips')
+        recommended_plants = request.POST.get('recommended_plants')
+        space_requirements = request.POST.get('space_requirements')
+        difficulty_level = request.POST.get('difficulty_level')
+        estimated_cost = request.POST.get('estimated_cost')
+        materials_needed = request.POST.get('materials_needed')
+        benefits = request.POST.get('benefits')
+        limitations = request.POST.get('limitations')
+        
+        technique = CultivationTechnique.objects.create(
+            author=request.user,
+            name=name,
+            title=title,
+            description=description,
+            setup_instructions=setup_instructions,
+            maintenance_tips=maintenance_tips,
+            recommended_plants=recommended_plants,
+            space_requirements=space_requirements,
+            difficulty_level=difficulty_level,
+            estimated_cost=estimated_cost,
+            materials_needed=materials_needed,
+            benefits=benefits,
+            limitations=limitations
+        )
+        
+        if request.FILES.get('main_image'):
+            technique.main_image = request.FILES.get('main_image')
+        if request.FILES.get('image_second'):
+            technique.image_second = request.FILES.get('image_second')
+        if request.FILES.get('image_third'):
+            technique.image_third = request.FILES.get('image_third')
+        if request.FILES.get('image_fourth'):
+            technique.image_fourth = request.FILES.get('image_fourth')
+            
+        technique.save()
+        technique.participants.add(request.user)
+        return redirect('techniques')
+    
+    return render(request, 'base/technique_form.html', {
+        'difficulty_choices': CultivationTechnique.TECHNIQUE_CHOICES,
+        'difficulty_levels': PlantGuide.DIFFICULTY_CHOICES
+    })
+
+@login_required(login_url='login')
+def updateTechnique(request, pk):
+    technique = get_object_or_404(CultivationTechnique, id=pk)
+    
+    if request.user != technique.author and not request.user.is_staff:
+        return HttpResponse('No estás autorizado para editar esta técnica')
+    
+    if request.method == 'POST':
+        technique.name = request.POST.get('name')
+        technique.title = request.POST.get('title')
+        technique.description = request.POST.get('description')
+        technique.setup_instructions = request.POST.get('setup_instructions')
+        technique.maintenance_tips = request.POST.get('maintenance_tips')
+        technique.recommended_plants = request.POST.get('recommended_plants')
+        technique.space_requirements = request.POST.get('space_requirements')
+        technique.difficulty_level = request.POST.get('difficulty_level')
+        technique.estimated_cost = request.POST.get('estimated_cost')
+        technique.materials_needed = request.POST.get('materials_needed')
+        technique.benefits = request.POST.get('benefits')
+        technique.limitations = request.POST.get('limitations')
+        
+        if request.FILES.get('main_image'):
+            technique.main_image = request.FILES.get('main_image')
+        if request.FILES.get('image_second'):
+            technique.image_second = request.FILES.get('image_second')
+        if request.FILES.get('image_third'):
+            technique.image_third = request.FILES.get('image_third')
+        if request.FILES.get('image_fourth'):
+            technique.image_fourth = request.FILES.get('image_fourth')
+            
+        technique.save()
+        return redirect('technique', pk=technique.id)
+    
+    return render(request, 'base/technique_form.html', {
+        'technique': technique,
+        'difficulty_choices': CultivationTechnique.TECHNIQUE_CHOICES,
+        'difficulty_levels': PlantGuide.DIFFICULTY_CHOICES
+    })
+
+@login_required(login_url='login')
+def deleteTechnique(request, pk):
+    technique = get_object_or_404(CultivationTechnique, id=pk)
+    
+    if request.user != technique.author and not request.user.is_staff:
+        return HttpResponse('No estás autorizado para eliminar esta técnica')
+    
+    if request.method == 'POST':
+        technique.delete()
+        return redirect('techniques')
+    
+    return render(request, 'base/delete.html', {'obj': technique})
+
+@login_required(login_url='login')
+def likeTechnique(request, pk):
+    technique = get_object_or_404(CultivationTechnique, id=pk)
+    user = request.user
+    
+    if user in technique.likes.all():
+        technique.likes.remove(user)
+        liked = False
+    else:
+        technique.likes.add(user)
+        liked = True
+    
+    return JsonResponse({'liked': liked, 'count': technique.likes.count()})
