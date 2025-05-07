@@ -13,7 +13,6 @@
                 d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
               </path>
             </svg>
-            <span class="sr-only">Volver</span>
           </a>
           <h3>{% if technique %}Editar{% else %}Crear{% endif %} Técnica de Cultivo</h3>
         </div>
@@ -93,7 +92,7 @@
               <h4>Niveles de Dificultad:</h4>
               <div class="difficulty-tags">
                 {% for choice_id, choice_label in difficulty_levels %}
-                <div class="difficulty-tag {% if choice_id == 'beginner' %}beginner{% elif choice_id == 'intermediate' %}intermediate{% elif choice_id == 'advanced' %}advanced{% elif choice_id == 'expert' %}expert{% endif %}" onclick="selectDifficulty('{{ choice_id }}')">{{ choice_label }}</div>
+                <div class="difficulty-tag {{ choice_id }}" onclick="selectDifficulty('{{ choice_id }}')">{{ choice_label }}</div>
                 {% endfor %}
               </div>
             </div>

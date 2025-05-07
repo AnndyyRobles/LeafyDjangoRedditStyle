@@ -8,31 +8,50 @@
 /* Nos aseguramos de que las columnas tengan el mismo ancho que en la vista principal */
 /* No necesitamos modificar el grid-template-columns ya que está definido en layout.css */
 
-/* Estilos para las tarjetas de técnicas */
-.technique-card {
-  background-color: var(--color-dark);
-  border-radius: 2rem;
-  overflow: hidden;
-  box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  padding: 2rem;
-  border: 2px solid #06968a;
+/* Estilos para la lista de técnicas */
+.techniques-grid {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  gap: 2rem;
+}
+
+/* Estilos para los enlaces de las tarjetas */
+.techniques-grid a.technique-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Estilos para las tarjetas de técnicas - igual a las tarjetas de guías */
+.technique-card {
+  background-color: var(--color-dark);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(6,150,138,0.2);
+  margin-bottom: 2.4rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .technique-card:hover {
-  transform: translateY(-0.5rem);
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  border-color: var(--color-main);
 }
 
 .technique-card-title {
+  color: var(--color-light);
   font-size: 2rem;
-  margin-bottom: 2rem;
-  font-family: cursive;
-  color: #06968a;
-  text-align: center;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  padding: 1rem 1rem 0 1rem;
+}
+
+/* Contenedor de imágenes */
+.technique-images-container {
+  margin-bottom: 1rem;
+  padding: 0 1rem;
 }
 
 .technique-images-row {
@@ -41,28 +60,27 @@
   margin-bottom: 1rem;
 }
 
+.technique-image-main,
+.technique-image-secondary,
+.technique-image-small {
+  overflow: hidden;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
 .technique-image-main {
   flex: 2;
-  border: 2px solid #06968a;
-  border-radius: 2rem;
-  overflow: hidden;
-  height: 18rem;
+  height: 200px;
 }
 
 .technique-image-secondary {
   flex: 1;
-  border: 2px solid #06968a;
-  border-radius: 2rem;
-  overflow: hidden;
-  height: 18rem;
+  height: 200px;
 }
 
 .technique-image-small {
   flex: 1;
-  border: 2px solid #06968a;
-  border-radius: 2rem;
-  overflow: hidden;
-  height: 10rem;
+  height: 120px;
 }
 
 .technique-image-main img,
@@ -73,71 +91,66 @@
   object-fit: cover;
 }
 
-.technique-meta {
+.technique-tags-container {
   display: flex;
-  margin-top: 2rem;
-  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 1rem 0.5rem;
+  padding: 0 1rem;
+  justify-content: flex-start;
+  width: 100%;
 }
 
-.technique-author {
-  flex: 1;
-  text-align: left;
-  font-family: cursive;
-  color: #06968a;
-}
-
-.technique-likes {
-  flex: 1;
-  text-align: center;
-}
-
-.technique-date {
-  flex: 1;
-  text-align: right;
-}
-
-.technique-stats {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1.5rem;
-}
-
-.technique-participants {
-  flex: 1;
-  text-align: left;
+.technique-difficulty {
+  background-color: #ff6b6b;
+  color: var(--color-light);
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  font-size: 1.2rem;
+  display: inline;
 }
 
 .technique-type {
-  flex: 1;
-  text-align: right;
-  color: #06968a;
+  background-color: #06968a;
+  color: var(--color-light);
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 1.4rem;
+  display: inline-block;
+  width: auto;
+  max-width: max-content;
+}
+
+.technique-description {
+  color: var(--color-light-gray);
+  font-size: 1.6rem;
+  line-height: 1.6;
+  margin: 0.5rem 1rem 1.5rem;
+  padding: 0 1rem;
 }
 
 .technique-actions {
-  margin-top: 1.5rem;
-  text-align: center;
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top: auto;
+  margin-top: 1.5rem;
 }
 
 .technique-actions .btn--main {
   background-color: #06968a;
   color: var(--color-light);
   border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 1rem;
-  font-size: 1.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
   cursor: pointer;
   height: auto;
 }
 
 .technique-actions .btn--main:hover {
-  background-color: #057a70;
+  background-color: var(--color-main-hover);
   transform: translateY(-2px);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
 
 .empty-techniques {

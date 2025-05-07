@@ -1,6 +1,45 @@
 {%  extends 'main.html' %}
 {% block content %}
 
+<style>
+  /* Estilos para los botones de selecciu00f3n de dificultad */
+  .difficulty-preview {
+    margin-top: 10px;
+  }
+  
+  .difficulty-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 5px;
+  }
+  
+  .difficulty-tag {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--color-light);
+  }
+  
+  .difficulty-tag:hover {
+    opacity: 0.85;
+  }
+  
+  .difficulty-tag.easy {
+    background-color: #4CAF50; /* Verde para fu00e1cil */
+  }
+  
+  .difficulty-tag.medium {
+    background-color: #FFC107; /* Amarillo para medio */
+  }
+  
+  .difficulty-tag.hard {
+    background-color: #F44336; /* Rojo para difu00edcil */
+  }
+</style>
+
 <main class="create-guide layout">
   <div class="container wide-container">
     <div class="layout__box">
@@ -72,12 +111,29 @@
               
               <div class="form__group">
                 <label for="difficulty">Difficulty Level</label>
-                <select name="difficulty" id="difficulty">
-                  <option value="Easy" {% if guide.difficulty == 'Easy' %}selected{% endif %}>Easy</option>
-                  <option value="Medium" {% if guide.difficulty == 'Medium' %}selected{% endif %}>Medium</option>
-                  <option value="Hard" {% if guide.difficulty == 'Hard' %}selected{% endif %}>Hard</option>
-                </select>
+                <input type="text" name="difficulty" id="difficulty" list="difficulty-list" placeholder="Select a difficulty level" value="{% if guide %}{{ guide.difficulty }}{% endif %}" required autocomplete="off">
+                <datalist id="difficulty-list">
+                  <option value="Easy">Easy</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Hard">Hard</option>
+                </datalist>
+                <small class="form__info">Choose a difficulty level or click on one of the options below</small>
+                
+                <div class="difficulty-preview">
+                  <h4>Difficulty Levels:</h4>
+                  <div class="difficulty-tags">
+                    <div class="difficulty-tag easy" onclick="selectDifficulty('Easy')">Easy</div>
+                    <div class="difficulty-tag medium" onclick="selectDifficulty('Medium')">Medium</div>
+                    <div class="difficulty-tag hard" onclick="selectDifficulty('Hard')">Hard</div>
+                  </div>
+                </div>
               </div>
+              
+              <script>
+                function selectDifficulty(difficultyLevel) {
+                  document.getElementById('difficulty').value = difficultyLevel;
+                }
+              </script>
 
               <div class="form__group">
                 <label for="growing_season">Growing Season</label>

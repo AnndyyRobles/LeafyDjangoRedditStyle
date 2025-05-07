@@ -1,149 +1,469 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<main class="layout technique-detail-layout">
-  <div class="container technique-detail-container">
-    <!-- Hero Section -->
-    <div class="technique-hero" {% if technique.main_image %}data-image-url="{{ technique.main_image.url }}"{% endif %}>
-      <div class="technique-hero__content">
-        <h1>{{ technique.name }}</h1>
-        <div class="technique-stats">
-          <div class="stat">
-            <span class="stat-label">Difficulty</span>
-            <span class="stat-value">{{ technique.difficulty_level }}</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Cost</span>
-            <span class="stat-value">{{ technique.estimated_cost }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Main Content -->
-    <div class="technique-content">
-      <!-- Navigation -->
-      <div class="technique-nav">
-        <a href="{% url 'techniques' %}" class="btn btn--link">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-          Back to Techniques
+<!-- Botu00f3n Back to Techniques en un recuadro -->
+<div class="back-nav-container">
+    <div class="card back-nav-card">
+        <a href="{% url 'techniques' %}" class="back-nav-link">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" class="back-nav-icon">
+                <title>Back to techniques</title>
+                <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
+            </svg>
+            Back to Techniques
         </a>
-      </div>
-      
-      <!-- Tabs -->
-      <div class="technique-tabs">
-        <div class="tabs">
-          <div class="tabs-header">
-            <div class="tab-item active" data-tab="overview">Overview</div>
-            <div class="tab-item" data-tab="setup">Setup Instructions</div>
-            <div class="tab-item" data-tab="maintenance">Maintenance</div>
-            <div class="tab-item" data-tab="plants">Recommended Plants</div>
-          </div>
-          
-          <div class="tabs-content">
-            <!-- Overview Tab -->
-            <div class="tab-content active" id="overview">
-              <div class="content-section">
-                <h2>Description</h2>
-                <p>{{ technique.description }}</p>
-              </div>
-              
-              <div class="content-section">
-                <h2>Benefits</h2>
-                <div class="benefits-list">
-                  {{ technique.benefits|linebreaks }}
-                </div>
-              </div>
-              
-              <div class="content-section">
-                <h2>Limitations</h2>
-                <div class="limitations-list">
-                  {{ technique.limitations|linebreaks }}
-                </div>
-              </div>
-              
-              <div class="content-section">
-                <h2>Space Requirements</h2>
-                <p>{{ technique.space_requirements }}</p>
-              </div>
-            </div>
-            
-            <!-- Setup Instructions Tab -->
-            <div class="tab-content" id="setup">
-              <div class="content-section">
-                <h2>Materials Needed</h2>
-                <div class="materials-list">
-                  {{ technique.materials_needed|linebreaks }}
-                </div>
-              </div>
-              
-              <div class="content-section">
-                <h2>Step-by-Step Instructions</h2>
-                <div class="setup-instructions">
-                  {{ technique.setup_instructions|linebreaks }}
-                </div>
-                
-                {% if technique.step_images %}
-                <div class="setup-images">
-                  <img src="{{ technique.step_images.url }}" alt="Setup steps for {{ technique.name }}" class="setup-image">
-                </div>
-                {% else %}
-                <div class="setup-images-placeholder">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                    <polyline points="21 15 16 10 5 21"></polyline>
-                  </svg>
-                  <p>Setup instructions diagram will be available soon</p>
-                </div>
-                {% endif %}
-              </div>
-            </div>
-            
-            <!-- Maintenance Tab -->
-            <div class="tab-content" id="maintenance">
-              <div class="content-section">
-                <h2>Maintenance Tips</h2>
-                <div class="maintenance-tips">
-                  {{ technique.maintenance_tips|linebreaks }}
-                </div>
-              </div>
-            </div>
-            
-            <!-- Recommended Plants Tab -->
-            <div class="tab-content" id="plants">
-              <div class="content-section">
-                <h2>Recommended Plants</h2>
-                <div class="plants-list">
-                  {{ technique.recommended_plants|linebreaks }}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-</main>
+</div>
 
-<script>
-  // Tab functionality
-  document.addEventListener('DOMContentLoaded', function() {
-    const tabItems = document.querySelectorAll('.tab-item');
-    const tabContents = document.querySelectorAll('.tab-content');
+<style>
+    /* Estilos para el botu00f3n Back to Techniques */
+    .back-nav-container {
+        max-width: 1200px;
+        margin: 1rem auto;
+        padding: 0 20px;
+    }
     
-    tabItems.forEach(item => {
-      item.addEventListener('click', function() {
-        // Remove active class from all tabs
-        tabItems.forEach(tab => tab.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
+    .back-nav-card {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+    }
+    
+    .back-nav-link {
+        display: flex;
+        align-items: center;
+        color: var(--color-light);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .back-nav-link:hover {
+        color: #06968a;
+    }
+    
+    .back-nav-icon {
+        margin-right: 0.5rem;
+        fill: currentColor;
+    }
+    
+    /* Estilos específicos para la vista de detalle de técnica usando la paleta de colores de la aplicación */
+    .dashboard {
+        max-width: 1200px;
+        margin: 1rem auto;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: 15px;
+        padding: 0 20px;
+    }
+    
+    .card {
+        background-color: var(--color-dark);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+    
+    /* Header section */
+    .title-card {
+        grid-column: span 8; /* 70% del ancho */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+        background-color: var(--color-dark);
+        padding: 20px;
+    }
+    
+    .author-card {
+        grid-column: span 4; /* 30% del ancho */
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        background-color: #000;
+        padding: 15px;
+    }
+    
+    .technique-type {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        background-color: var(--color-main);
+        color: var(--color-light);
+        font-weight: bold;
+    }
+    
+    .author-card {
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .author-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 15px;
+    }
+    
+    .author-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .author-details {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .author-label {
+        color: var(--color-light);
+        font-size: 0.8em;
+        margin: 0;
+    }
+    
+    .author-name {
+        color: var(--color-light);
+        margin: 0;
+        font-weight: 600;
+    }
+    
+    .author-link {
+        color: var(--color-light);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .author-link:hover {
+        color: #06968a;
+    }
+    
+    .creation-date {
+        color: #ffcc00;
+        font-size: 0.8em;
+        margin: 0;
+    }
+    
+    /* Main image card */
+    .main-image-card {
+        grid-column: span 8;
+        height: 300px;
+    }
+    
+    .main-image-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+    
+    /* Meta info card */
+    .meta-info-card {
+        grid-column: span 4;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .meta-item {
+        margin-bottom: 15px;
+    }
+    
+    .meta-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #06968a; /* Color cyan para las etiquetas */
+    }
+    
+    .meta-value {
+        font-size: 1.2em;
+        color: var(--color-light);
+    }
+    
+    .difficulty-tag {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
+    
+    /* Colores para las etiquetas de dificultad: verde, amarillo, rojo */
+    .beginner { background-color: var(--color-success); color: var(--color-dark); }
+    .intermediate { background-color: #FFC107; color: var(--color-dark); }
+    .advanced { background-color: var(--color-error); color: var(--color-light); }
+    
+    /* Quitar la lu00ednea horizontal de los encabezados h2 */
+    .card h2 {
+        border-bottom: none;
+        padding-bottom: 0;
+        color: #06968a;
+    }
+    
+    /* Description card */
+    .description-card {
+        grid-column: span 12;
+    }
+    
+    /* Gallery card */
+    .gallery-card {
+        grid-column: span 12;
+    }
+    
+    .image-gallery {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .gallery-item {
+        height: 150px;
+    }
+    
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+    
+    /* Two column cards */
+    .setup-card {
+        grid-column: span 6;
+    }
+    
+    .maintenance-card {
+        grid-column: span 6;
+    }
+    
+    .plants-card {
+        grid-column: span 6;
+    }
+    
+    .space-card {
+        grid-column: span 6;
+    }
+    
+    .materials-card {
+        grid-column: span 6;
+    }
+    
+    .benefits-card {
+        grid-column: span 3;
+    }
+    
+    .limitations-card {
+        grid-column: span 3;
+    }
+    
+    /* Content styling */
+    h1 {
+        margin-bottom: 15px;
+        font-size: 1.8em;
+        color: var(--color-light);
+    }
+    
+    h2 {
+        margin-bottom: 15px;
+        font-size: 1.3em;
+        border-bottom: 1px solid var(--color-dark-medium);
+        padding-bottom: 10px;
+        color: var(--color-main);
+    }
+    
+    p {
+        margin-bottom: 15px;
+        line-height: 1.5;
+        color: var(--color-light);
+    }
+    
+    ul, ol {
+        margin-left: 20px;
+        margin-bottom: 15px;
+        color: var(--color-light);
+    }
+    
+    li {
+        margin-bottom: 5px;
+        line-height: 1.5;
+    }
+    
+    /* Actions section */
+    .actions-card {
+        grid-column: span 12;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 2rem;
+    }
+    
+    .action-button {
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        display: inline-block;
+    }
+    
+    .action-save { background-color: var(--color-success); color: var(--color-dark); }
+    .action-share { background-color: var(--color-main); color: var(--color-light); }
+    .action-back { background-color: var(--color-gray); color: var(--color-light); }
+    .action-edit { background-color: #FFC107; color: var(--color-dark); }
+    .action-delete { background-color: var(--color-error); color: var(--color-light); }
+    
+    .author-name, .creation-date {
+        color: var(--color-light);
+    }
+    
+    .author-link {
+        color: #06968a;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .author-link:hover {
+        text-decoration: underline;
+        opacity: 0.9;
+    }
+    
+    .creation-date {
+        color: var(--color-light-gray);
+        font-size: 0.9em;
+    }
+</style>
+
+<div class="dashboard">
+    <!-- Title card (70%) -->
+    <div class="card title-card">
+        <div class="technique-type">{{ technique.name }}</div>
+        <h1>{{ technique.title }}</h1>
+    </div>
+    
+    <!-- Author card (30%) -->
+    <div class="card author-card">
+        <div class="author-avatar">
+            <img src="{{ technique.author.avatar.url }}" alt="Avatar del usuario">
+        </div>
+        <div class="author-details">
+            <p class="author-label">Technique by</p>
+            <p class="author-name"><a href="{% url 'user-profile' technique.author.id %}" class="author-link">{{ technique.author.username }}</a></p>
+            <p class="creation-date">{{ technique.created|date:"F d, Y" }}</p>
+        </div>
+    </div>
+    
+    <!-- Main image card -->
+    <div class="card main-image-card">
+        {% if technique.main_image %}
+        <img src="{{ technique.main_image.url }}" alt="{{ technique.title }}">
+        {% endif %}
+    </div>
+    
+    <!-- Meta information card -->
+    <div class="card meta-info-card">
+        <div class="meta-item">
+            <div class="meta-label">Nivel de Dificultad</div>
+            <div class="meta-value">
+                <span class="difficulty-tag {% if technique.difficulty == 'Beginner' %}beginner{% elif technique.difficulty == 'Intermediate' %}intermediate{% else %}advanced{% endif %}">{{ technique.difficulty }}</span>
+            </div>
+        </div>
         
-        // Add active class to clicked tab
-        this.classList.add('active');
-        const tabId = this.getAttribute('data-tab');
-        document.getElementById(tabId).classList.add('active');
-      });
-    });
-  });
-</script>
+        <div class="meta-item">
+            <div class="meta-label">Costo Estimado</div>
+            <div class="meta-value">{{ technique.estimated_cost }}</div>
+        </div>
+        
+        <div class="meta-item">
+            <div class="meta-label">Espacio Requerido</div>
+            <div class="meta-value">{{ technique.space_requirements }}</div>
+        </div>
+        
+        <div class="meta-item">
+            <div class="meta-label">Tiempo de Configuración</div>
+            <div class="meta-value">{{ technique.setup_time }}</div>
+        </div>
+    </div>
+    
+    <!-- Description card -->
+    <div class="card description-card">
+        <h2>Descripción General</h2>
+        <p>{{ technique.description }}</p>
+    </div>
+    
+    <!-- Gallery card aqui se muestran las otras 3 imagenes-->
+    <div class="card gallery-card">
+        <h2>Galería</h2>
+        <div class="image-gallery">
+            {% if technique.image_second %}
+            <div class="gallery-item">
+                <img src="{{ technique.image_second.url }}" alt="Detalle del sistema">
+            </div>
+            {% endif %}
+            {% if technique.image_third %}
+            <div class="gallery-item">
+                <img src="{{ technique.image_third.url }}" alt="Plantas creciendo">
+            </div>
+            {% endif %}
+            {% if technique.image_fourth %}
+            <div class="gallery-item">
+                <img src="{{ technique.image_fourth.url }}" alt="Sistema completo">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Setup instructions card -->
+    <div class="card setup-card">
+        <h2>Instrucciones de Configuración</h2>
+        {{ technique.setup_instructions|linebreaks }}
+    </div>
+    
+    <!-- Maintenance tips card -->
+    <div class="card maintenance-card">
+        <h2>Consejos de Mantenimiento</h2>
+        {{ technique.maintenance_tips|linebreaks }}
+    </div>
+    
+    <!-- Recommended plants card -->
+    <div class="card plants-card">
+        <h2>Plantas Recomendadas</h2>
+        {{ technique.recommended_plants|linebreaks }}
+    </div>
+    
+    <!-- Space requirements card -->
+    <div class="card space-card">
+        <h2>Requisitos de Espacio</h2>
+        <p>{{ technique.space_requirements }}</p>
+    </div>
+    
+    <!-- Materials needed card -->
+    <div class="card materials-card">
+        <h2>Materiales Necesarios</h2>
+        {{ technique.materials_needed|linebreaks }}
+    </div>
+    
+    <!-- Benefits card -->
+    <div class="card benefits-card">
+        <h2>Beneficios</h2>
+        {{ technique.benefits|linebreaks }}
+    </div>
+    
+    <!-- Limitations card -->
+    <div class="card limitations-card">
+        <h2>Limitaciones</h2>
+        {{ technique.limitations|linebreaks }}
+    </div>
+    
+    <!-- Actions card -->
+    <div class="card actions-card">
+        {% if technique.author == request.user %}
+        <a href="{% url 'update-technique' technique.id %}" class="action-button action-edit">Editar</a>
+        <a href="{% url 'delete-technique' technique.id %}" class="action-button action-delete">Eliminar</a>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

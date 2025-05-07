@@ -31,20 +31,33 @@
 }
 
 /* Estilos especu00edficos para los niveles de dificultad */
+.difficulty-tag.Easy {
+  background-color: #4CAF50; /* Verde para fu00e1cil */
+}
+
+.difficulty-tag.Medium {
+  background-color: #FFC107; /* Amarillo para medio */
+}
+
+.difficulty-tag.Hard {
+  background-color: #F44336; /* Rojo para difu00edcil */
+}
+
+/* Mantenemos las clases anteriores para compatibilidad */
 .difficulty-tag.beginner {
-  background-color: #4CAF50; /* Verde para principiante */
+  background-color: #4CAF50;
 }
 
 .difficulty-tag.intermediate {
-  background-color: #FFC107; /* Amarillo para intermedio */
+  background-color: #FFC107;
 }
 
 .difficulty-tag.advanced {
-  background-color: #F44336; /* Rojo para avanzado */
+  background-color: #F44336;
 }
 
 .difficulty-tag.expert {
-  background-color: #9C27B0; /* Morado para experto */
+  background-color: #9C27B0;
 }
 
 .form__info {

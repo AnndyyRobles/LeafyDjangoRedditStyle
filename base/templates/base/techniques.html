@@ -39,50 +39,46 @@
 
     <div class="techniques-grid">
       {% for technique in techniques %}
-      <div class="technique-card">
+      <a href="{% url 'technique' technique.id %}" class="technique-card">
         <div class="technique-card-title">{{ technique.title }}</div>
         
-        <div class="technique-images-row">
-          <div class="technique-image-main">
-            {% if technique.main_image %}
-            <img src="{{ technique.main_image.url }}" alt="{{ technique.title }}" >
-            {% endif %}
+        <div class="technique-images-container">
+          <div class="technique-images-row">
+            <div class="technique-image-main">
+              {% if technique.main_image %}
+              <img src="{{ technique.main_image.url }}" alt="{{ technique.title }}" >
+              {% endif %}
+            </div>
+            <div class="technique-image-secondary">
+              {% if technique.image_second %}
+              <img src="{{ technique.image_second.url }}" alt="{{ technique.title }}" >
+              {% endif %}
+            </div>
           </div>
-          <div class="technique-image-secondary">
-            {% if technique.image_second %}
-            <img src="{{ technique.image_second.url }}" alt="{{ technique.title }}" >
-            {% endif %}
+          
+          <div class="technique-images-row">
+            <div class="technique-image-small">
+              {% if technique.image_third %}
+              <img src="{{ technique.image_third.url }}" alt="{{ technique.title }}" >
+              {% endif %}
+            </div>
+            <div class="technique-image-small">
+              {% if technique.image_fourth %}
+              <img src="{{ technique.image_fourth.url }}" alt="{{ technique.title }}" >
+              {% endif %}
+            </div>
           </div>
         </div>
         
-        <div class="technique-images-row">
-          <div class="technique-image-small">
-            {% if technique.image_third %}
-            <img src="{{ technique.image_third.url }}" alt="{{ technique.title }}" >
-            {% endif %}
-          </div>
-          <div class="technique-image-small">
-            {% if technique.image_fourth %}
-            <img src="{{ technique.image_fourth.url }}" alt="{{ technique.title }}" >
-            {% endif %}
-          </div>
+        <div class="technique-tags-container">
+          <span class="technique-difficulty">{{ technique.difficulty }}</span>
+          <span class="technique-type">{{ technique.name }}</span>
         </div>
         
-        <div class="technique-meta">
-          <div class="technique-author">{{ technique.author.username }}</div>
-          <div class="technique-likes">{{ technique.likes.count }} Likes</div>
-          <div class="technique-date">{{ technique.created|date:"d M Y" }}</div>
+        <div class="technique-description">
+          {{ technique.description|truncatechars:150 }}
         </div>
-        
-        <div class="technique-stats">
-          <div class="technique-participants">{{ technique.participants.count }} Joined</div>
-          <div class="technique-type">{{ technique.name }}</div>
-        </div>
-        
-        <div class="technique-actions">
-          <a href="{% url 'technique' technique.id %}" class="btn btn--main" title="Ver detalles de la técnica">Ver Detalles</a>
-        </div>
-      </div>
+      </a>
       {% empty %}
       <div class="empty-techniques">
         <p>No hay técnicas de cultivo disponibles aún.</p>

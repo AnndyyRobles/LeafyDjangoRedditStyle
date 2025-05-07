@@ -24,25 +24,6 @@
         <a href="{% url 'guides' %}?q={{ category.name }}" class="guide-category">{{ category.name }}</a>
         {% endfor %}
       </div>
-      
-      {% if guide.author == request.user %}
-      <div class="guide-actions">
-        <a href="{% url 'update-guide' guide.id %}" class="btn btn--edit">
-          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 32 32">
-            <title>Edit guide</title>
-            <path d="M27.307 6.756l-3.57-3.582-18.252 18.256v3.581h3.57l18.252-18.255zM31.132 2.922l-2.144-2.147c-0.979-0.98-2.562-0.98-3.541 0l-2.149 2.15 3.57 3.582 4.264-4.265c0.393-0.393 0.393-1.030 0-1.42z"></path>
-          </svg>
-          Edit
-        </a>
-        <a href="{% url 'delete-guide' guide.id %}" class="btn btn--delete">
-          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 32 32">
-            <title>Delete guide</title>
-            <path d="M27.314 6.314l-1.314-1.314-9.686 9.686-9.686-9.686-1.314 1.314 9.686 9.686-9.686 9.686 1.314 1.314 9.686-9.686 9.686 9.686 1.314-1.314-9.686-9.686 9.686-9.686z"></path>
-          </svg>
-          Delete
-        </a>
-      </div>
-      {% endif %}
     </div>
   </div>
   
@@ -163,7 +144,57 @@
       </div>
     </div>
   </div>
+  
+  <!-- Recuadro para editar o eliminar la guía -->
+  {% if guide.author == request.user %}
+  <div class="actions-container">
+    <div class="actions-card">
+      <a href="{% url 'update-guide' guide.id %}" class="action-button action-edit">Editar</a>
+      <a href="{% url 'delete-guide' guide.id %}" class="action-button action-delete">Eliminar</a>
+    </div>
+  </div>
+  {% endif %}
 </main>
+
+<style>
+  /* Estilos para el recuadro de acciones */
+  .actions-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 20px;
+  }
+  
+  .actions-card {
+    background-color: #000;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .action-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+  
+  .action-button:hover {
+    opacity: 0.9;
+  }
+  
+  .action-edit {
+    background-color: #FFC107;
+    color: #000;
+  }
+  
+  .action-delete {
+    background-color: #FF5252;
+    color: #fff;
+  }
+</style>
 
 <script>
   // Tab functionality and background image setup
