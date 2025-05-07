@@ -1,0 +1,613 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<!-- Botu00f3n Back to Techniques en un recuadro -->
+<div class="back-nav-container">
+    <div class="card back-nav-card">
+        <a href="{% url 'techniques' %}" class="back-nav-link">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" class="back-nav-icon">
+                <title>Back to techniques</title>
+                <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
+            </svg>
+            Volver a Tecnicas
+        </a>
+    </div>
+</div>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        /* Estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--color-dark);
+            padding: 30px;
+            min-height: 100vh;
+            color: var(--color-light);
+            line-height: 1.6;
+        }
+        
+        /* Contenedor principal con diseu00f1o de cuadru00edcula compleja */
+        .layout {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            grid-auto-rows: minmax(50px, auto);
+            grid-gap: 15px;
+        }
+        
+        /* Estilos base para todos los mu00f3dulos */
+        .module {
+            background: var(--color-dark);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--color-dark-gray);
+        }
+        
+        .module:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .text-module {
+            padding: 25px;
+        }
+        
+        .image-module {
+            padding: 0;
+            position: relative;
+        }
+        
+        /* Estilos para tu00edtulos y contenido */
+        h1 {
+            font-size: 2.4rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--color-light);
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--color-main);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--color-main);
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: var(--color-light);
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            color: var(--color-light);
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        /* Mu00f3dulos con diferentes tamau00f1os y posiciones */
+        .header-module {
+            grid-column: 1 / span 24;
+            grid-row: 1 / span 1;
+            display: flex;
+            align-items: center;
+            padding: 30px;
+        }
+        
+        /* Imu00e1genes entremezcladas con el texto */
+        .image-module img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-module:hover img {
+            transform: scale(1.03);
+        }
+        
+        .image-1 {
+            grid-column: 1 / span 10;
+            grid-row: 2 / span 2;
+            background-color: var(--color-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-1::after {
+            content: '{{ technique_type }}';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--color-light);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .meta-module {
+            grid-column: 11 / span 14;
+            grid-row: 2 / span 1;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 15px;
+            padding: 20px;
+        }
+        
+        .meta-item {
+            background: var(--color-dark-gray);
+            padding: 15px;
+            border-radius: 4px;
+        }
+        
+        .meta-label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--color-light-gray);
+        }
+        
+        .meta-value {
+            font-size: 1.1rem;
+            color: var(--color-light);
+        }
+        
+        .difficulty-tag {
+            display: inline-block;
+            padding: 3px 8px;
+            background: #eee;
+            border-radius: 3px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .description-module {
+            grid-column: 11 / span 14;
+            grid-row: 3 / span 1;
+        }
+        
+        .image-2 {
+            grid-column: 18 / span 7;
+            grid-row: 4 / span 2;
+            background-color: var(--color-main-hover);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-light);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .setup-module {
+            grid-column: 1 / span 17;
+            grid-row: 4 / span 2;
+        }
+        
+        .image-3 {
+            grid-column: 1 / span 8;
+            grid-row: 6 / span 2;
+            background-color: var(--color-main-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-dark);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .maintenance-module {
+            grid-column: 9 / span 16;
+            grid-row: 6 / span 1;
+        }
+        
+        .plants-module {
+            grid-column: 9 / span 8;
+            grid-row: 7 / span 1;
+        }
+        
+        .space-module {
+            grid-column: 17 / span 8;
+            grid-row: 7 / span 1;
+        }
+        
+        .image-4 {
+            grid-column: 17 / span 8;
+            grid-row: 8 / span 2;
+            background-color: var(--color-success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-dark);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .materials-module {
+            grid-column: 1 / span 16;
+            grid-row: 8 / span 1;
+        }
+        
+        .benefits-module {
+            grid-column: 1 / span 8;
+            grid-row: 9 / span 1;
+        }
+        
+        .limitations-module {
+            grid-column: 9 / span 8;
+            grid-row: 9 / span 1;
+        }
+        
+        .actions-module {
+            grid-column: 1 / span 24;
+            grid-row: 10 / span 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .action-button {
+            padding: 12px 30px;
+            background: var(--color-main);
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            color: var(--color-light);
+            text-decoration: none;
+        }
+        
+        .action-button:hover {
+            background: var(--color-main-hover);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+        }
+        
+        /* Etiquetas en las imu00e1genes */
+        .image-tag {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(255,255,255,0.9);
+            padding: 8px 15px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: 3px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .layout {
+                grid-template-columns: repeat(12, 1fr);
+            }
+            
+            .header-module {
+                grid-column: 1 / span 12;
+            }
+            
+            .image-1 {
+                grid-column: 1 / span 5;
+                grid-row: 2 / span 2;
+            }
+            
+            .meta-module {
+                grid-column: 6 / span 7;
+                grid-row: 2 / span 1;
+            }
+            
+            .description-module {
+                grid-column: 6 / span 7;
+                grid-row: 3 / span 1;
+            }
+            
+            .image-2 {
+                grid-column: 9 / span 4;
+                grid-row: 4 / span 2;
+            }
+            
+            .setup-module {
+                grid-column: 1 / span 8;
+                grid-row: 4 / span 2;
+            }
+            
+            .image-3 {
+                grid-column: 1 / span 4;
+                grid-row: 6 / span 2;
+            }
+            
+            .maintenance-module {
+                grid-column: 5 / span 8;
+                grid-row: 6 / span 1;
+            }
+            
+            .plants-module {
+                grid-column: 5 / span 4;
+                grid-row: 7 / span 1;
+            }
+            
+            .space-module {
+                grid-column: 9 / span 4;
+                grid-row: 7 / span 1;
+            }
+            
+            .image-4 {
+                grid-column: 9 / span 4;
+                grid-row: 8 / span 2;
+            }
+            
+            .materials-module {
+                grid-column: 1 / span 8;
+                grid-row: 8 / span 1;
+            }
+            
+            .benefits-module {
+                grid-column: 1 / span 4;
+                grid-row: 9 / span 1;
+            }
+            
+            .limitations-module {
+                grid-column: 5 / span 4;
+                grid-row: 9 / span 1;
+            }
+            
+            .actions-module {
+                grid-column: 1 / span 12;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            .layout {
+                grid-template-columns: 1fr;
+                grid-gap: 15px;
+            }
+            
+            .header-module,
+            .meta-module,
+            .description-module,
+            .setup-module,
+            .maintenance-module,
+            .plants-module,
+            .space-module,
+            .materials-module,
+            .benefits-module,
+            .limitations-module,
+            .actions-module,
+            .image-1,
+            .image-2,
+            .image-3,
+            .image-4 {
+                grid-column: 1 / span 1;
+                grid-row: auto;
+            }
+            
+            .meta-module {
+                grid-template-columns: 1fr;
+            }
+            
+            .image-module {
+                height: 250px;
+            }
+        }
+        
+        /* Estilos para el botu00f3n Back to Techniques */
+        .back-nav-container {
+            max-width: 1400px;
+            margin: 1rem auto;
+            padding: 0 20px;
+        }
+        
+        .back-nav-card {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: var(--color-dark);
+            border: 1px solid var(--color-dark-gray);
+            border-radius: 7px;
+        }
+        
+        .back-nav-link {
+            display: flex;
+            align-items: center;
+            color: var(--color-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .back-nav-link:hover {
+            color: var(--color-main);
+        }
+        
+        .back-nav-icon {
+            margin-right: 0.5rem;
+            fill: currentColor;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <!-- Mu00f3dulo de encabezado -->
+        <div class="module text-module header-module">
+            <h1>{{ title }}</h1>
+        </div>
+        
+        <!-- Imagen 1 entremezclada -->
+        <div class="module image-module image-1">
+            <!-- Placeholder para la imagen principal -->
+        </div>
+        
+        <!-- Mu00f3dulo de metadatos -->
+        <div class="module meta-module">
+            <div class="meta-item">
+                <div class="meta-label">Nivel de Dificultad</div>
+                <div class="meta-value">
+                    <span class="difficulty-tag">{{ difficulty }}</span>
+                </div>
+            </div>
+            
+            <div class="meta-item">
+                <div class="meta-label">Costo Estimado</div>
+                <div class="meta-value">{{ cost }}</div>
+            </div>
+            
+            <div class="meta-item">
+                <div class="meta-label">Espacio Requerido</div>
+                <div class="meta-value">{{ space }}</div>
+            </div>
+            
+            <div class="meta-item">
+                <div class="meta-label">Tiempo de Configuración</div>
+                <div class="meta-value">{{ setup_time }}</div>
+            </div>
+        </div>
+        
+        <!-- Mu00f3dulo de descripción -->
+        <div class="module text-module description-module">
+            <h2>Descripción General</h2>
+            <p>{{ description }}</p>
+        </div>
+        
+        <!-- Mu00f3dulo de configuración -->
+        <div class="module text-module setup-module">
+            <h2>Instrucciones de Configuración</h2>
+            <ol>
+                {% for instruction in setup_instructions %}
+                <li>{{ instruction }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        
+        <!-- Imagen 2 entremezclada -->
+        <div class="module image-module image-2">
+            <!-- Placeholder para imagen de detalle -->
+            Detalles de Configuración
+        </div>
+        
+        <!-- Imagen 3 entremezclada -->
+        <div class="module image-module image-3">
+            <!-- Placeholder para imagen de plantas -->
+            Plantas Recomendadas
+        </div>
+        
+        <!-- Mu00f3dulo de mantenimiento -->
+        <div class="module text-module maintenance-module">
+            <h2>Consejos de Mantenimiento</h2>
+            <ul>
+                {% for tip in maintenance_tips %}
+                <li>{{ tip }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Mu00f3dulo de plantas recomendadas -->
+        <div class="module text-module plants-module">
+            <h2>Plantas Recomendadas</h2>
+            <ul>
+                {% for plant in recommended_plants %}
+                <li>{{ plant }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Mu00f3dulo de requisitos de espacio -->
+        <div class="module text-module space-module">
+            <h2>Requisitos de Espacio</h2>
+            <ul>
+                {% for req in space_requirements %}
+                <li>{{ req }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Mu00f3dulo de materiales -->
+        <div class="module text-module materials-module">
+            <h2>Materiales Necesarios</h2>
+            <ul>
+                {% for material in materials %}
+                <li>{{ material }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Imagen 4 entremezclada -->
+        <div class="module image-module image-4">
+            <!-- Placeholder para imagen del sistema completo -->
+            Beneficios del Sistema
+        </div>
+        
+        <!-- Mu00f3dulo de beneficios -->
+        <div class="module text-module benefits-module">
+            <h2>Beneficios</h2>
+            <ul>
+                {% for benefit in benefits %}
+                <li>{{ benefit }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Mu00f3dulo de limitaciones -->
+        <div class="module text-module limitations-module">
+            <h2>Limitaciones</h2>
+            <ul>
+                {% for limitation in limitations %}
+                <li>{{ limitation }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <!-- Mu00f3dulo de acciones -->
+        <div class="module actions-module">
+            <a href="{% url 'create-technique' %}" class="action-button">Crear Mi Propia Tu00e9cnica</a>
+            <a href="{% url 'techniques' %}" class="action-button">Ver Todas las Tu00e9cnicas</a>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

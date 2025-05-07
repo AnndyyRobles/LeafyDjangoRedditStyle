@@ -37,4 +37,11 @@ urlpatterns = [
     path('update-technique/<str:pk>/', views.updateTechnique, name='update-technique'),
     path('delete-technique/<str:pk>/', views.deleteTechnique, name='delete-technique'),
     path('like-technique/<str:pk>/', views.likeTechnique, name='like-technique'),
+    
+    # Main Techniques Information URLs
+    path('techniques/vertical/', views.verticalTechniqueInfo, name='vertical-technique'),
+    path('techniques/wall-mounted/', views.wallMountedTechniqueInfo, name='wall-mounted-technique'),
+    path('techniques/hydroponics/', views.hydroponicsTechniqueInfo, name='hydroponics-technique'),
+    path('techniques/recycled-materials/', views.recycledMaterialsTechniqueInfo, name='recycled-materials-technique'),
+    path('techniques/aquaponics/', views.aquaponicsTechniqueInfo, name='aquaponics-technique'),
 ]

@@ -104,9 +104,9 @@
       <div class="activities__box">
         <p>Explore our collection of plant cultivation guides to learn how to grow your own plants!</p>
         <p>From germination to harvest, we provide detailed instructions for plants of all types.</p>
-        <a href="{% url 'guides' %}" class="btn btn--link">
+        <a href="{% url 'guides' %}" class="btn btn--link guide-link">
           Browse All Guides
-          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="guide-icon">
             <title>arrow-right</title>
             <path
               d="M31.057 18.286l-13.714 13.714-1.616-1.616 10.935-10.935h-26.662v-2.286h26.662l-10.935-10.935 1.616-1.616 13.714 13.714z"
@@ -114,9 +114,9 @@
           </svg>
         </a>
         {% if request.user.is_authenticated %}
-        <a href="{% url 'create-guide' %}" class="btn btn--link">
+        <a href="{% url 'create-guide' %}" class="btn btn--link guide-link">
           Create New Guide
-          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="guide-icon">
             <title>add</title>
             <path
               d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"
@@ -125,6 +125,30 @@
         </a>
         {% endif %}
       </div>
+      
+      <style>
+        .guide-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+          padding: 0.75rem 1rem;
+          border-radius: 5px;
+          background-color: var(--color-dark);
+          transition: all 0.3s ease;
+        }
+        
+        .guide-link:hover {
+          background-color: var(--color-main);
+          color: var(--color-light);
+        }
+        
+        .guide-icon {
+          width: 20px;
+          height: 20px;
+          fill: var(--color-light);
+        }
+      </style>
     </div>
     <!-- Activities End -->
   </div>

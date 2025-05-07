@@ -472,14 +472,118 @@ def techniquesHome(request):
         Q(description__icontains=q)
     )
     topics = Topic.objects.all()[0:5]
-    room_messages = Message.objects.all()[0:3]
+    
+    # Técnicas principales para mostrar en la columna derecha
+    main_techniques = [
+        {'name': 'Vertical', 'display_name': 'Cultivo Vertical', 'url_name': 'vertical-technique'},
+        {'name': 'Wall-mounted', 'display_name': 'Cultivo en Pared', 'url_name': 'wall-mounted-technique'},
+        {'name': 'Hydroponics', 'display_name': 'Hidroponía', 'url_name': 'hydroponics-technique'},
+        {'name': 'Recycled Materials', 'display_name': 'Materiales Reciclados', 'url_name': 'recycled-materials-technique'},
+        {'name': 'Aquaponics', 'display_name': 'Acuaponía', 'url_name': 'aquaponics-technique'}
+    ]
     
     context = {
         'techniques': techniques, 
         'topics': topics, 
-        'room_messages': room_messages
+        'main_techniques': main_techniques
     }
     return render(request, 'base/techniques.html', context)
+
+# Vistas para las técnicas principales
+def verticalTechniqueInfo(request):
+    context = {
+        'title': 'Sistema de Cultivo Vertical para Espacios Reducidos',
+        'difficulty': 'Intermedio',
+        'cost': '$100-150',
+        'space': '1m² x 2m',
+        'setup_time': '3-4 horas',
+        'description': 'Este sistema de cultivo vertical aprovecha el espacio vertical para cultivar una variedad de plantas sin suelo. Utiliza un sistema de bombeo que hace circular agua rica en nutrientes a través de tubos PVC dispuestos en forma vertical, permitiendo cultivar hasta 36 plantas en apenas 1 metro cuadrado de espacio.',
+        'setup_instructions': ['Corta los tubos PVC de 4 pulgadas en secciones de 1 metro.', 'Perfora agujeros de 2 pulgadas de diámetro a lo largo de los tubos, espaciados cada 20 cm.', 'Monta la estructura de soporte usando madera tratada o metal.', 'Instala la bomba de agua en el depósito inferior.', 'Conecta los tubos al sistema de bombeo usando mangueras de 1/2 pulgada.', 'Instala el temporizador para controlar los ciclos de riego.'],
+        'maintenance_tips': ['Revisa el pH del agua cada 3 días, manteniéndolo entre 5.8 y 6.2.', 'Cambia la solución nutritiva completamente cada 2 semanas.', 'Limpia los filtros de la bomba semanalmente para evitar obstrucciones.', 'Verifica que no haya fugas en las conexiones de las mangueras.', 'Durante el verano, añade un sistema de enfriamiento para mantener la temperatura del agua por debajo de 24°C.'],
+        'recommended_plants': ['Lechugas (todas las variedades)', 'Espinacas', 'Albahaca y otras hierbas aromáticas', 'Fresas', 'Pimientos pequeños', 'Tomates cherry (con soporte adicional)'],
+        'space_requirements': ['Un área de 1m² en la base', 'Altura mínima de 2 metros', 'Acceso a electricidad para la bomba', 'Ubicación con al menos 6 horas de luz solar directa', 'Protección contra vientos fuertes si se instala en exterior'],
+        'materials': ['4 tubos PVC de 4 pulgadas x 1 metro', '1 depósito de agua de 50 litros', '1 bomba de agua sumergible (400-600 L/h)', '5 metros de manguera de 1/2 pulgada', '36 canastillas para hidroponía', '1 temporizador digital', 'Estructura de soporte (madera tratada o metal)', 'Kit de medición de pH y EC', 'Solución nutritiva para hidroponía'],
+        'benefits': ['Aprovechamiento óptimo del espacio vertical', 'Ahorro de agua (hasta 90% menos que cultivo tradicional)', 'Mayor velocidad de crecimiento', 'Reducción de plagas y enfermedades', 'No requiere deshierbe', 'Producción durante todo el año'],
+        'limitations': ['Dependencia de electricidad para la bomba', 'Requiere monitoreo constante de pH y nutrientes', 'Inversión inicial moderada', 'No es adecuado para plantas de raíz grande', 'Requiere conocimientos básicos de hidroponía'],
+        'technique_type': 'Vertical'
+    }
+    return render(request, 'base/main_technique.html', context)
+
+def wallMountedTechniqueInfo(request):
+    context = {
+        'title': 'Sistema de Cultivo en Pared para Decoración y Producción',
+        'difficulty': 'Principiante',
+        'cost': '$50-120',
+        'space': '2m² de pared',
+        'setup_time': '2-3 horas',
+        'description': 'El sistema de cultivo en pared permite aprovechar superficies verticales para crear jardines funcionales y decorativos. Ideal para balcones, terrazas y espacios interiores con buena iluminación, combina estética y productividad en un mismo espacio.',
+        'setup_instructions': ['Selecciona una pared con buena iluminación (natural o artificial).', 'Instala un sistema de soporte resistente al peso y la humedad.', 'Coloca una barrera impermeable para proteger la pared.', 'Monta los contenedores o bolsillos de cultivo en el soporte.', 'Instala un sistema de riego por goteo (opcional pero recomendado).', 'Llena los contenedores con sustrato ligero y bien drenado.'],
+        'maintenance_tips': ['Riega con moderación, evitando encharcamientos.', 'Fertiliza cada 2-3 semanas con fertilizante líquido diluido.', 'Rota las plantas según la temporada y su desarrollo.', 'Revisa regularmente el estado de los soportes y la impermeabilización.', 'Poda las plantas para mantener un tamaño adecuado al espacio.'],
+        'recommended_plants': ['Hierbas aromáticas (albahaca, tomillo, romero, menta)', 'Plantas de hoja verde (lechuga, rúcula, espinaca)', 'Fresas', 'Suculentas y cactus (para zonas con poca agua)', 'Flores comestibles (pensamientos, capuçhinas)', 'Plantas ornamentales de poco desarrollo radicular'],
+        'space_requirements': ['Una pared con buena iluminación', 'Capacidad para soportar el peso del sistema (aproximadamente 10-15 kg/m²)', 'Acceso para mantenimiento y riego', 'Protección contra vientos fuertes si está en exterior', 'Drenaje adecuado para el agua sobrante'],
+        'materials': ['Estructura de soporte (madera tratada, metal o plástico resistente)', 'Barrera impermeable (lámina plástica o geotextil)', 'Contenedores o bolsillos de cultivo', 'Sustrato ligero (mezcla de fibra de coco, perlita y compost)', 'Sistema de riego por goteo (opcional)', 'Herramientas básicas de jardinería', 'Tornillería y anclajes para pared'],
+        'benefits': ['Aprovechamiento de espacios infrautilizados', 'Efecto decorativo y bienestar psicológico', 'Mejora de la calidad del aire interior', 'Aislamiento térmico y acústico', 'Fácil acceso para personas con movilidad reducida', 'Posibilidad de cultivar sin agacharse'],
+        'limitations': ['Limitación en el tamaño de las plantas', 'Necesidad de riego frecuente', 'Posibles problemas de humedad en la pared si no se impermeabiliza correctamente', 'Peso limitado que puede soportar la estructura', 'Menor volumen de sustrato disponible para las raíces'],
+        'technique_type': 'Wall-mounted'
+    }
+    return render(request, 'base/main_technique.html', context)
+
+def hydroponicsTechniqueInfo(request):
+    context = {
+        'title': 'Sistema Hidropónico NFT para Producción Intensiva',
+        'difficulty': 'Intermedio',
+        'cost': '$150-300',
+        'space': '2m²',
+        'setup_time': '4-6 horas',
+        'description': 'La hidroponía NFT (Nutrient Film Technique) es un sistema de cultivo sin suelo donde las raíces de las plantas están en contacto con una fina película de solución nutritiva que circula constantemente. Este método permite una producción intensiva con un uso mínimo de agua y nutrientes.',
+        'setup_instructions': ['Construye la estructura de soporte con la inclinación adecuada (1-3%).', 'Instala los canales de cultivo (tubos de PVC o canaletas) sobre la estructura.', 'Coloca el tanque de reserva en la parte inferior del sistema.', 'Instala la bomba de agua y conecta las tuberías.', 'Prepara la solución nutritiva según las necesidades de tus cultivos.', 'Coloca las plantas en los agujeros de los canales usando canastillas hidropónicas.'],
+        'maintenance_tips': ['Monitorea diariamente el pH (5.5-6.5) y la conductividad eléctrica (EC).', 'Mantiene la temperatura de la solución entre 18-24°C.', 'Cambia la solución nutritiva completamente cada 7-14 días.', 'Limpia regularmente los filtros y tuberías para evitar obstrucciones.', 'Verifica que la bomba funcione correctamente las 24 horas.', 'Controla la aparición de algas cubriendo el sistema de la luz directa.'],
+        'recommended_plants': ['Lechugas y verduras de hoja', 'Hierbas aromáticas', 'Fresas', 'Tomates cherry (con soporte adicional)', 'Pimientos', 'Pepinos pequeños'],
+        'space_requirements': ['Área de 2m² mínimo', 'Altura variable según diseño (generalmente 1-1.5m)', 'Acceso a electricidad 24/7', 'Protección contra temperaturas extremas', 'Buena ventilación', 'Iluminación adecuada (natural o artificial)'],
+        'materials': ['Tubos de PVC de 3-4 pulgadas o canaletas', 'Tanque de reserva (50-100 litros)', 'Bomba de agua sumergible (400-800 L/h)', 'Tuberías y conexiones', 'Timer (opcional para ciclos de riego)', 'Kit de medición de pH y EC', 'Nutrientes hidropónicos (macro y micronutrientes)', 'Canastillas hidropónicas', 'Sustrato inerte para germinación (espuma, lana de roca)'],
+        'benefits': ['Ahorro de agua (hasta 90% menos que cultivo tradicional)', 'Mayor control sobre la nutrición de las plantas', 'Crecimiento más rápido y mayor productividad', 'Ausencia de malezas', 'Menor incidencia de plagas y enfermedades del suelo', 'Posibilidad de automatización completa'],
+        'limitations': ['Dependencia total de electricidad', 'Requiere conocimientos técnicos sobre nutrición vegetal', 'Inversión inicial moderada-alta', 'Necesidad de monitoreo constante', 'Riesgo de pérdida total en caso de fallo eléctrico prolongado', 'Curva de aprendizaje pronunciada'],
+        'technique_type': 'Hydroponics'
+    }
+    return render(request, 'base/main_technique.html', context)
+
+def recycledMaterialsTechniqueInfo(request):
+    context = {
+        'title': 'Sistema de Cultivo con Materiales Reciclados',
+        'difficulty': 'Principiante',
+        'cost': '$20-80',
+        'space': 'Variable',
+        'setup_time': '2-4 horas',
+        'description': 'El cultivo con materiales reciclados transforma objetos cotidianos en espacios productivos, reduciendo residuos y costos. Esta técnica versátil permite crear jardines en botellas plásticas, pallets, neumáticos y otros materiales reutilizados, adaptándose a cualquier espacio disponible.',
+        'setup_instructions': ['Selecciona materiales reciclados en buen estado (botellas, pallets, neumáticos, etc.).', 'Limpia y desinfecta todos los materiales a fondo.', 'Realiza los agujeros necesarios para drenaje y ventilación.', 'Aplica pintura o sellador no tóxico si es necesario.', 'Prepara un sustrato adecuado mezclando tierra, compost y material drenante.', 'Instala el sistema de riego apropiado para cada tipo de contenedor.'],
+        'maintenance_tips': ['Adapta la frecuencia de riego al tipo de contenedor (los materiales reciclados pueden secarse más rápido).', 'Fertiliza regularmente, ya que muchos materiales reciclados no retienen nutrientes.', 'Monitorea la degradación de los materiales y reemplázalos cuando sea necesario.', 'Rota los cultivos para evitar el agotamiento del sustrato.', 'Protege los materiales sensibles a la intemperie durante condiciones climáticas extremas.'],
+        'recommended_plants': ['Hierbas aromáticas', 'Verduras de hoja verde', 'Plantas ornamentales resistentes', 'Raíces y tubérculos pequeños', 'Fresas y berries', 'Flores comestibles'],
+        'space_requirements': ['Adaptable a cualquier espacio disponible', 'Buena exposición solar (mínimo 4-6 horas diarias)', 'Superficie estable para contenedores pesados', 'Protección contra vientos fuertes para estructuras ligeras', 'Acceso para mantenimiento regular'],
+        'materials': ['Materiales reciclados (botellas plásticas, pallets, neumáticos, latas, etc.)', 'Herramientas básicas (tijeras, cuchillo, taladro)', 'Sustrato de calidad', 'Pintura o sellador no tóxico (opcional)', 'Material para drenaje (piedras, trozos de cerámica)', 'Compost o fertilizante orgánico', 'Cuerdas, alambres o soportes para estructuras verticales'],
+        'benefits': ['Costo mínimo de implementación', 'Reducción de residuos y huella ecológica', 'Alta adaptabilidad a diferentes espacios', 'Valor educativo y creativo', 'Posibilidad de cultivar sin necesidad de terreno', 'Facilidad para principiantes'],
+        'limitations': ['Durabilidad limitada de algunos materiales', 'Capacidad restringida para plantas grandes', 'Posible lixiviación de sustancias desde ciertos materiales', 'Estética variable (puede no ser adecuada para todos los espacios)', 'Mayor frecuencia de riego en contenedores pequeños', 'Posible sobrecalentamiento en contenedores oscuros'],
+        'technique_type': 'Recycled Materials'
+    }
+    return render(request, 'base/main_technique.html', context)
+
+def aquaponicsTechniqueInfo(request):
+    context = {
+        'title': 'Sistema Acuapónico Integrado para Producción Sostenible',
+        'difficulty': 'Avanzado',
+        'cost': '$300-600',
+        'space': '3-4m²',
+        'setup_time': '8-12 horas',
+        'description': 'La acuaponía es un sistema de producción que integra la acuicultura (cría de peces) con la hidroponía (cultivo de plantas sin suelo) en un ecosistema simbiótico. Los desechos de los peces proporcionan nutrientes para las plantas, mientras que éstas filtran el agua para los peces, creando un ciclo sostenible y altamente productivo.',
+        'setup_instructions': ['Instala el tanque para peces con capacidad adecuada (mínimo 200 litros).', 'Monta el sistema de filtración (filtro mecánico y biofiltro).', 'Construye las camas de cultivo sobre el tanque o a un lado.', 'Instala la bomba de agua y el sistema de tuberías.', 'Prepara el sustrato para las plantas (arcilla expandida, grava o similar).', 'Cicla el sistema durante 3-4 semanas antes de introducir peces.', 'Introduce gradualmente los peces una vez establecidas las bacterias nitrificantes.'],
+        'maintenance_tips': ['Monitorea diariamente los parámetros del agua (pH, amoníaco, nitritos, nitratos).', 'Alimenta a los peces con la cantidad adecuada (3-5% de su peso corporal).', 'Mantiene la temperatura del agua entre 18-26°C según la especie de pez.', 'Limpia regularmente los filtros y elimina los sólidos acumulados.', 'Controla el nivel del agua y repone la evaporada.', 'Equilibra la densidad de peces con la superficie de cultivo (1kg de pez por 10-20 plantas).', 'Realiza pruebas de calidad del agua semanalmente.'],
+        'recommended_plants': ['Verduras de hoja verde (lechuga, espinaca, acelga)', 'Hierbas aromáticas', 'Tomates cherry y pimientos pequeños', 'Pepinos', 'Fresas', 'Plantas de raíz poco profunda'],
+        'space_requirements': ['Área mínima de 3-4m²', 'Superficie resistente que soporte el peso del sistema (400-600kg)', 'Ubicación con buena luz natural o iluminación artificial', 'Protección contra temperaturas extremas', 'Acceso a electricidad 24/7', 'Ventilación adecuada'],
+        'materials': ['Tanque para peces (200-500 litros)', 'Camas de cultivo o sistemas NFT/DWC', 'Bomba de agua sumergible (1500-3000 L/h)', 'Bomba de aire y piedras difusoras', 'Sistema de filtración (filtro mecánico y biofiltro)', 'Tuberías y conexiones', 'Sustrato para plantas (arcilla expandida, grava)', 'Kit de prueba de agua completo', 'Bacterias nitrificantes para el arranque', 'Peces apropiados (tilapia, carpa, etc.)'],
+        'benefits': ['Sistema cerrado con mínimo consumo de agua', 'Doble producción (vegetales y proteína animal)', 'No requiere fertilizantes químicos', 'Alta productividad en espacio reducido', 'Menor incidencia de plagas y enfermedades', 'Sostenibilidad y bajo impacto ambiental'],
+        'limitations': ['Inversión inicial alta', 'Complejidad técnica y curva de aprendizaje pronunciada', 'Dependencia total de electricidad', 'Equilibrio delicado entre subsistemas', 'Requiere monitoreo constante', 'Limitaciones en tipos de cultivos (no adecuado para plantas que requieren muchos nutrientes)'],
+        'technique_type': 'Aquaponics'
+    }
+    return render(request, 'base/main_technique.html', context)
 
 def techniqueDetail(request, pk):
     technique = get_object_or_404(CultivationTechnique, id=pk)
