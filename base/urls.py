@@ -21,6 +21,7 @@ urlpatterns = [
     path('activity/', views.activityPage, name ="activity"),
     path('like-room/<str:pk>/', views.likeRoom, name='like-room'),
     path('like-message/<str:pk>/', views.likeMessage, name='like-message'),
+    path('send-message-ajax/<str:pk>/', views.send_message_ajax, name='send-message-ajax'),
     
     # Plant Guides URLs
     path('guides/', views.guidesHome, name='guides'),

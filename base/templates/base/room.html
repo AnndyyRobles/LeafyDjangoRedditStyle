@@ -96,7 +96,7 @@
           <div class="chat-content">
             <div class="chat-messages">
                 {% for message in room_messages %}
-                <div class="chat-message {% if request.user == message.user %}chat-message--own{% endif %}">
+                <div class="chat-message {% if request.user == message.user %}chat-message--own{% endif %}" id="message-{{message.id}}">
                   <div class="chat-message__header">
                     <div class="chat-message__author">
                       <a href="{% url 'user-profile' message.user.id %}" class="chat-message__author-info">
@@ -152,7 +152,7 @@
                   {% if message.replies.exists %}
                   <div class="chat-message__replies">
                     {% for reply in message.replies.all %}
-                    <div class="chat-message__reply {% if request.user == reply.user %}chat-message__reply--own{% endif %}">
+                    <div class="chat-message__reply {% if request.user == reply.user %}chat-message__reply--own{% endif %}" id="reply-{{reply.id}}">
                       <div class="chat-message__reply-header">
                         <div class="chat-message__reply-author">
                           <a href="{% url 'user-profile' reply.user.id %}" class="chat-message__reply-author-info">
@@ -206,7 +206,7 @@
                       {% if reply.replies.exists %}
                       <div class="chat-message__nested-replies">
                         {% for nested_reply in reply.replies.all %}
-                        <div class="chat-message__nested-reply {% if request.user == nested_reply.user %}chat-message__nested-reply--own{% endif %}">
+                        <div class="chat-message__nested-reply {% if request.user == nested_reply.user %}chat-message__nested-reply--own{% endif %}" id="nested-reply-{{nested_reply.id}}">
                           <div class="chat-message__nested-reply-header">
                             <div class="chat-message__nested-reply-author">
                               <a href="{% url 'user-profile' nested_reply.user.id %}" class="chat-message__nested-reply-author-info">
@@ -267,29 +267,190 @@
     
     <!-- Script para manejar las respuestas -->
     <script>
+      // Función mejorada para mostrar el formulario de respuesta usando IDs únicos
       function showReplyForm(messageId) {
+        console.log('Mostrando formulario para mensaje ID:', messageId);
+        
+        // Asegurarse de que messageId es un string
+        messageId = String(messageId);
+        
         // Ocultar todos los formularios de respuesta primero
         document.querySelectorAll('.reply-form').forEach(form => {
           form.style.display = 'none';
         });
         
-        // Mostrar el formulario de respuesta para este mensaje
-        const replyForm = document.getElementById('reply-form-' + messageId);
+        // Construir el ID del formulario de respuesta
+        const replyFormId = 'reply-form-' + messageId;
+        console.log('Buscando formulario con ID:', replyFormId);
+        
+        // Obtener el formulario de respuesta
+        const replyForm = document.getElementById(replyFormId);
+        
         if (replyForm) {
+          console.log('Formulario encontrado, mostrando');
           replyForm.style.display = 'block';
+          
           // Enfocar el campo de entrada
           const input = replyForm.querySelector('input[name="body"]');
           if (input) {
             input.focus();
           }
+        } else {
+          console.error('No se encontró el formulario con ID:', replyFormId);
         }
       }
       
+      // Función mejorada para ocultar el formulario de respuesta
       function hideReplyForm(messageId) {
-        const replyForm = document.getElementById('reply-form-' + messageId);
+        console.log('Ocultando formulario para mensaje ID:', messageId);
+        
+        // Asegurarse de que messageId es un string
+        messageId = String(messageId);
+        
+        // Construir el ID del formulario de respuesta
+        const replyFormId = 'reply-form-' + messageId;
+        
+        // Obtener el formulario de respuesta
+        const replyForm = document.getElementById(replyFormId);
+        
         if (replyForm) {
           replyForm.style.display = 'none';
+        } else {
+          console.error('No se encontró el formulario con ID:', replyFormId);
         }
       }
+      
+      // Agregar funcionalidad AJAX para enviar mensajes sin recargar la página
+      document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar event listeners para los formularios
+        initializeFormListeners();
+        
+        // Función para inicializar los event listeners de los formularios
+        function initializeFormListeners() {
+          // Formulario principal de mensajes
+          const mainForm = document.querySelector('.room__message form');
+          if (mainForm) {
+            mainForm.addEventListener('submit', function(e) {
+              e.preventDefault();
+              sendMessageAjax(this);
+            });
+          }
+          
+          // Formularios de respuesta
+          document.querySelectorAll('.reply-form form').forEach(form => {
+            // Verificar si ya tiene un event listener
+            if (!form.hasAttribute('data-ajax-initialized')) {
+              form.setAttribute('data-ajax-initialized', 'true');
+              form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                sendMessageAjax(this);
+              });
+            }
+          });
+        }
+        
+        // Función para enviar mensajes mediante AJAX
+        function sendMessageAjax(form) {
+          console.log('Enviando mensaje mediante AJAX');
+          
+          // Obtener el ID de la sala de la URL
+          const roomId = window.location.pathname.split('/').filter(Boolean).pop();
+          console.log('ID de la sala:', roomId);
+          
+          // Obtener el contenido del mensaje
+          const messageBody = form.querySelector('input[name="body"]').value.trim();
+          if (!messageBody) {
+            console.error('El mensaje está vacío');
+            return;
+          }
+          
+          // Preparar los datos del formulario
+          const formData = new FormData();
+          formData.append('body', messageBody);
+          
+          // Si es una respuesta, agregar el ID del mensaje padre
+          const parentInput = form.querySelector('input[name="parent_id"]');
+          if (parentInput) {
+            const parentId = parentInput.value;
+            console.log('Respondiendo al mensaje con ID:', parentId);
+            formData.append('parent_id', parentId);
+          }
+          
+          // Obtener el token CSRF
+          const csrfToken = form.querySelector('input[name="csrfmiddlewaretoken"]').value;
+          
+          // Deshabilitar el formulario durante el envío para evitar duplicados
+          const submitButton = form.querySelector('button[type="submit"]');
+          const inputs = form.querySelectorAll('input');
+          
+          if (submitButton) submitButton.disabled = true;
+          inputs.forEach(input => {
+            if (input.name !== 'csrfmiddlewaretoken') {
+              input.disabled = true;
+            }
+          });
+          
+          // Enviar la solicitud AJAX
+          fetch('/send-message-ajax/' + roomId + '/', {
+            method: 'POST',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'X-CSRFToken': csrfToken
+            },
+            body: formData
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error en la respuesta del servidor: ' + response.status);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Respuesta del servidor:', data);
+            
+            if (data.status === 'success') {
+              // Limpiar el campo de entrada
+              form.querySelector('input[name="body"]').value = '';
+              
+              // Si es una respuesta, ocultar el formulario de respuesta
+              if (parentInput) {
+                const messageId = parentInput.value;
+                hideReplyForm(messageId);
+              }
+              
+              // Mostrar un mensaje de éxito
+              console.log('Mensaje enviado con éxito. ID:', data.message.id);
+              
+              // Recargar la página para mostrar el nuevo mensaje
+              // En una implementación más avanzada, se podría actualizar el DOM directamente
+              // sin recargar la página
+              window.location.reload();
+            } else {
+              console.error('Error al enviar el mensaje:', data.message);
+              alert('Error al enviar el mensaje: ' + data.message);
+              
+              // Reactivar el formulario en caso de error
+              if (submitButton) submitButton.disabled = false;
+              inputs.forEach(input => {
+                if (input.name !== 'csrfmiddlewaretoken') {
+                  input.disabled = false;
+                }
+              });
+            }
+          })
+          .catch(error => {
+            console.error('Error en la solicitud AJAX:', error);
+            alert('Error en la solicitud: ' + error.message);
+            
+            // Reactivar el formulario en caso de error
+            if (submitButton) submitButton.disabled = false;
+            inputs.forEach(input => {
+              if (input.name !== 'csrfmiddlewaretoken') {
+                input.disabled = false;
+              }
+            });
+          });
+        }
+      });
     </script>
 {% endblock content%}

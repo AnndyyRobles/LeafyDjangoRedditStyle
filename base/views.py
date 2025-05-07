@@ -88,9 +88,8 @@ def home(request):
 
 def room(request, pk):
     room = Room.objects.get(id=pk)
-    # Solo obtener mensajes principales (depth=0)
-    room_messages = room.message_set.filter(depth=0).order_by('-created')
-
+    # Obtener solo los mensajes principales (sin padres)
+    room_messages = room.message_set.filter(parent=None).select_related('user').prefetch_related('replies', 'replies__user', 'replies__replies', 'replies__replies__user')
     participants = room.participants.all()
 
     if request.method == 'POST':
@@ -100,9 +99,13 @@ def room(request, pk):
         
         # Si es una respuesta a otro mensaje
         if parent_id:
-            parent = Message.objects.get(id=parent_id)
-            # Limitar la profundidad a 2 niveles (0, 1, 2)
-            depth = min(parent.depth + 1, 2)
+            try:
+                parent = Message.objects.get(id=parent_id)
+                # Limitar la profundidad a 2 niveles (0, 1, 2)
+                depth = min(parent.depth + 1, 2)
+            except Message.DoesNotExist:
+                # Si el mensaje padre no existe, crear un mensaje normal
+                pass
             
         message = Message.objects.create(
             user=request.user,
@@ -114,8 +117,75 @@ def room(request, pk):
         room.participants.add(request.user)
         return redirect('room', pk=room.id)
 
-    context = {'room' : room, 'room_messages' : room_messages, 'participants' : participants}
+    context = {
+        'room': room, 
+        'room_messages': room_messages, 
+        'participants': participants
+    }
     return render(request, 'base/room.html', context)
+
+def send_message_ajax(request, pk):
+    """Vista para enviar mensajes mediante AJAX sin recargar la página"""
+    from django.http import JsonResponse
+    
+    if request.method == 'POST' and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        try:
+            room = Room.objects.get(id=pk)
+            body = request.POST.get('body')
+            parent_id = request.POST.get('parent_id')
+            
+            if not body or body.strip() == '':
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'El mensaje no puede estar vacío'
+                }, status=400)
+            
+            depth = 0
+            parent = None
+            
+            # Si es una respuesta a otro mensaje
+            if parent_id:
+                try:
+                    parent = Message.objects.get(id=parent_id)
+                    # Limitar la profundidad a 2 niveles (0, 1, 2)
+                    depth = min(parent.depth + 1, 2)
+                except Message.DoesNotExist:
+                    return JsonResponse({
+                        'status': 'error',
+                        'message': 'El mensaje al que intentas responder no existe'
+                    }, status=404)
+            
+            # Crear el mensaje
+            message = Message.objects.create(
+                user=request.user,
+                room=room,
+                body=body,
+                parent=parent,
+                depth=depth
+            )
+            
+            room.participants.add(request.user)
+            
+            # Devolver una respuesta JSON con información detallada
+            return JsonResponse({
+                'status': 'success',
+                'message': {
+                    'id': message.id,
+                    'body': message.body,
+                    'user_id': message.user.id,
+                    'user_name': message.user.username,
+                    'parent_id': parent_id if parent_id else None,
+                    'depth': depth,
+                    'created': message.created.strftime('%Y-%m-%d %H:%M:%S')
+                }
+            })
+        except Exception as e:
+            return JsonResponse({
+                'status': 'error',
+                'message': f'Error al procesar la solicitud: {str(e)}'
+            }, status=500)
+    
+    return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=400)
 
 def userProfile(request, pk):
     user = User.objects.get(id=pk)
