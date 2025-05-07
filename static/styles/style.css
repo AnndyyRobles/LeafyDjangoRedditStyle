@@ -225,7 +225,7 @@ a {
   position: absolute;
   top: 5rem;
   right: 0.5rem;
-  background: var(--color-main-light);
+  background: #057a70; /* Cambiado a un cyan mu00e1s oscuro */
   border-radius: 5px;
   box-shadow: 1px 1px 3px 1px rgba(6, 150, 138, 0.15);
   overflow: hidden;
