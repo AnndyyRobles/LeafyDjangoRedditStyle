@@ -8,6 +8,23 @@ class User(AbstractUser):
     avatar = models.ImageField(null=True, default="blue.jpg")
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+    
+    def get_friends(self):
+        """Retorna todos los amigos del usuario"""
+        friend_users = []
+        for friendship in self.friendships.filter(status='accepted'):
+            friend_users.append(friendship.to_user)
+        for friendship in self.friend_requests.filter(status='accepted'):
+            friend_users.append(friendship.from_user)
+        return friend_users
+    
+    def get_friend_count(self):
+        """Retorna el número de amigos del usuario"""
+        return len(self.get_friends())
+    
+    def is_friend(self, user):
+        """Verifica si un usuario es amigo"""
+        return user in self.get_friends()
 
 class Topic(models.Model):
     name = models.CharField(max_length=200)
@@ -130,3 +147,24 @@ class CultivationTechnique(models.Model):
         verbose_name = 'Cultivation Technique'
         verbose_name_plural = 'Cultivation Techniques'
         ordering = ['-created']
+
+
+class Friendship(models.Model):
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    )
+    
+    from_user = models.ForeignKey(User, related_name='friendships', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(User, related_name='friend_requests', on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        unique_together = ('from_user', 'to_user')
+        ordering = ['-updated']
+    
+    def __str__(self):
+        return f'{self.from_user.username} -> {self.to_user.username} ({self.status})'

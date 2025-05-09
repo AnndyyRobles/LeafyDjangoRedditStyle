@@ -44,4 +44,10 @@ urlpatterns = [
     path('techniques/hydroponics/', views.hydroponicsTechniqueInfo, name='hydroponics-technique'),
     path('techniques/recycled-materials/', views.recycledMaterialsTechniqueInfo, name='recycled-materials-technique'),
     path('techniques/aquaponics/', views.aquaponicsTechniqueInfo, name='aquaponics-technique'),
+    
+    # Friendship URLs
+    path('send-friend-request/<str:pk>/', views.send_friend_request, name='send-friend-request'),
+    path('accept-friend-request/<str:pk>/', views.accept_friend_request, name='accept-friend-request'),
+    path('reject-friend-request/<str:pk>/', views.reject_friend_request, name='reject-friend-request'),
+    path('remove-friend/<str:pk>/', views.remove_friend, name='remove-friend'),
 ]

@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
-from .models import Room, Topic, Message, User, PlantCategory, PlantGuide, CultivationTechnique
+from .models import Room, Topic, Message, User, PlantCategory, PlantGuide, CultivationTechnique, Friendship
 from .forms import RoomForm, UserForm, MyUserCreationForm
 # Create your views here.
 #rooms = [
@@ -192,7 +192,30 @@ def userProfile(request, pk):
     rooms = user.room_set.all()
     room_messages = user.message_set.all()
     topics = Topic.objects.all()
-    context = {'user' : user, 'rooms' : rooms, 'room_messages' : room_messages, 'topics' : topics}
+    
+    # Obtener amigos del usuario
+    friends = user.get_friends()
+    
+    # Verificar si el usuario actual es amigo del perfil que está viendo
+    is_friend = False
+    friendship = None
+    if request.user.is_authenticated and request.user.id != user.id:
+        is_friend = request.user.is_friend(user)
+        # Buscar si existe una solicitud de amistad pendiente
+        friendship = Friendship.objects.filter(
+            (Q(from_user=request.user) & Q(to_user=user)) |
+            (Q(from_user=user) & Q(to_user=request.user))
+        ).first()
+    
+    context = {
+        'user': user, 
+        'rooms': rooms, 
+        'room_messages': room_messages, 
+        'topics': topics,
+        'friends': friends,
+        'is_friend': is_friend,
+        'friendship': friendship
+    }
     return render(request, 'base/profile.html', context)
 
 @login_required(login_url = 'login')
@@ -463,6 +486,117 @@ def likeMessage(request, pk):
     return redirect('room', pk=message.room.id)
 
 
+@login_required(login_url='login')
+def likeTechnique(request, pk):
+    technique = CultivationTechnique.objects.get(id=pk)
+    if request.user.is_authenticated:
+        if request.user in technique.likes.all():
+            technique.likes.remove(request.user)
+        else:
+            technique.likes.add(request.user)
+    return redirect('technique-detail', pk=technique.id)
+
+
+@login_required(login_url='login')
+def send_friend_request(request, pk):
+    """Agregar amigo inmediatamente"""
+    to_user = User.objects.get(id=pk)
+    from_user = request.user
+    
+    # Verificar que no se agregue a sí mismo
+    if to_user == from_user:
+        messages.error(request, 'No puedes agregarte a ti mismo como amigo')
+        return redirect('user-profile', pk=to_user.id)
+    
+    # Verificar si ya existe una relación de amistad
+    friendship = Friendship.objects.filter(
+        (Q(from_user=from_user) & Q(to_user=to_user)) |
+        (Q(from_user=to_user) & Q(to_user=from_user))
+    ).first()
+    
+    if friendship:
+        # Si ya son amigos
+        if friendship.status == 'accepted':
+            messages.info(request, 'Ya son amigos')
+        # Si hay alguna relación previa, actualizarla a aceptada
+        else:
+            friendship.status = 'accepted'
+            friendship.save()
+            messages.success(request, f'Has agregado a {to_user.username} como amigo')
+    else:
+        # Crear nueva relación de amistad (aceptada inmediatamente)
+        Friendship.objects.create(
+            from_user=from_user, 
+            to_user=to_user, 
+            status='accepted'
+        )
+        messages.success(request, f'Has agregado a {to_user.username} como amigo')
+    
+    # Usar referer para volver a la página anterior si existe
+    referer = request.META.get('HTTP_REFERER')
+    if referer:
+        return redirect(referer)
+    return redirect('user-profile', pk=to_user.id)
+
+
+@login_required(login_url='login')
+def accept_friend_request(request, pk):
+    """Aceptar solicitud de amistad"""
+    friendship = Friendship.objects.get(id=pk)
+    
+    # Verificar que el usuario sea el destinatario de la solicitud
+    if request.user != friendship.to_user:
+        messages.error(request, 'No tienes permiso para aceptar esta solicitud')
+        return redirect('home')
+    
+    friendship.status = 'accepted'
+    friendship.save()
+    messages.success(request, f'Ahora eres amigo de {friendship.from_user.username}')
+    
+    return redirect('user-profile', pk=friendship.from_user.id)
+
+
+@login_required(login_url='login')
+def reject_friend_request(request, pk):
+    """Rechazar solicitud de amistad"""
+    friendship = Friendship.objects.get(id=pk)
+    
+    # Verificar que el usuario sea el destinatario de la solicitud
+    if request.user != friendship.to_user:
+        messages.error(request, 'No tienes permiso para rechazar esta solicitud')
+        return redirect('home')
+    
+    friendship.status = 'rejected'
+    friendship.save()
+    messages.info(request, f'Has rechazado la solicitud de amistad de {friendship.from_user.username}')
+    
+    return redirect('user-profile', pk=friendship.from_user.id)
+
+
+@login_required(login_url='login')
+def remove_friend(request, pk):
+    """Eliminar amigo"""
+    friend = User.objects.get(id=pk)
+    
+    # Buscar la relación de amistad
+    friendship = Friendship.objects.filter(
+        (Q(from_user=request.user) & Q(to_user=friend) & Q(status='accepted')) |
+        (Q(from_user=friend) & Q(to_user=request.user) & Q(status='accepted'))
+    ).first()
+    
+    if friendship:
+        friendship.delete()
+        messages.success(request, f'Has eliminado a {friend.username} de tus amigos')
+    else:
+        messages.error(request, 'No existe una relación de amistad con este usuario')
+    
+    # Usar referer para volver a la página anterior si existe
+    referer = request.META.get('HTTP_REFERER')
+    if referer:
+        return redirect(referer)
+    return redirect('user-profile', pk=friend.id)
+
+
 # Cultivation Techniques Views
 def techniquesHome(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
@@ -505,7 +639,12 @@ def verticalTechniqueInfo(request):
         'materials': ['4 tubos PVC de 4 pulgadas x 1 metro', '1 depósito de agua de 50 litros', '1 bomba de agua sumergible (400-600 L/h)', '5 metros de manguera de 1/2 pulgada', '36 canastillas para hidroponía', '1 temporizador digital', 'Estructura de soporte (madera tratada o metal)', 'Kit de medición de pH y EC', 'Solución nutritiva para hidroponía'],
         'benefits': ['Aprovechamiento óptimo del espacio vertical', 'Ahorro de agua (hasta 90% menos que cultivo tradicional)', 'Mayor velocidad de crecimiento', 'Reducción de plagas y enfermedades', 'No requiere deshierbe', 'Producción durante todo el año'],
         'limitations': ['Dependencia de electricidad para la bomba', 'Requiere monitoreo constante de pH y nutrientes', 'Inversión inicial moderada', 'No es adecuado para plantas de raíz grande', 'Requiere conocimientos básicos de hidroponía'],
-        'technique_type': 'Vertical'
+        'technique_type': 'Vertical',
+        # Imagen principal en la parte superior
+        'main_image': 'https://i.pinimg.com/736x/3d/05/2b/3d052bd7c472a79693e280808d1cf764.jpg',
+        # Imágenes adicionales para los recuadros inferiores
+        'image_fifth': 'https://i.pinimg.com/736x/e5/a2/01/e5a201457333ddec0dea3a2089ae1280.jpg',
+        'image_sixth': 'https://i.pinimg.com/736x/c9/f2/0b/c9f20b76fd722326687663f63f16d0c4.jpg'
     }
     return render(request, 'base/main_technique.html', context)
 
@@ -524,7 +663,12 @@ def wallMountedTechniqueInfo(request):
         'materials': ['Estructura de soporte (madera tratada, metal o plástico resistente)', 'Barrera impermeable (lámina plástica o geotextil)', 'Contenedores o bolsillos de cultivo', 'Sustrato ligero (mezcla de fibra de coco, perlita y compost)', 'Sistema de riego por goteo (opcional)', 'Herramientas básicas de jardinería', 'Tornillería y anclajes para pared'],
         'benefits': ['Aprovechamiento de espacios infrautilizados', 'Efecto decorativo y bienestar psicológico', 'Mejora de la calidad del aire interior', 'Aislamiento térmico y acústico', 'Fácil acceso para personas con movilidad reducida', 'Posibilidad de cultivar sin agacharse'],
         'limitations': ['Limitación en el tamaño de las plantas', 'Necesidad de riego frecuente', 'Posibles problemas de humedad en la pared si no se impermeabiliza correctamente', 'Peso limitado que puede soportar la estructura', 'Menor volumen de sustrato disponible para las raíces'],
-        'technique_type': 'Wall-mounted'
+        'technique_type': 'Wall-mounted',
+        # Imagen principal en la parte superior
+        'main_image': 'https://i.pinimg.com/736x/a2/d0/af/a2d0af1269df63d430b4372eafe08420.jpg',
+        # Imágenes adicionales para los recuadros inferiores
+        'image_fifth': 'https://i.pinimg.com/736x/6e/8f/1e/6e8f1ec3a17694d238590881111c4322.jpg',
+        'image_sixth': 'https://i.pinimg.com/736x/7a/18/fb/7a18fb04e07f110b2a68856b216678dd.jpg'
     }
     return render(request, 'base/main_technique.html', context)
 
@@ -543,7 +687,12 @@ def hydroponicsTechniqueInfo(request):
         'materials': ['Tubos de PVC de 3-4 pulgadas o canaletas', 'Tanque de reserva (50-100 litros)', 'Bomba de agua sumergible (400-800 L/h)', 'Tuberías y conexiones', 'Timer (opcional para ciclos de riego)', 'Kit de medición de pH y EC', 'Nutrientes hidropónicos (macro y micronutrientes)', 'Canastillas hidropónicas', 'Sustrato inerte para germinación (espuma, lana de roca)'],
         'benefits': ['Ahorro de agua (hasta 90% menos que cultivo tradicional)', 'Mayor control sobre la nutrición de las plantas', 'Crecimiento más rápido y mayor productividad', 'Ausencia de malezas', 'Menor incidencia de plagas y enfermedades del suelo', 'Posibilidad de automatización completa'],
         'limitations': ['Dependencia total de electricidad', 'Requiere conocimientos técnicos sobre nutrición vegetal', 'Inversión inicial moderada-alta', 'Necesidad de monitoreo constante', 'Riesgo de pérdida total en caso de fallo eléctrico prolongado', 'Curva de aprendizaje pronunciada'],
-        'technique_type': 'Hydroponics'
+        'technique_type': 'Hydroponics',
+        # Imagen principal en la parte superior
+        'main_image': 'https://i.pinimg.com/736x/0e/8c/7a/0e8c7ab74b99a8fefb028ad80a56aae7.jpg',
+        # Imágenes adicionales para los recuadros inferiores
+        'image_fifth': 'https://i.pinimg.com/736x/17/c3/29/17c3298bf1cee84040bbaa1d2e5000c5.jpg',
+        'image_sixth': 'https://i.pinimg.com/736x/e4/24/58/e42458b67e062b787f70a51055b36067.jpg'
     }
     return render(request, 'base/main_technique.html', context)
 
@@ -562,7 +711,12 @@ def recycledMaterialsTechniqueInfo(request):
         'materials': ['Materiales reciclados (botellas plásticas, pallets, neumáticos, latas, etc.)', 'Herramientas básicas (tijeras, cuchillo, taladro)', 'Sustrato de calidad', 'Pintura o sellador no tóxico (opcional)', 'Material para drenaje (piedras, trozos de cerámica)', 'Compost o fertilizante orgánico', 'Cuerdas, alambres o soportes para estructuras verticales'],
         'benefits': ['Costo mínimo de implementación', 'Reducción de residuos y huella ecológica', 'Alta adaptabilidad a diferentes espacios', 'Valor educativo y creativo', 'Posibilidad de cultivar sin necesidad de terreno', 'Facilidad para principiantes'],
         'limitations': ['Durabilidad limitada de algunos materiales', 'Capacidad restringida para plantas grandes', 'Posible lixiviación de sustancias desde ciertos materiales', 'Estética variable (puede no ser adecuada para todos los espacios)', 'Mayor frecuencia de riego en contenedores pequeños', 'Posible sobrecalentamiento en contenedores oscuros'],
-        'technique_type': 'Recycled Materials'
+        'technique_type': 'Recycled Materials',
+        # Imagen principal en la parte superior
+        'main_image': 'https://i.pinimg.com/736x/ab/e3/5e/abe35ef08501b43a5381fd456bc8c844.jpg',
+        # Imágenes adicionales para los recuadros inferiores
+        'image_fifth': 'https://i.pinimg.com/736x/4d/a8/5b/4da85bf3c6309f7dcc87f24742ed1406.jpg',
+        'image_sixth': 'https://i.pinimg.com/736x/98/58/20/9858205f56fc856b0ad6299a333dd7e6.jpg'
     }
     return render(request, 'base/main_technique.html', context)
 
@@ -581,7 +735,12 @@ def aquaponicsTechniqueInfo(request):
         'materials': ['Tanque para peces (200-500 litros)', 'Camas de cultivo o sistemas NFT/DWC', 'Bomba de agua sumergible (1500-3000 L/h)', 'Bomba de aire y piedras difusoras', 'Sistema de filtración (filtro mecánico y biofiltro)', 'Tuberías y conexiones', 'Sustrato para plantas (arcilla expandida, grava)', 'Kit de prueba de agua completo', 'Bacterias nitrificantes para el arranque', 'Peces apropiados (tilapia, carpa, etc.)'],
         'benefits': ['Sistema cerrado con mínimo consumo de agua', 'Doble producción (vegetales y proteína animal)', 'No requiere fertilizantes químicos', 'Alta productividad en espacio reducido', 'Menor incidencia de plagas y enfermedades', 'Sostenibilidad y bajo impacto ambiental'],
         'limitations': ['Inversión inicial alta', 'Complejidad técnica y curva de aprendizaje pronunciada', 'Dependencia total de electricidad', 'Equilibrio delicado entre subsistemas', 'Requiere monitoreo constante', 'Limitaciones en tipos de cultivos (no adecuado para plantas que requieren muchos nutrientes)'],
-        'technique_type': 'Aquaponics'
+        'technique_type': 'Aquaponics',
+        # Imagen principal en la parte superior
+        'main_image': 'https://i.pinimg.com/736x/49/cc/5d/49cc5d3ef0d1c520ba39f255d3cce76e.jpg',
+        # Imágenes adicionales para los recuadros inferiores
+        'image_fifth': 'https://i.pinimg.com/736x/53/bb/63/53bb63b40728d608f2eddeb2a49ca61c.jpg',
+        'image_sixth': 'https://i.pinimg.com/736x/a2/5e/d4/a25ed4749814a6ae05c83742c8604915.jpg'
     }
     return render(request, 'base/main_technique.html', context)
 

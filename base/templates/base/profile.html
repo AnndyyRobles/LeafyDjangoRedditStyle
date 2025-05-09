@@ -1,5 +1,8 @@
 {%  extends 'main.html' %}
+{% load static %}
+
 {% block content %}
+<link rel="stylesheet" href="{% static 'styles/friends.css' %}" />
 <main class="layout layout--3">
   <!-- Left Column Start -->
   <div class="left-column">
@@ -53,8 +56,50 @@
             {{user.bio}}
           </p>
         </div>
+        
+        <!-- Friend Request Button -->
+        {% if request.user.is_authenticated and request.user.id != user.id %}
+          <div class="profile__actions">
+            {% if is_friend %}
+              <a href="{% url 'remove-friend' user.id %}" class="btn-remove-friend">
+                <i class="fas fa-user-minus"></i> Eliminar Amigo
+              </a>
+            {% else %}
+              <a href="{% url 'send-friend-request' user.id %}" class="btn-add-friend">
+                <i class="fas fa-user-plus"></i> Agregar Amigo
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
       </div>
       <!-- Profile Information End -->
+      
+      <!-- Friends Bar -->
+      <div class="friends-bar">
+        <div class="friends-bar__header">
+          <h3>Amigos <span>({{ friends|length }})</span></h3>
+        </div>
+        <div class="friends-bar__list">
+          {% for friend in friends %}
+          <div class="friend-card">
+            <a href="{% url 'user-profile' friend.id %}" class="avatar avatar--medium friend-avatar" title="Ver perfil de {{friend.username}}">
+              <img src="{{friend.avatar.url}}" alt="{{friend.username}}" />
+            </a>
+            <span class="friend-name">{{friend.username}}</span>
+            {% if request.user == user %}
+            <div class="friend-actions">
+              <a href="{% url 'remove-friend' friend.id %}" class="btn-friend btn-remove-friend" title="Eliminar a {{friend.username}} de amigos">
+                <i class="fas fa-user-minus"></i> Eliminar
+              </a>
+            </div>
+            {% endif %}
+          </div>
+          {% empty %}
+          <p class="no-friends-message">No hay amigos para mostrar</p>
+          {% endfor %}
+        </div>
+      </div>
+      <!-- Friends Bar End -->
 
       <div class="roomList__header">
         <div>
