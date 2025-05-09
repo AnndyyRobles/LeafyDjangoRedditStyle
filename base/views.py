@@ -6,12 +6,7 @@ from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from .models import Room, Topic, Message, User, PlantCategory, PlantGuide, CultivationTechnique, Friendship
 from .forms import RoomForm, UserForm, MyUserCreationForm
-# Create your views here.
-#rooms = [
-#    {'id':1, 'name':'Lets learn python'},
-#    {'id':2, 'name':'Design with me'},
-#    {'id':3, 'name':'Frontend developers'},
-#]
+
 def loginPage(request):
     page = 'login'
     if request.user.is_authenticated:
@@ -864,3 +859,107 @@ def likeTechnique(request, pk):
         liked = True
     
     return JsonResponse({'liked': liked, 'count': technique.likes.count()})
+
+
+import os
+import replicate
+import requests
+from django.conf import settings
+from django.core.files.base import ContentFile
+from .models import Cultivation3DModel
+from .forms import Cultivation3DModelForm
+from .utils import generate_prompt
+
+@login_required(login_url='login')
+def cultivation3d_home(request):
+    """Vista principal para mostrar todos los modelos 3D"""
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    
+    if q:
+        models = Cultivation3DModel.objects.filter(
+            Q(title__icontains=q) |
+            Q(description__icontains=q) |
+            Q(technique__icontains=q)
+        )
+    else:
+        models = Cultivation3DModel.objects.all()
+    
+    # Filtrar por usuario si se solicita
+    user_id = request.GET.get('user')
+    if user_id:
+        models = models.filter(user_id=user_id)
+    
+    # Filtrar por técnica si se solicita
+    technique = request.GET.get('technique')
+    if technique:
+        models = models.filter(technique=technique)
+    
+    context = {
+        'models': models,
+        'model_count': models.count(),
+        'techniques': Cultivation3DModel.TECHNIQUE_CHOICES,
+    }
+    return render(request, 'base/cultivation3d_home.html', context)
+
+@login_required(login_url='login')
+def create_3d_model(request):
+    """Vista para crear un nuevo modelo 3D"""
+    if request.method == 'POST':
+        form = Cultivation3DModelForm(request.POST)
+        if form.is_valid():
+            model = form.save(commit=False)
+            model.user = request.user
+            model.status = 'pending'
+            
+            # Generar el prompt basado en los datos del formulario
+            model.prompt = generate_prompt(model)
+            model.save()
+            
+            # Iniciar la tarea asíncrona
+            from .tasks import generate_3d_model
+            generate_3d_model.delay(model.id)
+            
+            messages.success(request, 'Your 3D model is being generated. You will be notified when it is ready.')
+            return redirect('cultivation3d_detail', pk=model.id)
+    else:
+        form = Cultivation3DModelForm()
+    
+    context = {'form': form}
+    return render(request, 'base/cultivation3d_form.html', context)
+
+@login_required(login_url='login')
+def cultivation3d_detail(request, pk):
+    """Vista para mostrar el detalle de un modelo 3D"""
+    model = get_object_or_404(Cultivation3DModel, id=pk)
+    context = {'model': model}
+    return render(request, 'base/cultivation3d_detail.html', context)
+
+@login_required(login_url='login')
+def check_model_status(request, pk):
+    """API para verificar el estado de un modelo 3D"""
+    model = get_object_or_404(Cultivation3DModel, id=pk, user=request.user)
+    
+    return JsonResponse({
+        'status': model.status,
+        'completed': model.status == 'completed',
+        'error': model.status == 'error',
+        'error_message': model.error_message,
+        'has_image': bool(model.generated_image),
+        'has_model': bool(model.glb_model),
+        'image_url': model.generated_image.url if model.generated_image else None,
+        'model_url': model.glb_model.url if model.glb_model else None,
+    })
+
+@login_required(login_url='login')
+def delete_3d_model(request, pk):
+    """Vista para eliminar un modelo 3D"""
+    model = get_object_or_404(Cultivation3DModel, id=pk)
+    
+    if request.user != model.user and not request.user.is_staff:
+        return HttpResponse('You are not authorized to delete this model')
+    
+    if request.method == 'POST':
+        model.delete()
+        return redirect('cultivation3d_home')
+    
+    return render(request, 'base/delete.html', {'obj': model})

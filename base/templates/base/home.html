@@ -1,5 +1,15 @@
 {%  extends 'main.html' %}
 {% block content %}
+<!-- 3D Models Banner -->
+<div class="model-banner-container">
+  <div class="model-banner">
+    <h3>Create 3D Cultivation Model</h3>
+    <a href="{% url 'cultivation3d_home' %}" class="btn btn--mainn">
+      Create 3D Model
+    </a>
+  </div>
+</div>
+
 <main class="layout layout--3">
   <!-- Left Column Start -->
   <div class="left-column">
@@ -49,6 +59,7 @@
           Create Room
         </a>
       </div>
+      
       {% include 'base/feed_component.html' %}
   </div>
   <!-- Room List End -->

@@ -168,3 +168,61 @@ class Friendship(models.Model):
     
     def __str__(self):
         return f'{self.from_user.username} -> {self.to_user.username} ({self.status})'
+
+
+class Cultivation3DModel(models.Model):
+    TECHNIQUE_CHOICES = [
+        ('vertical', 'Vertical Farming'),
+        ('wall', 'Wall-mounted Farming'),
+        ('hydroponics', 'Hydroponics'),
+        ('recycled', 'Recycled Materials'),
+        ('aquaponics', 'Aquaponics'),
+    ]
+    
+    LOCATION_CHOICES = [
+        ('indoor', 'Indoor'),
+        ('outdoor', 'Outdoor'),
+    ]
+    
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('generating_image', 'Generating Image'),
+        ('generating_model', 'Generating 3D Model'),
+        ('completed', 'Completed'),
+        ('error', 'Error'),
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='models_3d')
+    cultivation_technique = models.ForeignKey(CultivationTechnique, on_delete=models.SET_NULL, null=True, blank=True, related_name='models_3d')
+    
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    
+    # Specific fields for 3D modeling
+    technique = models.CharField(max_length=20, choices=TECHNIQUE_CHOICES)
+    width = models.IntegerField(help_text="Width in centimeters")
+    height = models.IntegerField(help_text="Height in centimeters")
+    length = models.IntegerField(help_text="Length in centimeters")
+    location = models.CharField(max_length=10, choices=LOCATION_CHOICES)
+    materials_description = models.TextField()
+    extra_specifications = models.TextField(blank=True)
+    
+    # Fields to store results
+    prompt = models.TextField(blank=True)
+    generated_image = models.ImageField(upload_to='models3d/images/', blank=True, null=True)
+    glb_model = models.FileField(upload_to='models3d/glb/', blank=True, null=True)
+    
+    # Process status
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    error_message = models.TextField(blank=True)
+    
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.title
+    
+    class Meta:
+        verbose_name = '3D Cultivation Model'
+        verbose_name_plural = '3D Cultivation Models'
+        ordering = ['-created']

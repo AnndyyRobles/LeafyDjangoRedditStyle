@@ -50,4 +50,11 @@ urlpatterns = [
     path('accept-friend-request/<str:pk>/', views.accept_friend_request, name='accept-friend-request'),
     path('reject-friend-request/<str:pk>/', views.reject_friend_request, name='reject-friend-request'),
     path('remove-friend/<str:pk>/', views.remove_friend, name='remove-friend'),
+
+    # 3D Cultivation Models URLs
+    path('3d-models/', views.cultivation3d_home, name='cultivation3d_home'),
+    path('3d-models/create/', views.create_3d_model, name='create_3d_model'),
+    path('3d-models/<str:pk>/', views.cultivation3d_detail, name='cultivation3d_detail'),
+    path('3d-models/<str:pk>/status/', views.check_model_status, name='check_model_status'),
+    path('3d-models/<str:pk>/delete/', views.delete_3d_model, name='delete_3d_model'),
 ]

@@ -1,0 +1,155 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<main class="layout layout--3 techniques-view">
+  <!-- Columna izquierda - Filtros por técnica -->
+  <div class="topics">
+    <div class="topics__header">
+      <h2>Filter by Technique</h2>
+    </div>
+    <ul class="topics__list">
+      <li>
+        <a href="{% url 'cultivation3d_home' %}" class="topic-link {% if not request.GET.technique %}active{% endif %}">
+          <span>All Techniques</span>
+        </a>
+      </li>
+      {% for key, value in techniques %}
+      <li>
+        <a href="{% url 'cultivation3d_home' %}?technique={{ key }}" class="topic-link {% if request.GET.technique == key %}active{% endif %}">
+          <span>{{ value }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <a class="btn btn--link" href="{% url 'create_3d_model' %}">
+      Create New 3D Model
+    </a>
+  </div>
+
+  <!-- Columna central - Lista de modelos 3D -->
+  <div class="roomList">
+    <div class="roomList__header">
+      <div>
+        <h2>3D Cultivation Models</h2>
+        <p>{{ model_count }} available</p>
+      </div>
+      <a class="btn btn--main" href="{% url 'create_3d_model' %}">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <title>add</title>
+          <path
+            d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"
+          ></path>
+        </svg>
+        Create Model
+      </a>
+    </div>
+
+    <div class="techniques-grid">
+      {% for model in models %}
+      <a href="{% url 'cultivation3d_detail' model.id %}" class="technique-card">
+        <div class="technique-card-title">{{ model.title }}</div>
+        
+        <div class="technique-images-container">
+          <div class="technique-image-main">
+            {% if model.generated_image %}
+            <img src="{{ model.generated_image.url }}" alt="{{ model.title }}">
+            {% else %}
+            <div class="placeholder-image">
+              <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                <path d="M12 8v4l2 2"></path>
+              </svg>
+              <span>Processing...</span>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        
+        <div class="technique-tags-container">
+          <span class="technique-difficulty 
+            {% if model.status == 'completed' %}status-completed
+            {% elif model.status == 'error' %}status-error
+            {% else %}status-processing{% endif %}">
+            {{ model.get_status_display }}
+          </span>
+          <span class="technique-type">{{ model.get_technique_display }}</span>
+        </div>
+        
+        <div class="technique-description">
+          <p><strong>Dimensions:</strong> {{ model.width }}x{{ model.height }}x{{ model.length }} cm</p>
+          <p><strong>Location:</strong> {{ model.get_location_display }}</p>
+          {{ model.description|truncatechars:100 }}
+        </div>
+      </a>
+      {% empty %}
+      <div class="empty-techniques">
+        <p>No 3D models available yet.</p>
+        <a href="{% url 'create_3d_model' %}" class="btn btn--main">Create the first 3D model</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Columna derecha - Modelos recientes -->
+  <div class="activities">
+    <div class="activities__header">
+      <h2>Recent Models</h2>
+    </div>
+    <div class="activities__box">
+      <p>Check out some of the most recent 3D cultivation models:</p>
+      
+      {% for model in models|slice:":5" %}
+      <div class="activity">
+        <div class="activity__header">
+          <a href="{% url 'user-profile' model.user.id %}" class="activity__avatar">
+            <div class="avatar avatar--small">
+              <img src="{{ model.user.avatar.url }}" />
+            </div>
+          </a>
+          <p>
+            <a href="{% url 'cultivation3d_detail' model.id %}">{{ model.title }}</a>
+            <span>@{{ model.user.username }}</span>
+          </p>
+        </div>
+        <div class="activity__meta">
+          <p>{{ model.get_technique_display }}</p>
+          <span>{{ model.created|timesince }} ago</span>
+        </div>
+      </div>
+      {% empty %}
+      <p>No models created yet</p>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+
+<style>
+  .placeholder-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    background-color: var(--color-dark);
+    color: var(--color-light-gray);
+    border-radius: 5px;
+  }
+  
+  .placeholder-image svg {
+    margin-bottom: 10px;
+  }
+  
+  .status-completed {
+    background-color: #4CAF50;
+  }
+  
+  .status-error {
+    background-color: #F44336;
+  }
+  
+  .status-processing {
+    background-color: #FFC107;
+    color: #333;
+  }
+</style>
+{% endblock %}

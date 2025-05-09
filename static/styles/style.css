@@ -837,6 +837,33 @@ a {
   margin-left: 15px;
 }
 /*==============================
+=>  3D Model Banner
+================================*/
+.model-banner-container {
+  width: 100%;
+  padding: 1.2rem 1rem 0 1rem;
+  margin-top: 0.5rem;
+}
+
+.model-banner {
+  max-width: 123rem;
+  margin: 0 auto;
+  background: var(--color-dark);
+  border-radius: 5px;
+  padding: 1.5rem 2rem;
+  border: 1.5px solid rgba(6,150,138,1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.model-banner h3 {
+  color: #06968a;
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+/*==============================
 =>  Activities
 ================================*/
 

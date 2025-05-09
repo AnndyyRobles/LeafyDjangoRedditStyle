@@ -1,0 +1,812 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<!-- Botón Back to Models en un recuadro -->
+<div class="back-nav-container">
+    <div class="card back-nav-card">
+        <a href="{% url 'cultivation3d_home' %}" class="back-nav-link">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" class="back-nav-icon">
+                <title>Back to models</title>
+                <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
+            </svg>
+            Back to 3D Models
+        </a>
+    </div>
+</div>
+
+<style>
+    /* Estilos para el botón Back to Models */
+    .back-nav-container {
+        max-width: 1200px;
+        margin: 1rem auto;
+        padding: 0 20px;
+    }
+    
+    .back-nav-card {
+        display: flex;
+        align-items: center;
+        padding: 10px 15px;
+    }
+    
+    .back-nav-link {
+        display: flex;
+        align-items: center;
+        color: var(--color-light);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .back-nav-link:hover {
+        color: #06968a;
+    }
+    
+    .back-nav-icon {
+        margin-right: 0.5rem;
+        fill: currentColor;
+    }
+    
+    /* Contenedor principal */
+    .model-detail-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    /* Estilos de la cuadrícula principal - diseño mejorado */
+    .model-detail-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    /* Estilos generales de las tarjetas */
+    .model-card {
+        background-color: var(--color-dark);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Tarjeta de encabezado */
+    .model-header-card {
+        grid-column: 1 / span 12;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+    
+    .model-header-left {
+        flex: 3;
+    }
+    
+    .model-header-right {
+        flex: 1;
+        text-align: right;
+    }
+    
+    .model-technique-badge {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        background-color: var(--color-main);
+        color: var(--color-light);
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    
+    .model-title {
+        font-size: 2.2em;
+        color: var(--color-light);
+        margin: 0;
+        margin-bottom: 10px;
+    }
+    
+    .model-status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 5px;
+        font-weight: bold;
+        font-size: 0.9em;
+    }
+    
+    .status-completed { background-color: var(--color-success); color: var(--color-dark); }
+    .status-error { background-color: var(--color-error); color: var(--color-light); }
+    .status-pending { background-color: #FFC107; color: var(--color-dark); }
+    .status-generating_image, .status-generating_model { background-color: var(--color-main); color: var(--color-light); }
+    
+    .model-author {
+        display: flex;
+        align-items: center;
+        margin-top: 15px;
+    }
+    
+    .model-author-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 15px;
+    }
+    
+    .model-author-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .model-author-info {
+        color: var(--color-light);
+    }
+    
+    .model-author-name {
+        font-weight: bold;
+        color: var(--color-main);
+        text-decoration: none;
+    }
+    
+    .model-author-name:hover {
+        text-decoration: underline;
+    }
+    
+    .model-date {
+        font-size: 0.9em;
+        color: var(--color-light-gray);
+    }
+    
+    /* Tarjeta del visor 3D - MODIFICADA para hacerla más alta */
+    .model-viewer-card {
+        grid-column: 1 / span 12;
+        height: 800px; /* Altura aumentada a 800px */
+        position: relative;
+        overflow: hidden;
+        padding: 0;
+        margin-bottom: 30px;
+        border-radius: 12px; /* Bordes redondeados mejorados */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más prominente */
+    }
+    
+    #model-container {
+        width: 100%;
+        height: 100%;
+        /* Fondo con degradado radial como solicitaste */
+        background: #f5ecd0;
+        background: radial-gradient(circle, rgba(245, 236, 208, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 247, 227, 1) 100%);
+        border-radius: 10px;
+    }
+    
+    /* Estructura principal modificada */
+    .info-details-container {
+        grid-column: 1 / span 12;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: 20px;
+    }
+    
+    /* Columna izquierda - Ahora con altura fija para cada componente */
+    .left-column {
+        grid-column: 1 / span 6;
+        display: grid;
+        grid-template-rows: auto 450px 1fr; /* Info card, imagen más alta (450px), materials card */
+        gap: 20px;
+    }
+    
+    /* Columna derecha - Con alturas iguales */
+    .right-column {
+        grid-column: 7 / span 6;
+        display: grid;
+        grid-template-rows: 1fr 1fr; /* 50% Description, 50% Generation Prompt */
+        gap: 20px;
+        height: 100%;
+    }
+    
+    /* Tarjeta de información - altura normal */
+    .model-info-card {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .model-info-section {
+        margin-bottom: 20px;
+    }
+    
+    .model-info-section:last-child {
+        margin-bottom: 0;
+    }
+    
+    .model-info-title {
+        font-size: 1.2em;
+        color: var(--color-main);
+        margin-bottom: 15px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .model-info-row {
+        display: flex;
+        margin-bottom: 10px;
+    }
+    
+    .model-info-label {
+        font-weight: bold;
+        color: #06968a;
+        width: 100px;
+        flex-shrink: 0;
+    }
+    
+    .model-info-value {
+        color: var(--color-light);
+        flex-grow: 1;
+    }
+    
+    /* Tarjeta de descripción y prompt - alturas iguales */
+    .model-description-card,
+    .model-prompt-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%; /* Ambos ocupan toda la altura disponible */
+        min-height: 450px; /* Altura mínima para que coincida con la imagen */
+    }
+    
+    .model-description-title {
+        font-size: 1.4em;
+        color: var(--color-main);
+        margin-bottom: 15px;
+    }
+    
+    /* Contenido de texto expandible */
+    .model-description-text {
+        color: var(--color-light);
+        line-height: 1.6;
+        flex-grow: 1; /* Se expande para llenar el espacio */
+    }
+    
+    /* Tarjeta de imagen - Altura aumentada significativamente */
+    .model-image-card {
+        overflow: hidden;
+        padding: 0;
+        border-radius: 10px;
+        background-color: #000;
+        position: relative;
+        height: 100%; /* Ocupa toda la altura de su celda (450px) */
+    }
+    
+    .model-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    
+    .model-image-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: var(--color-light);
+        padding: 10px;
+        font-size: 0.9em;
+    }
+    
+    /* Tarjeta de materiales */
+    .model-details-card {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* Tarjeta de botones de acción */
+    .model-actions-card {
+        grid-column: 1 / span 12;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 25px;
+        margin-top: 20px;
+    }
+    
+    .model-action-button {
+        padding: 12px 25px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        font-size: 1em;
+    }
+    
+    .action-download { 
+        background-color: var(--color-success); 
+        color: var(--color-dark); 
+    }
+    
+    .action-download:hover {
+        background-color: #3cb371;
+    }
+    
+    .action-back { 
+        background-color: var(--color-gray); 
+        color: var(--color-light); 
+    }
+    
+    .action-back:hover {
+        background-color: #666;
+    }
+    
+    .action-delete { 
+        background-color: var(--color-error); 
+        color: var(--color-light); 
+    }
+    
+    .action-delete:hover {
+        background-color: #d32f2f;
+    }
+    
+    /* Estilos para la carga */
+    .model-loading {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--color-light);
+    }
+    
+    .model-spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid rgba(255, 255, 255, 0.1);
+        border-top: 5px solid var(--color-main);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 20px;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .model-progress-bar {
+        width: 80%;
+        height: 8px;
+        background-color: #333;
+        border-radius: 4px;
+        margin: 20px 0;
+        overflow: hidden;
+    }
+    
+    .model-progress-fill {
+        height: 100%;
+        background-color: var(--color-main);
+        width: 0%;
+        transition: width 0.5s ease;
+    }
+    
+    /* Media queries */
+    @media (max-width: 992px) {
+        .model-detail-grid, 
+        .info-details-container,
+        .left-column,
+        .right-column {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+        }
+        
+        .model-viewer-card {
+            height: 500px; /* Altura reducida en móviles */
+            grid-column: 1;
+        }
+        
+        .model-image-card {
+            height: 250px; /* Altura reducida en móviles */
+        }
+        
+        .left-column,
+        .right-column {
+            grid-column: 1;
+        }
+        
+        .model-header-card {
+            flex-direction: column;
+            align-items: flex-start;
+            grid-column: 1;
+        }
+        
+        .model-header-right {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .model-description-card,
+        .model-prompt-card {
+            min-height: auto;
+        }
+    }
+</style>
+
+<div class="model-detail-container">
+    <div class="model-detail-grid">
+        <!-- Tarjeta de encabezado -->
+        <div class="model-card model-header-card">
+            <div class="model-header-left">
+                <div class="model-technique-badge">{{ model.get_technique_display }}</div>
+                <h1 class="model-title">{{ model.title }}</h1>
+                <span class="model-status-badge status-{{ model.status }}">
+                    {{ model.get_status_display }}
+                </span>
+            </div>
+            <div class="model-header-right">
+                <div class="model-author">
+                    <div class="model-author-avatar">
+                        <img src="{{ model.user.avatar.url }}" alt="{{ model.user.username }}">
+                    </div>
+                    <div class="model-author-info">
+                        <div>Created by <a href="{% url 'user-profile' model.user.id %}" class="model-author-name">{{ model.user.username }}</a></div>
+                        <div class="model-date">{{ model.created|date:"F d, Y" }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tarjeta del visor 3D - MODIFICADA para hacerla más alta -->
+        <div class="model-card model-viewer-card">
+            {% if model.status == 'completed' and model.glb_model %}
+                <div id="model-container"></div>
+                <!-- Incluimos scripts de Three.js directamente donde los necesitamos -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Set up the scene
+                        const container = document.getElementById('model-container');
+                        const scene = new THREE.Scene();
+                        // Fondo transparente para que se vea el degradado del contenedor
+                        scene.background = null;
+                        
+                        // Set up the camera
+                        const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+                        camera.position.z = 7; // Posicionado más lejos para vista inicial
+                        
+                        // Set up the renderer
+                        const renderer = new THREE.WebGLRenderer({ 
+                            antialias: true,
+                            alpha: true // Permite transparencia
+                        });
+                        renderer.setSize(container.clientWidth, container.clientHeight);
+                        renderer.shadowMap.enabled = true;
+                        renderer.outputEncoding = THREE.sRGBEncoding; // Mejor renderizado de color
+                        container.appendChild(renderer.domElement);
+                        
+                        // Añadir luces para iluminar correctamente el modelo
+                        // Luz ambiental
+                        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+                        scene.add(ambientLight);
+                        
+                        // Luz direccional principal desde arriba-derecha
+                        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+                        directionalLight.position.set(1, 1, 1);
+                        directionalLight.castShadow = true;
+                        // Mejora la calidad de las sombras
+                        directionalLight.shadow.mapSize.width = 1024;
+                        directionalLight.shadow.mapSize.height = 1024;
+                        scene.add(directionalLight);
+                        
+                        // Luz direccional secundaria desde izquierda-abajo
+                        const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.6);
+                        directionalLight2.position.set(-1, -0.5, -0.5);
+                        directionalLight2.castShadow = true;
+                        scene.add(directionalLight2);
+                        
+                        // Luz direccional frontal suave
+                        const directionalLight3 = new THREE.DirectionalLight(0xffffff, 0.4);
+                        directionalLight3.position.set(0, 0, 1);
+                        scene.add(directionalLight3);
+                        
+                        // Add point lights para resaltar detalles
+                        const pointLight1 = new THREE.PointLight(0xffffff, 0.5);
+                        pointLight1.position.set(-3, 3, 3);
+                        scene.add(pointLight1);
+                        
+                        const pointLight2 = new THREE.PointLight(0xffffff, 0.5);
+                        pointLight2.position.set(3, -3, 3);
+                        scene.add(pointLight2);
+                        
+                        // Add controls
+                        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+                        controls.enableDamping = true;
+                        controls.dampingFactor = 0.25;
+                        controls.rotateSpeed = 0.7;
+                        controls.minDistance = 0.5; // Permite mucho más zoom
+                        controls.maxDistance = 30; // Mayor distancia máxima
+                        controls.enablePan = true; // Permite mover el modelo
+                        
+                        // Show loading message
+                        const loadingElement = document.createElement('div');
+                        loadingElement.style.position = 'absolute';
+                        loadingElement.style.top = '50%';
+                        loadingElement.style.left = '50%';
+                        loadingElement.style.transform = 'translate(-50%, -50%)';
+                        loadingElement.style.color = '#333'; // Oscuro para fondo claro
+                        loadingElement.style.fontWeight = 'bold';
+                        loadingElement.textContent = 'Loading 3D model...';
+                        container.appendChild(loadingElement);
+                        
+                        // Load the 3D model
+                        const loader = new THREE.GLTFLoader();
+                        loader.load('{{ model.glb_model.url }}', function(gltf) {
+                            // Remove loading message
+                            container.removeChild(loadingElement);
+                            
+                            const model = gltf.scene;
+                            
+                            // Mejorar materiales y sombras para todos los objetos del modelo
+                            model.traverse(function(node) {
+                                if (node.isMesh) {
+                                    node.castShadow = true;
+                                    node.receiveShadow = true;
+                                    
+                                    // Ajustar materiales para mejor visualización
+                                    if (node.material) {
+                                        node.material.needsUpdate = true;
+                                    }
+                                }
+                            });
+                            
+                            scene.add(model);
+                            
+                            // Center the model
+                            const box = new THREE.Box3().setFromObject(model);
+                            const center = box.getCenter(new THREE.Vector3());
+                            model.position.x = -center.x;
+                            model.position.y = -center.y;
+                            model.position.z = -center.z;
+                            
+                            // Obtener tamaño y escalar para mejor visualización
+                            const size = box.getSize(new THREE.Vector3());
+                            const maxDim = Math.max(size.x, size.y, size.z);
+                            
+                            // Escalar para mejor visualización - Reducido para evitar modelo gigante
+                            const desiredSize = 2.5; // Tamaño deseado reducido (antes 3.5)
+                            if (maxDim > 0) {
+                                const scale = desiredSize / maxDim;
+                                model.scale.set(scale, scale, scale);
+                            }
+                            
+                            // Adjust camera - Vista inicial más alejada
+                            const fov = camera.fov * (Math.PI / 180);
+                            let cameraZ = Math.abs(maxDim / Math.sin(fov / 2));
+                            cameraZ *= 2.0; // Aumentado para alejar vista inicial (antes 1.3)
+                            camera.position.z = cameraZ;
+                            
+                            // Update camera settings
+                            const minZ = box.min.z;
+                            const cameraToFarEdge = (minZ < 0) ? -minZ + cameraZ : cameraZ - minZ;
+                            camera.far = cameraToFarEdge * 3;
+                            camera.updateProjectionMatrix();
+                            
+                            // Reset controls
+                            controls.maxDistance = cameraToFarEdge * 2;
+                            controls.target = center;
+                            controls.update();
+                            
+                            // Auto rotation
+                            let autoRotate = true;
+                            controls.autoRotate = autoRotate;
+                            controls.autoRotateSpeed = 1.5; // Un poco más rápido
+                            
+                            // Add double-click to toggle auto-rotation
+                            renderer.domElement.addEventListener('dblclick', function() {
+                                autoRotate = !autoRotate;
+                                controls.autoRotate = autoRotate;
+                            });
+                            
+                            // Add instructions
+                            const instructionsElement = document.createElement('div');
+                            instructionsElement.style.position = 'absolute';
+                            instructionsElement.style.bottom = '10px';
+                            instructionsElement.style.left = '10px';
+                            instructionsElement.style.color = 'rgba(0,0,0,0.8)'; 
+                            instructionsElement.style.fontSize = '0.9em';
+                            instructionsElement.style.backgroundColor = 'rgba(255,255,255,0.7)';
+                            instructionsElement.style.padding = '8px 15px';
+                            instructionsElement.style.borderRadius = '5px';
+                            instructionsElement.style.pointerEvents = 'none';
+                            instructionsElement.style.fontWeight = '500';
+                            instructionsElement.innerHTML = 'Drag to rotate | Scroll to zoom | Double-click to toggle auto-rotation';
+                            container.appendChild(instructionsElement);
+                        }, 
+                        // Progress callback
+                        function(xhr) {
+                            const percent = (xhr.loaded / xhr.total * 100).toFixed(0);
+                            loadingElement.textContent = `Loading 3D model: ${percent}%`;
+                        }, 
+                        // Error callback
+                        function(error) {
+                            console.error('Error loading model:', error);
+                            loadingElement.textContent = 'Error loading 3D model';
+                            loadingElement.style.color = 'red';
+                        });
+                        
+                        // Animation loop
+                        function animate() {
+                            requestAnimationFrame(animate);
+                            controls.update();
+                            renderer.render(scene, camera);
+                        }
+                        animate();
+                        
+                        // Handle window resizing
+                        window.addEventListener('resize', function() {
+                            camera.aspect = container.clientWidth / container.clientHeight;
+                            camera.updateProjectionMatrix();
+                            renderer.setSize(container.clientWidth, container.clientHeight);
+                        });
+                    });
+                </script>
+            {% elif model.status == 'error' %}
+                <div class="model-loading">
+                    <h3>Error generating model</h3>
+                    <p>{{ model.error_message|default:"There was an error generating the 3D model. Pleasetry again." }}</p>
+                </div>
+            {% else %}
+                <div class="model-loading" id="loading-container">
+                    <div class="model-spinner"></div>
+                    <h3 id="status-message">
+                        {% if model.status == 'pending' %}
+                            Preparing to generate your 3D model...
+                        {% elif model.status == 'generating_image' %}
+                            Generating reference image...
+                        {% elif model.status == 'generating_model' %}
+                            Creating 3D model (this may take several minutes)...
+                        {% endif %}
+                    </h3>
+                    <div class="model-progress-bar">
+                        <div id="progress-bar-fill" class="model-progress-fill" style="width: 
+                        {% if model.status == 'pending' %}10%
+                        {% elif model.status == 'generating_image' %}40%
+                        {% elif model.status == 'generating_model' %}70%
+                        {% endif %}">
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- Nueva estructura de dos columnas para información -->
+        <div class="info-details-container">
+            <!-- Columna izquierda - Información y materiales -->
+            <div class="left-column">
+                <!-- Tarjeta de información -->
+                <div class="model-card model-info-card">
+                    <div class="model-info-section">
+                        <h3 class="model-info-title">Model Information</h3>
+                        <div class="model-info-row">
+                            <div class="model-info-label">Technique</div>
+                            <div class="model-info-value">{{ model.get_technique_display }}</div>
+                        </div>
+                        <div class="model-info-row">
+                            <div class="model-info-label">Dimensions</div>
+                            <div class="model-info-value">{{ model.width }} × {{ model.height }} × {{ model.length }} cm</div>
+                        </div>
+                        <div class="model-info-row">
+                            <div class="model-info-label">Location</div>
+                            <div class="model-info-value">{{ model.get_location_display }}</div>
+                        </div>
+                        <div class="model-info-row">
+                            <div class="model-info-label">Created</div>
+                            <div class="model-info-value">{{ model.created|date:"F d, Y" }}</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Tarjeta de imagen de referencia - Altura aumentada -->
+                <div class="model-card model-image-card">
+                    {% if model.generated_image %}
+                        <img src="{{ model.generated_image.url }}" alt="Generated reference image" class="model-image">
+                        <div class="model-image-caption">Generated Reference Image</div>
+                    {% else %}
+                        <div class="model-loading">
+                            <p>No reference image available yet</p>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <!-- Tarjeta de materiales -->
+                <div class="model-card model-details-card">
+                    <h3 class="model-description-title">Materials</h3>
+                    <div class="model-description-text">
+                        {{ model.materials_description|linebreaks }}
+                    </div>
+                    
+                    {% if model.extra_specifications %}
+                    <h3 class="model-description-title" style="margin-top: 20px;">Extra Specifications</h3>
+                    <div class="model-description-text">
+                        {{ model.extra_specifications|linebreaks }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Columna derecha - Descripción y prompt -->
+            <div class="right-column">
+                <!-- Tarjeta de descripción - Modificada para ocupar más espacio -->
+                <div class="model-card model-description-card">
+                    <h3 class="model-description-title">Description</h3>
+                    <div class="model-description-text">
+                        {{ model.description|default:"No description provided."|linebreaks }}
+                    </div>
+                </div>
+                
+                <!-- Tarjeta de prompt -->
+                <div class="model-card model-prompt-card">
+                    <h3 class="model-description-title">Generation Prompt</h3>
+                    <div class="model-description-text">
+                        {{ model.prompt|linebreaks }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tarjeta de botones de acción -->
+        <div class="model-card model-actions-card">
+            
+            {% if model.status == 'completed' and model.glb_model %}
+                <a href="{{ model.glb_model.url }}" class="model-action-button action-download" download>Download GLB Model</a>
+            {% endif %}
+            
+            {% if model.user == request.user %}
+                <a href="{% url 'delete_3d_model' model.id %}" class="model-action-button action-delete">Delete</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if model.status == 'pending' or model.status == 'generating_image' or model.status == 'generating_model' %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusMessage = document.getElementById('status-message');
+    const progressBarFill = document.getElementById('progress-bar-fill');
+    const loadingContainer = document.getElementById('loading-container');
+    
+    // Check status every 10 seconds
+    const checkStatus = setInterval(function() {
+        fetch('{% url "check_model_status" model.id %}')
+            .then(response => response.json())
+            .then(data => {
+                // Update UI based on status
+                if (data.status === 'generating_image') {
+                    statusMessage.textContent = 'Generating reference image...';
+                    progressBarFill.style.width = '40%';
+                } else if (data.status === 'generating_model') {
+                    statusMessage.textContent = 'Creating 3D model (this may take several minutes)...';
+                    progressBarFill.style.width = '70%';
+                } else if (data.status === 'completed') {
+                    clearInterval(checkStatus);
+                    // Reload the page to show the model
+                    window.location.reload();
+                } else if (data.status === 'error') {
+                    clearInterval(checkStatus);
+                    statusMessage.textContent = 'Error: ' + data.error_message;
+                    loadingContainer.innerHTML = `
+                        <h3>Error generating model</h3>
+                        <p>${data.error_message || "There was an error generating the 3D model. Please try again."}</p>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error checking model status:', error);
+            });
+    }, 10000);
+});
+</script>
+{% endif %}
+{% endblock %}
