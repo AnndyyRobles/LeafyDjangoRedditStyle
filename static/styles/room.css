@@ -462,9 +462,33 @@
   background-color: rgba(6, 150, 138, 0.3) !important;
 }
 
+.chat-message__like--active .leaf-filled,
+.chat-message__reply-like--active .leaf-filled,
+.chat-message__nested-reply-like--active .leaf-filled {
+  opacity: 1 !important;
+}
+
+.chat-message__like--active .leaf-empty,
+.chat-message__reply-like--active .leaf-empty,
+.chat-message__nested-reply-like--active .leaf-empty {
+  opacity: 0 !important;
+}
+
 .leaf-icon {
-  color: #06968a !important;
-  font-size: 14px !important;
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
+.leaf-icon img {
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.3s ease;
 }
 
 /* Contenedor de hilos de mensajes */

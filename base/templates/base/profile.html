@@ -3,6 +3,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'styles/friends.css' %}" />
+<link rel="stylesheet" href="{% static 'styles/medals.css' %}" />
 <main class="layout layout--3">
   <!-- Left Column Start -->
   <div class="left-column">
@@ -55,6 +56,21 @@
           <p>
             {{user.bio}}
           </p>
+        </div>
+        
+        <!-- Medallas del Usuario -->
+        <div class="profile__medals">
+          <h3>Medallas</h3>
+          <div class="medals-container">
+            {% for user_medal in user_medals %}
+              <div class="medal-item" title="{{ user_medal.medal.description }}">
+                <img src="{% static user_medal.medal.image %}" alt="{{ user_medal.medal.name }}" class="medal-icon">
+                <span class="medal-name">{{ user_medal.medal.name }}</span>
+              </div>
+            {% empty %}
+              <p class="no-medals-message">No hay medallas para mostrar</p>
+            {% endfor %}
+          </div>
         </div>
         
         <!-- Friend Request Button -->

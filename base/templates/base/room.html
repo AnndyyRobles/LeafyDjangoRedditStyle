@@ -122,7 +122,10 @@
                   <div class="chat-message__actions">
                     <div class="chat-message__action-group">
                       <a href="javascript:void(0)" data-url="{% url 'like-message' message.id %}" class="chat-message__like {% if request.user.is_authenticated and request.user in message.likes.all %}chat-message__like--active{% endif %}" {% if request.user.is_authenticated %}data-user-authenticated="true"{% endif %}>
-                        <span class="leaf-icon">▲</span>
+                        <span class="leaf-icon">
+                          <img src="{% static 'images/likes/hojavacia.png' %}" class="leaf-empty" alt="Like">
+                          <img src="{% static 'images/likes/hojallena.png' %}" class="leaf-filled" alt="Liked">
+                        </span>
                         <span class="like-count">{{ message.likes.count }}</span>
                       </a>
                       
@@ -177,7 +180,10 @@
                       </div>
                       <div class="chat-message__reply-actions">
                         <a href="javascript:void(0)" data-url="{% url 'like-message' reply.id %}" class="chat-message__reply-like {% if request.user.is_authenticated and request.user in reply.likes.all %}chat-message__reply-like--active{% endif %}" {% if request.user.is_authenticated %}data-user-authenticated="true"{% endif %}>
-                          <span class="leaf-icon">▲</span>
+                          <span class="leaf-icon">
+                          <img src="{% static 'images/likes/hojavacia.png' %}" class="leaf-empty" alt="Like">
+                          <img src="{% static 'images/likes/hojallena.png' %}" class="leaf-filled" alt="Liked">
+                        </span>
                           <span class="like-count">{{ reply.likes.count }}</span>
                         </a>
                         
@@ -231,7 +237,10 @@
                           </div>
                           <div class="chat-message__nested-reply-actions">
                             <a href="javascript:void(0)" data-url="{% url 'like-message' nested_reply.id %}" class="chat-message__nested-reply-like {% if request.user.is_authenticated and request.user in nested_reply.likes.all %}chat-message__nested-reply-like--active{% endif %}" {% if request.user.is_authenticated %}data-user-authenticated="true"{% endif %}>
-                              <span class="leaf-icon">▲</span>
+                              <span class="leaf-icon">
+                          <img src="{% static 'images/likes/hojavacia.png' %}" class="leaf-empty" alt="Like">
+                          <img src="{% static 'images/likes/hojallena.png' %}" class="leaf-filled" alt="Liked">
+                        </span>
                               <span class="like-count">{{ nested_reply.likes.count }}</span>
                             </a>
                           </div>

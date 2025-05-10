@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.contrib.auth import authenticate, login, logout
-from .models import Room, Topic, Message, User, PlantCategory, PlantGuide, CultivationTechnique, Friendship
+from .models import Room, Topic, Message, User, PlantCategory, PlantGuide, CultivationTechnique, Friendship, Medal, UserMedal
+from .medals import check_and_award_medals
 from .forms import RoomForm, UserForm, MyUserCreationForm
 
 def loginPage(request):
@@ -202,6 +203,9 @@ def userProfile(request, pk):
             (Q(from_user=user) & Q(to_user=request.user))
         ).first()
     
+    # Verificar y otorgar medallas al usuario
+    user_medals = check_and_award_medals(user)
+    
     context = {
         'user': user, 
         'rooms': rooms, 
@@ -209,7 +213,8 @@ def userProfile(request, pk):
         'topics': topics,
         'friends': friends,
         'is_friend': is_friend,
-        'friendship': friendship
+        'friendship': friendship,
+        'user_medals': user_medals
     }
     return render(request, 'base/profile.html', context)
 

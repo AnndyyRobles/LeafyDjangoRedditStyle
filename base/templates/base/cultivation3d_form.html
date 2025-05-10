@@ -6,7 +6,7 @@
     <div class="layout__box">
       <div class="layout__boxHeader">
         <div class="layout__boxTitle">
-          <a href="{% url 'home' %}" title="Return to home">
+          <a href="{% url 'cultivation3d_home' %}" title="Volver al inicio">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
               <title>arrow-left</title>
               <path
@@ -14,7 +14,7 @@
               </path>
             </svg>
           </a>
-          <h3>Create 3D Cultivation Model</h3>
+          <h3>Crear Modelo de Cultivo 3D</h3>
         </div>
       </div>
 
@@ -23,30 +23,34 @@
           {% csrf_token %}
 
           <div class="form__group">
-            <label for="title">Title</label>
-            <input id="title" name="title" type="text" placeholder="Enter a title for your 3D model" required />
+            <label for="title">Título</label>
+            <input id="title" name="title" type="text" placeholder="Ingresa un título para tu modelo 3D" required />
           </div>
 
           <div class="form__group">
-            <label for="description">Description</label>
-            <textarea name="description" id="description" placeholder="Describe your 3D model"></textarea>
+            <label for="description">Descripción</label>
+            <textarea name="description" id="description" placeholder="Describe tu modelo 3D"></textarea>
           </div>
 
           <div class="form__group">
-            <label for="technique">Cultivation Technique</label>
-            <input type="text" name="technique" id="technique" list="technique-list" placeholder="Select a cultivation technique" required autocomplete="off">
+            <label for="technique">Técnica de Cultivo</label>
+            <input type="text" name="technique" id="technique" list="technique-list" placeholder="Selecciona una técnica de cultivo" required autocomplete="off">
             <datalist id="technique-list">
               {% for key, value in form.fields.technique.choices %}
+              {% if key != '' %}
               <option value="{{ key }}">{{ value }}</option>
+              {% endif %}
               {% endfor %}
             </datalist>
-            <small class="form__info">Choose a technique or click one of the options below</small>
+            <small class="form__info">Elige una técnica o haz clic en una de las opciones a continuación</small>
             
             <div class="techniques-preview">
-              <h4>Technique Types:</h4>
+              <h4>Tipos de Técnicas:</h4>
               <div class="techniques-tags">
                 {% for key, value in form.fields.technique.choices %}
+                {% if key != '' %}
                 <div class="technique-tag" onclick="selectTechnique('{{ key }}')">{{ value }}</div>
+                {% endif %}
                 {% endfor %}
               </div>
             </div>
@@ -60,36 +64,40 @@
 
           <div class="form__group form__group--inline">
             <div class="form__field">
-              <label for="width">Width (cm)</label>
-              <input type="number" name="width" id="width" min="1" max="1000" required placeholder="Width in cm" />
+              <label for="width">Ancho (cm)</label>
+              <input type="number" name="width" id="width" min="1" max="1000" required placeholder="Ancho en cm" />
             </div>
 
             <div class="form__field">
-              <label for="height">Height (cm)</label>
-              <input type="number" name="height" id="height" min="1" max="1000" required placeholder="Height in cm" />
+              <label for="height">Alto (cm)</label>
+              <input type="number" name="height" id="height" min="1" max="1000" required placeholder="Alto en cm" />
             </div>
 
             <div class="form__field">
-              <label for="length">Length (cm)</label>
-              <input type="number" name="length" id="length" min="1" max="1000" required placeholder="Length in cm" />
+              <label for="length">Largo (cm)</label>
+              <input type="number" name="length" id="length" min="1" max="1000" required placeholder="Largo en cm" />
             </div>
           </div>
 
           <div class="form__group">
-            <label for="location">Location</label>
-            <input type="text" name="location" id="location" list="location-list" placeholder="Select a location" required autocomplete="off">
+            <label for="location">Ubicación</label>
+            <input type="text" name="location" id="location" list="location-list" placeholder="Selecciona una ubicación" required autocomplete="off">
             <datalist id="location-list">
               {% for key, value in form.fields.location.choices %}
+              {% if key != '' %}
               <option value="{{ key }}">{{ value }}</option>
+              {% endif %}
               {% endfor %}
             </datalist>
-            <small class="form__info">Choose a location or click one of the options below</small>
+            <small class="form__info">Elige una ubicación o haz clic en una de las opciones a continuación</small>
             
             <div class="location-preview">
-              <h4>Locations:</h4>
-              <div class="location-tags">
+              <h4>Ubicaciones:</h4>
+              <div class="techniques-tags">
                 {% for key, value in form.fields.location.choices %}
-                <div class="location-tag" onclick="selectLocation('{{ key }}')">{{ value }}</div>
+                {% if key != '' %}
+                <div class="technique-tag" onclick="selectLocation('{{ key }}')">{{ value }}</div>
+                {% endif %}
                 {% endfor %}
               </div>
             </div>
@@ -102,24 +110,24 @@
           </script>
 
           <div class="form__group">
-            <label for="materials_description">Materials Description</label>
-            <textarea name="materials_description" id="materials_description" placeholder="Describe the materials you want to use (e.g., wood, metal, plastic, etc.)" required></textarea>
+            <label for="materials_description">Descripción de Materiales</label>
+            <textarea name="materials_description" id="materials_description" placeholder="Describe los materiales que quieres usar (ej. madera, metal, plástico, etc.)" required></textarea>
           </div>
 
           <div class="form__group">
-            <label for="extra_specifications">Extra Specifications (Optional)</label>
-            <textarea name="extra_specifications" id="extra_specifications" placeholder="Add any extra specifications or details you want to include in your 3D model"></textarea>
+            <label for="extra_specifications">Especificaciones Adicionales (Opcional)</label>
+            <textarea name="extra_specifications" id="extra_specifications" placeholder="Añade cualquier especificación o detalle adicional que quieras incluir en tu modelo 3D"></textarea>
           </div>
 
           <div class="form__group">
             <p class="form__info">
-              <i class="fa fa-info-circle"></i> After submitting, the system will generate a 3D model based on your specifications. This process may take several minutes.
+              <i class="fa fa-info-circle"></i> Después de enviar, el sistema generará un modelo 3D basado en tus especificaciones. Este proceso puede tardar varios minutos.
             </p>
           </div>
 
           <div class="form__action">
-            <a class="btn btn--dark" href="{% url 'home' %}">Cancel</a>
-            <button class="btn btn--main" type="submit">Create 3D Model</button>
+            <a class="btn btn--dark" href="{% url 'home' %}">Cancelar</a>
+            <button class="btn btn--main" type="submit">Crear Modelo 3D</button>
           </div>
         </form>
       </div>

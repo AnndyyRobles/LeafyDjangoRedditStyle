@@ -110,12 +110,12 @@ class PlantGuide(models.Model):
 
 class CultivationTechnique(models.Model):
     TECHNIQUE_CHOICES = (
-        ('Vertical', 'Vertical'),
-        ('Wall-mounted', 'Wall-mounted'),
-        ('Hydroponics', 'Hydroponics'),
-        ('Recycled Materials', 'Recycled Materials'),
-        ('Aquaponics', 'Aquaponics'),
-        ('Other', 'Other'),
+        ('Vertical', 'Cultivo Vertical'),
+        ('Pared', 'Cultivo en Pared'),
+        ('Hidroponía', 'Hidroponía'),
+        ('Materiales Reciclados', 'Materiales Reciclados'),
+        ('Acuaponía', 'Acuaponía'),
+        ('Otro', 'Otro'),
     )
     
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='techniques')
@@ -172,16 +172,16 @@ class Friendship(models.Model):
 
 class Cultivation3DModel(models.Model):
     TECHNIQUE_CHOICES = [
-        ('vertical', 'Vertical Farming'),
-        ('wall', 'Wall-mounted Farming'),
-        ('hydroponics', 'Hydroponics'),
-        ('recycled', 'Recycled Materials'),
-        ('aquaponics', 'Aquaponics'),
+        ('vertical', 'Cultivo Vertical'),
+        ('pared', 'Cultivo en Pared'),
+        ('hidroponia', 'Hidroponía'),
+        ('reciclados', 'Materiales Reciclados'),
+        ('acuaponia', 'Acuaponía'),
     ]
     
     LOCATION_CHOICES = [
-        ('indoor', 'Indoor'),
-        ('outdoor', 'Outdoor'),
+        ('interior', 'Interior'),
+        ('exterior', 'Exterior'),
     ]
     
     STATUS_CHOICES = [
@@ -226,3 +226,41 @@ class Cultivation3DModel(models.Model):
         verbose_name = '3D Cultivation Model'
         verbose_name_plural = '3D Cultivation Models'
         ordering = ['-created']
+
+
+class Medal(models.Model):
+    """Modelo para las medallas que pueden ganar los usuarios."""
+    MEDAL_TYPES = [
+        ('perfil', 'Perfil'),
+        ('likes', 'Likes'),
+        ('influencer', 'Influencer'),
+        ('guias', 'Guías'),
+        ('tecnicas', 'Técnicas'),
+    ]
+    
+    name = models.CharField(max_length=50)
+    medal_type = models.CharField(max_length=20, choices=MEDAL_TYPES, unique=True)
+    description = models.TextField()
+    image = models.CharField(max_length=100)  # Ruta relativa a la imagen de la medalla
+    
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = 'Medalla'
+        verbose_name_plural = 'Medallas'
+
+
+class UserMedal(models.Model):
+    """Modelo para la relación entre usuarios y medallas."""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='medals')
+    medal = models.ForeignKey(Medal, on_delete=models.CASCADE, related_name='users')
+    earned_date = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('user', 'medal')
+        verbose_name = 'Medalla de Usuario'
+        verbose_name_plural = 'Medallas de Usuarios'
+        
+    def __str__(self):
+        return f"{self.user.username} - {self.medal.name}"

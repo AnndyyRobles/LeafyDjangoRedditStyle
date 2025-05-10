@@ -149,7 +149,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # Replicate API Key
 import os
-REPLICATE_API_KEY = os.environ.get('REPLICATE_API_KEY', '')
+REPLICATE_API_KEY = os.environ.get('REPLICATE_API_KEY', 'r8_TxZl0ztqWURltxGaevOzoB3GhhXqaaY3R79h0')
 
 # Celery Configuration
 CELERY_BROKER_URL = 'redis://localhost:6379/0'

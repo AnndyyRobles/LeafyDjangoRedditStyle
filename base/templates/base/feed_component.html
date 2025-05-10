@@ -1,3 +1,4 @@
+{% load static %}
 {% for room in rooms %}
 <div class="roomListRoom">
   {% if room.image %}
@@ -14,7 +15,10 @@
     </a>
     <div class="roomListRoom__actions">
       <a href="javascript:void(0)" data-url="{% url 'like-room' room.id %}" class="btn-like {% if request.user.is_authenticated and request.user in room.likes.all %}liked{% endif %}" {% if request.user.is_authenticated %}data-user-authenticated="true"{% endif %}>
-        <span class="leaf-icon">▲</span>
+        <span class="leaf-icon">
+          <img src="{% static 'images/likes/hojavacia.png' %}" class="leaf-empty" alt="Like">
+          <img src="{% static 'images/likes/hojallena.png' %}" class="leaf-filled" alt="Liked">
+        </span>
         <span class="like-count">{{ room.likes.count }}</span>
       </a>
       <span>{{room.created|timesince}} ago</span>

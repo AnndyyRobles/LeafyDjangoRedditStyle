@@ -1,0 +1,95 @@
+/* Estilos para las medallas */
+
+.profile__medals {
+  width: 100%;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.profile__medals h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-light);
+  text-align: center;
+  position: relative;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile__medals h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background-color: #71c6dd; /* Color cyan de la app */
+  border-radius: 3px;
+}
+
+.medals-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3rem;
+  margin: 2rem auto;
+  width: 100%;
+  padding: 1.5rem 0;
+  max-width: 1200px;
+}
+
+.medal-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.medal-item:hover {
+  transform: scale(1.05);
+}
+
+.medal-icon {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.medal-icon:hover {
+  transform: scale(1.1);
+}
+
+.medal-name {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--color-light);
+  text-align: center;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+.no-medals-message {
+  color: var(--color-gray);
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+/* Estilos para pantallas pequeu00f1as */
+@media screen and (max-width: 768px) {
+  .medals-container {
+    gap: 1rem;
+  }
+  
+  .medal-icon {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .medal-name {
+    font-size: 0.7rem;
+  }
+}

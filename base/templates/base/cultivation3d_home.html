@@ -2,28 +2,51 @@
 
 {% block content %}
 <main class="layout layout--3 techniques-view">
-  <!-- Columna izquierda - Filtros por técnica -->
-  <div class="topics">
-    <div class="topics__header">
-      <h2>Filter by Technique</h2>
+  <!-- Columna izquierda con múltiples componentes -->
+  <div class="left-column">
+    <!-- Filtro por técnica -->
+    <div class="topics">
+      <div class="topics__header">
+        <h2>Filter by Technique</h2>
+      </div>
+      <ul class="topics__list">
+        <li>
+          <a href="{% url 'cultivation3d_home' %}" class="topic-link {% if not request.GET.technique %}active{% endif %}">
+            <span>All Techniques</span>
+          </a>
+        </li>
+        {% for key, value in techniques %}
+        <li>
+          <a href="{% url 'cultivation3d_home' %}?technique={{ key }}" class="topic-link {% if request.GET.technique == key %}active{% endif %}">
+            <span>{{ value }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
-    <ul class="topics__list">
-      <li>
-        <a href="{% url 'cultivation3d_home' %}" class="topic-link {% if not request.GET.technique %}active{% endif %}">
-          <span>All Techniques</span>
-        </a>
-      </li>
-      {% for key, value in techniques %}
-      <li>
-        <a href="{% url 'cultivation3d_home' %}?technique={{ key }}" class="topic-link {% if request.GET.technique == key %}active{% endif %}">
-          <span>{{ value }}</span>
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-    <a class="btn btn--link" href="{% url 'create_3d_model' %}">
-      Create New 3D Model
-    </a>
+    
+    <!-- Mis modelos - Componente separado -->
+    <div class="topics">
+      <div class="topics__header">
+        <h2>My Models</h2>
+      </div>
+      <ul class="topics__list">
+        <li>
+          <a href="{% url 'cultivation3d_home' %}" class="topic-link {% if not request.GET.user %}active{% endif %}">
+            <span>All Models</span>
+          </a>
+        </li>
+        {% if request.user.is_authenticated %}
+        <li>
+          <a href="{% url 'cultivation3d_home' %}?user={{ request.user.id }}" class="topic-link {% if request.GET.user == request.user.id|stringformat:'i' %}active{% endif %}">
+            <span>My Models</span>
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+    
+  
   </div>
 
   <!-- Columna central - Lista de modelos 3D -->

@@ -2,11 +2,11 @@
 
 class CultivationTechnique(models.Model):
     TECHNIQUE_CHOICES = (
-        ('Vertical', 'Vertical'),
-        ('Wall-mounted', 'Wall-mounted'),
-        ('Hydroponics', 'Hydroponics'),
-        ('Recycled Materials', 'Recycled Materials'),
-        ('Aquaponics', 'Aquaponics'),
+        ('Vertical', 'Cultivo Vertical'),
+        ('Pared', 'Cultivo en Pared'),
+        ('Hidroponía', 'Hidroponía'),
+        ('Materiales Reciclados', 'Materiales Reciclados'),
+        ('Acuaponía', 'Acuaponía'),
     )
     
     name = models.CharField(max_length=50, choices=TECHNIQUE_CHOICES, unique=True)

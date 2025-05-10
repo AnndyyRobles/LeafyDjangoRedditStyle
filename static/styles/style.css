@@ -1012,6 +1012,7 @@ a {
 =>  Profile
 ================================*/
 .profile {
+  padding-top: 2rem;
   margin-bottom: 3rem;
 }
 
@@ -1392,11 +1393,40 @@ a {
   font-size: 1.2rem;
   color: #06968a;
   transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+}
+
+.leaf-icon img {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all 0.3s ease;
+}
+
+.leaf-empty {
+  opacity: 1;
+}
+
+.leaf-filled {
+  opacity: 0;
+}
+
+.btn-like.liked .leaf-empty {
+  opacity: 0;
+}
+
+.btn-like.liked .leaf-filled {
+  opacity: 1;
 }
 
 /* Estilo para cuando el usuario ha dado like */
 .btn-like.liked .leaf-icon {
-  color: #ff9800; /* Color naranja para indicar like activo */
+  color: #0a5c36; /* Color verde oscuro para indicar like activo */
   transform: scale(1.2); /* Ligeramente más grande */
 }
 
