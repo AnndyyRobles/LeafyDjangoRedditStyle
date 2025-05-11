@@ -1,0 +1,37 @@
+/* Estilos para el recuadro de acciones */
+.actions-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 20px;
+}
+
+.actions-card {
+  background-color: #000;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.action-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  opacity: 0.9;
+}
+
+.action-edit {
+  background-color: #FFC107;
+  color: #000;
+}
+
+.action-delete {
+  background-color: #FF5252;
+  color: #fff;
+}

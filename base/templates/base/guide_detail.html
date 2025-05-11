@@ -1,5 +1,8 @@
 {%  extends 'main.html' %}
+{% load static %}
+
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/guide_detail.css' %}">
 
 <main class="guide-detail-container">
   <div class="guide-hero">
@@ -7,12 +10,12 @@
     <div class="guide-hero__image" data-bg-url="{{ guide.guide_picture.url }}"></div>
     <div class="guide-hero__content">
       <div class="guide-hero__back">
-        <a href="{% url 'guides' %}" aria-label="Back to guides">
+        <a href="{% url 'guides' %}" aria-label="Volver a las guías">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
-            <title>Back to guides</title>
+            <title>Volver a las guías</title>
             <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
           </svg>
-          Back to Guides
+          Volver a Guías
         </a>
       </div>
       
@@ -32,22 +35,22 @@
       <div class="guide-stat">
         <div class="guide-stat__icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <title>Difficulty level</title>
+            <title>Nivel de dificultad</title>
             <path d="M12 15.5C14.21 15.5 16 13.71 16 11.5V6H12C9.79 6 8 7.79 8 10V15.5H12Z" stroke="currentColor" stroke-width="2"/>
             <path d="M20 15.5H12V20.5H20V15.5Z" stroke="currentColor" stroke-width="2"/>
             <path d="M8 15.5H4V20.5H8V15.5Z" stroke="currentColor" stroke-width="2"/>
           </svg>
         </div>
         <div class="guide-stat__content">
-          <h3>Difficulty</h3>
-          <p>{{ guide.difficulty }}</p>
+          <h3>Dificultad</h3>
+          <p>{{ guide.get_difficulty_display }}</p>
         </div>
       </div>
       
       <div class="guide-stat">
         <div class="guide-stat__icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <title>Growing season</title>
+            <title>Temporada de cultivo</title>
             <path d="M12 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             <path d="M12 18V22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             <path d="M4.93 4.93L7.76 7.76" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -59,7 +62,7 @@
           </svg>
         </div>
         <div class="guide-stat__content">
-          <h3>Growing Season</h3>
+          <h3>Temporada de Cultivo</h3>
           <p>{{ guide.growing_season }}</p>
         </div>
       </div>
@@ -67,13 +70,13 @@
       <div class="guide-stat">
         <div class="guide-stat__icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <title>Days to harvest</title>
+            <title>Días para cosechar</title>
             <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
             <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
         <div class="guide-stat__content">
-          <h3>Days to Harvest</h3>
+          <h3>Días para Cosechar</h3>
           <p>{{ guide.days_to_harvest }}</p>
         </div>
       </div>
@@ -84,7 +87,7 @@
         <img src="{{guide.author.avatar.url}}" alt="{{ guide.author.name }}" loading="lazy" />
       </div>
       <div class="guide-author-card__info">
-        <h3>Guide by</h3>
+        <h3>Guía por</h3>
         <a href="{% url 'user-profile' guide.author.id %}" class="guide-author-card__name">{{ guide.author.name }}</a>
         <p class="guide-author-card__date">{{ guide.created|date:"F d, Y" }}</p>
       </div>
@@ -93,52 +96,52 @@
   
   <div class="guide-tabs">
     <div class="guide-tabs__nav">
-      <button class="guide-tab active" data-tab="description">Description</button>
-      <button class="guide-tab" data-tab="growing">Growing</button>
-      <button class="guide-tab" data-tab="care">Care</button>
-      <button class="guide-tab" data-tab="harvest">Harvest</button>
+      <button class="guide-tab active" data-tab="description">Descripción</button>
+      <button class="guide-tab" data-tab="growing">Cultivo</button>
+      <button class="guide-tab" data-tab="care">Cuidados</button>
+      <button class="guide-tab" data-tab="harvest">Cosecha</button>
     </div>
     
     <div class="guide-tabs__content">
       <div class="guide-tab-panel active" id="description-panel">
         <div class="guide-section">
-          <h2>Description</h2>
+          <h2>Descripción</h2>
           <p>{{ guide.description }}</p>
         </div>
       </div>
       
       <div class="guide-tab-panel" id="growing-panel">
         <div class="guide-section">
-          <h2>Germination</h2>
+          <h2>Germinación</h2>
           <p>{{ guide.germination }}</p>
         </div>
         
         <div class="guide-section">
-          <h2>Transplanting</h2>
+          <h2>Trasplante</h2>
           <p>{{ guide.transplanting }}</p>
         </div>
       </div>
       
       <div class="guide-tab-panel" id="care-panel">
         <div class="guide-section">
-          <h2>Watering</h2>
+          <h2>Riego</h2>
           <p>{{ guide.watering }}</p>
         </div>
         
         <div class="guide-section">
-          <h2>Sunlight</h2>
+          <h2>Luz Solar</h2>
           <p>{{ guide.sunlight }}</p>
         </div>
         
         <div class="guide-section">
-          <h2>Extra Care</h2>
+          <h2>Cuidados Adicionales</h2>
           <p>{{ guide.extra_care }}</p>
         </div>
       </div>
       
       <div class="guide-tab-panel" id="harvest-panel">
         <div class="guide-section">
-          <h2>Harvesting</h2>
+          <h2>Cosecha</h2>
           <p>{{ guide.harvest }}</p>
         </div>
       </div>
@@ -155,46 +158,6 @@
   </div>
   {% endif %}
 </main>
-
-<style>
-  /* Estilos para el recuadro de acciones */
-  .actions-container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 20px;
-  }
-  
-  .actions-card {
-    background-color: #000;
-    border-radius: 10px;
-    padding: 15px;
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-  }
-  
-  .action-button {
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s ease;
-  }
-  
-  .action-button:hover {
-    opacity: 0.9;
-  }
-  
-  .action-edit {
-    background-color: #FFC107;
-    color: #000;
-  }
-  
-  .action-delete {
-    background-color: #FF5252;
-    color: #fff;
-  }
-</style>
 
 <script>
   // Tab functionality and background image setup

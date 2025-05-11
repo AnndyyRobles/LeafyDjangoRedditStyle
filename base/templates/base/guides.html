@@ -32,7 +32,7 @@
       <form action="{% url 'guides' %}" method="GET" class="header__search">
         <label>
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-            <title>search</title>
+            <title>buscar</title>
             <path
               d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z"
             ></path>
@@ -50,7 +50,7 @@
       {% if request.user.is_authenticated %}
       <a class="btn btn--main" href="{% url 'create-guide' %}">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-          <title>add</title>
+          <title>Crear</title>
           <path
             d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"
           ></path>
@@ -72,7 +72,7 @@
             <h3>{{ guide.common_name }}</h3>
             <p class="plant-card__scientific">{{ guide.scientific_name }}</p>
             <div class="plant-card__meta">
-              <span class="plant-card__difficulty">{{ guide.difficulty }}</span>
+              <span class="plant-card__difficulty">{{ guide.get_difficulty_display }}</span>
               <span class="plant-card__season">{{ guide.growing_season }}</span>
             </div>
             <div class="plant-card__categories">
@@ -107,7 +107,7 @@
         <a href="{% url 'guides' %}" class="btn btn--link guide-link">
           Explorar Todas las Guías
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="guide-icon">
-            <title>arrow-right</title>
+            <title>flecha-derecha</title>
             <path
               d="M31.057 18.286l-13.714 13.714-1.616-1.616 10.935-10.935h-26.662v-2.286h26.662l-10.935-10.935 1.616-1.616 13.714 13.714z"
             ></path>
@@ -117,7 +117,7 @@
         <a href="{% url 'create-guide' %}" class="btn btn--link guide-link">
           Crear Nueva Guía
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="guide-icon">
-            <title>add</title>
+            <title>Crear</title>
             <path
               d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"
             ></path>
@@ -125,30 +125,6 @@
         </a>
         {% endif %}
       </div>
-      
-      <style>
-        .guide-link {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 0.5rem;
-          padding: 0.75rem 1rem;
-          border-radius: 5px;
-          background-color: var(--color-dark);
-          transition: all 0.3s ease;
-        }
-        
-        .guide-link:hover {
-          background-color: var(--color-main);
-          color: var(--color-light);
-        }
-        
-        .guide-icon {
-          width: 20px;
-          height: 20px;
-          fill: var(--color-light);
-        }
-      </style>
     </div>
     <!-- Activities End -->
   </div>

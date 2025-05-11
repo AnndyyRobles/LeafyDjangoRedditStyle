@@ -1,0 +1,36 @@
+/* Estilos para los botones de selección de dificultad */
+.difficulty-preview {
+  margin-top: 10px;
+}
+
+.difficulty-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.difficulty-tag {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--color-light);
+}
+
+.difficulty-tag:hover {
+  opacity: 0.85;
+}
+
+.difficulty-tag.easy {
+  background-color: #4CAF50; /* Verde para fácil */
+}
+
+.difficulty-tag.medium {
+  background-color: #FFC107; /* Amarillo para medio */
+}
+
+.difficulty-tag.hard {
+  background-color: #F44336; /* Rojo para difícil */
+}

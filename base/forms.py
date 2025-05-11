@@ -17,6 +17,13 @@ class UserForm(ModelForm):
     class Meta:
         model = User
         fields = ['avatar' ,'name', 'username', 'email', 'bio']
+        labels = {
+            'avatar': 'Avatar',
+            'name': 'Nombre',
+            'username': 'Nombre de usuario',
+            'email': 'Correo electrónico',
+            'bio': 'Biografía',
+        }
 
 class Cultivation3DModelForm(ModelForm):
     class Meta:

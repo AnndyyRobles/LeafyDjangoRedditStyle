@@ -12,7 +12,7 @@
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 2rem;
+            margin-bottom: 0.5rem;
             background-color: var(--color-dark);
             border-radius: 10px;
             padding: 20px;
@@ -41,10 +41,10 @@
           <div class="room-nav__left">
             <a href="{% url 'home' %}" class="back-button">
               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-                <title>arrow-left</title>
+                <title>Volver</title>
                 <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
               </svg>
-              <span>Back</span>
+              <span>Volver</span>
             </a>
             <h2 class="room-title">{{room.name}}</h2>
           </div>
@@ -55,23 +55,25 @@
         </div>
         
         <!-- Actions card -->
-        <div class="card actions-card">
-            {% if room.host == request.user %}
-            <a href="{% url 'update-room' room.id %}" class="action-button action-edit">Editar</a>
-            <a href="{% url 'delete-room' room.id %}" class="action-button action-delete">Eliminar</a>
-            {% endif %}
-        </div>
+        {% if room.host == request.user %}
+          <div class="card actions-card">
+              
+              <a href="{% url 'update-room' room.id %}" class="action-button action-edit">Editar</a>
+              <a href="{% url 'delete-room' room.id %}" class="action-button action-delete">Eliminar</a>
+              
+          </div>
+        {% endif %}
         
         <!-- Participants Bar (Horizontal) -->
         <div class="participants-bar">
           <div class="participants-bar__header">
-            <h3>Participants <span>({{participants.count}} Joined)</span></h3>
+            <h3>Participantes <span>({{participants.count}} unidos)</span></h3>
           </div>
           <div class="participants-bar__list">
             {% for user in participants %}
             <a href="{% url 'user-profile' user.id %}" class="participant-card">
               <div class="avatar avatar--medium">
-                <img src="{{user.avatar.url}}" alt="{{user.username}}" />
+                <img src="{{user.avatar.url}}" alt="Foto de perfil de {{user.username}}" />
               </div>
               <span class="participant-name">{{user.username}}</span>
             </a>
@@ -84,13 +86,13 @@
           <div class="room__header">
             <div class="room__info">
               <h2 class="room__title">{{room.name}}</h2>
-              <p class="room__created">Created {{room.created|timesince}} ago</p>
+              <p class="room__created">Creado hace {{room.created|timesince}}</p>
               
               <div class="room__hosted">
-                <p>Hosted By</p>
+                <p>Organizado por</p>
                 <a href="{% url 'user-profile' room.host.id %}" class="room__author">
                   <div class="avatar avatar--small">
-                    <img src="{{room.host.avatar.url}}" alt="{{room.host.username}}'s profile picture" />
+                    <img src="{{room.host.avatar.url}}" alt="Foto de perfil de {{room.host.username}}" />
                   </div>
                   <span>{{room.host.username}}</span>
                 </a>
@@ -121,16 +123,16 @@
                     <div class="chat-message__author">
                       <a href="{% url 'user-profile' message.user.id %}" class="chat-message__author-info">
                         <div class="avatar avatar--small">
-                          <img src="{{message.user.avatar.url}}" alt="{{message.user.username}}'s profile picture" />
+                          <img src="{{message.user.avatar.url}}" alt="Foto de perfil de {{message.user.username}}" />
                         </div>
                         <span>@{{message.user.username}}</span>
                       </a>
-                      <span class="chat-message__date">{{message.created|timesince}} ago</span>
+                      <span class="chat-message__date">hace {{message.created|timesince}}</span>
                     </div>
                     {% if request.user == message.user %}
-                    <a href="{% url 'delete-message' message.id %}" class="chat-message__delete" aria-label="Delete message">
+                    <a href="{% url 'delete-message' message.id %}" class="chat-message__delete" aria-label="Eliminar mensaje">
                       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32">
-                        <title>remove</title>
+                        <title>Eliminar</title>
                         <path d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"></path>
                       </svg>
                     </a>
@@ -143,8 +145,8 @@
                     <div class="chat-message__action-group">
                       <a href="javascript:void(0)" data-url="{% url 'like-message' message.id %}" class="chat-message__like {% if request.user.is_authenticated and request.user in message.likes.all %}chat-message__like--active{% endif %}" {% if request.user.is_authenticated %}data-user-authenticated="true"{% endif %}>
                         <span class="leaf-icon">
-                          <img src="{% static 'images/likes/hojavacia.png' %}" class="leaf-empty" alt="Like">
-                          <img src="{% static 'images/likes/hojallena.png' %}" class="leaf-filled" alt="Liked">
+                          <img src="{% static 'images/likes/hojavacia.png' %}" class="leaf-empty" alt="Me gusta">
+                          <img src="{% static 'images/likes/hojallena.png' %}" class="leaf-filled" alt="Te gusta">
                         </span>
                         <span class="like-count">{{ message.likes.count }}</span>
                       </a>
@@ -180,16 +182,16 @@
                         <div class="chat-message__reply-author">
                           <a href="{% url 'user-profile' reply.user.id %}" class="chat-message__reply-author-info">
                             <div class="avatar avatar--mini">
-                              <img src="{{reply.user.avatar.url}}" alt="{{reply.user.username}}'s profile picture" />
+                              <img src="{{reply.user.avatar.url}}" alt="Foto de perfil de {{reply.user.username}}" />
                             </div>
                             <span>@{{reply.user.username}}</span>
                           </a>
-                          <span class="chat-message__reply-date">{{reply.created|timesince}} ago</span>
+                          <span class="chat-message__reply-date">hace {{reply.created|timesince}}</span>
                         </div>
                         {% if request.user == reply.user %}
-                        <a href="{% url 'delete-message' reply.id %}" class="chat-message__reply-delete" aria-label="Delete reply">
+                        <a href="{% url 'delete-message' reply.id %}" class="chat-message__reply-delete" aria-label="Eliminar respuesta">
                           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 32 32">
-                            <title>remove</title>
+                            <title>Eliminar</title>
                             <path d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"></path>
                           </svg>
                         </a>
@@ -201,8 +203,8 @@
                       <div class="chat-message__reply-actions">
                         <a href="javascript:void(0)" data-url="{% url 'like-message' reply.id %}" class="chat-message__reply-like {% if request.user.is_authenticated and request.user in reply.likes.all %}chat-message__reply-like--active{% endif %}" {% if request.user.is_authenticated %}data-user-authenticated="true"{% endif %}>
                           <span class="leaf-icon">
-                          <img src="{% static 'images/likes/hojavacia.png' %}" class="leaf-empty" alt="Like">
-                          <img src="{% static 'images/likes/hojallena.png' %}" class="leaf-filled" alt="Liked">
+                          <img src="{% static 'images/likes/hojavacia.png' %}" class="leaf-empty" alt="Me gusta">
+                          <img src="{% static 'images/likes/hojallena.png' %}" class="leaf-filled" alt="Te gusta">
                         </span>
                           <span class="like-count">{{ reply.likes.count }}</span>
                         </a>
@@ -237,16 +239,16 @@
                             <div class="chat-message__nested-reply-author">
                               <a href="{% url 'user-profile' nested_reply.user.id %}" class="chat-message__nested-reply-author-info">
                                 <div class="avatar avatar--mini">
-                                  <img src="{{nested_reply.user.avatar.url}}" alt="{{nested_reply.user.username}}'s profile picture" />
+                                  <img src="{{nested_reply.user.avatar.url}}" alt="Foto de perfil de {{nested_reply.user.username}}" />
                                 </div>
                                 <span>@{{nested_reply.user.username}}</span>
                               </a>
-                              <span class="chat-message__nested-reply-date">{{nested_reply.created|timesince}} ago</span>
+                              <span class="chat-message__nested-reply-date">hace {{nested_reply.created|timesince}}</span>
                             </div>
                             {% if request.user == nested_reply.user %}
-                            <a href="{% url 'delete-message' nested_reply.id %}" class="chat-message__nested-reply-delete" aria-label="Delete nested reply">
+                            <a href="{% url 'delete-message' nested_reply.id %}" class="chat-message__nested-reply-delete" aria-label="Eliminar respuesta anidada">
                               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 32 32">
-                                <title>remove</title>
+                                <title>Eliminar</title>
                                 <path d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"></path>
                               </svg>
                             </a>
@@ -258,8 +260,8 @@
                           <div class="chat-message__nested-reply-actions">
                             <a href="javascript:void(0)" data-url="{% url 'like-message' nested_reply.id %}" class="chat-message__nested-reply-like {% if request.user.is_authenticated and request.user in nested_reply.likes.all %}chat-message__nested-reply-like--active{% endif %}" {% if request.user.is_authenticated %}data-user-authenticated="true"{% endif %}>
                               <span class="leaf-icon">
-                          <img src="{% static 'images/likes/hojavacia.png' %}" class="leaf-empty" alt="Like">
-                          <img src="{% static 'images/likes/hojallena.png' %}" class="leaf-filled" alt="Liked">
+                          <img src="{% static 'images/likes/hojavacia.png' %}" class="leaf-empty" alt="Me gusta">
+                          <img src="{% static 'images/likes/hojallena.png' %}" class="leaf-filled" alt="Te gusta">
                         </span>
                               <span class="like-count">{{ nested_reply.likes.count }}</span>
                             </a>
@@ -281,7 +283,7 @@
           <div class="room__message">
             <form method="POST" action="">
               {% csrf_token %}
-              <input type="text" name="body" placeholder="Write message . . ." />
+              <input type="text" name="body" placeholder="Escribe tu mensaje aquí..." />
             </form>
           </div>
           {% endif %}

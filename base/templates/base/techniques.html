@@ -26,7 +26,7 @@
     </div>
     
     <!-- Lista de técnicas existentes -->
-    <div class="topics" style="margin-top: 20px;">
+    <div class="topics topics--margin-top">
       <div class="topics__header">
         <h2>Técnicas de Cultivo</h2>
       </div>
@@ -47,7 +47,7 @@
       </div>
       <a class="btn btn--main" href="{% url 'create-technique' %}">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-          <title>add</title>
+          <title>Crear</title>
           <path
             d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"
           ></path>
@@ -119,7 +119,7 @@
       <a href="{% url technique.url_name %}" class="btn btn--link technique-link">
         {{ technique.display_name }}
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-            <title>arrow-right</title>
+            <title>flecha-derecha</title>
             <path
               d="M31.057 18.286l-13.714 13.714-1.616-1.616 10.935-10.935h-26.662v-2.286h26.662l-10.935-10.935 1.616-1.616 13.714 13.714z"
             ></path>
@@ -159,6 +159,10 @@
     
     /* Asegurar que los recuadros tengan separación */
     .layout__column--left .topics + .topics {
+      margin-top: 20px;
+    }
+
+    .topics--margin-top {
       margin-top: 20px;
     }
   </style>

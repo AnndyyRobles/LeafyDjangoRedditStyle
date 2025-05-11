@@ -7,11 +7,11 @@
     <!-- Filtro por técnica -->
     <div class="topics">
       <div class="topics__header">
-        <h2>Filter by Technique</h2>
+        <h2>Filtrar por Técnica</h2>
       </div>
       <ul class="topics__list"><li>
           <a href="{% url 'cultivation3d_home' %}" class="topic-link {% if not request.GET.technique %}active{% endif %}">
-            <span>All Techniques</span>
+            <span>Todas las Técnicas</span>
           </a>
         </li>{% for key, value in techniques %}<li>
           <a href="{% url 'cultivation3d_home' %}?technique={{ key }}" class="topic-link {% if request.GET.technique == key %}active{% endif %}">
@@ -23,15 +23,15 @@
     <!-- Mis modelos - Componente separado -->
     <div class="topics">
       <div class="topics__header">
-        <h2>My Models</h2>
+        <h2>Mis Modelos</h2>
       </div>
       <ul class="topics__list"><li>
           <a href="{% url 'cultivation3d_home' %}" class="topic-link {% if not request.GET.user %}active{% endif %}">
-            <span>All Models</span>
+            <span>Todos los Modelos</span>
           </a>
         </li>{% if request.user.is_authenticated %}<li>
           <a href="{% url 'cultivation3d_home' %}?user={{ request.user.id }}" class="topic-link {% if request.GET.user == request.user.id|stringformat:'i' %}active{% endif %}">
-            <span>My Models</span>
+            <span>Mis Modelos</span>
           </a>
         </li>{% endif %}</ul>
     </div>
@@ -43,17 +43,17 @@
   <div class="roomList">
     <div class="roomList__header">
       <div>
-        <h2>3D Cultivation Models</h2>
-        <p>{{ model_count }} available</p>
+        <h2>Modelos de Cultivo 3D</h2>
+        <p>{{ model_count }} disponibles</p>
       </div>
       <a class="btn btn--main" href="{% url 'create_3d_model' %}">
         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-          <title>add</title>
+          <title>Crear</title>
           <path
             d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"
           ></path>
         </svg>
-        Create Model
+        Crear Modelo
       </a>
     </div>
 
@@ -72,7 +72,7 @@
                 <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
                 <path d="M12 8v4l2 2"></path>
               </svg>
-              <span>Processing...</span>
+              <span>Procesando...</span>
             </div>
             {% endif %}
           </div>
@@ -89,15 +89,15 @@
         </div>
         
         <div class="technique-description">
-          <p><strong>Dimensions:</strong> {{ model.width }}x{{ model.height }}x{{ model.length }} cm</p>
-          <p><strong>Location:</strong> {{ model.get_location_display }}</p>
+          <p><strong>Dimensiones:</strong> {{ model.width }}x{{ model.height }}x{{ model.length }} cm</p>
+          <p><strong>Ubicación:</strong> {{ model.get_location_display }}</p>
           {{ model.description|truncatechars:100 }}
         </div>
       </a>
       {% empty %}
       <div class="empty-techniques">
-        <p>No 3D models available yet.</p>
-        <a href="{% url 'create_3d_model' %}" class="btn btn--main">Create the first 3D model</a>
+        <p>No hay modelos 3D disponibles todavía.</p>
+        <a href="{% url 'create_3d_model' %}" class="btn btn--main">Crear el primer modelo 3D</a>
       </div>
       {% endfor %}
     </div>
@@ -117,7 +117,7 @@
         <a href="{% url 'cultivation3d_home' %}" class="btn btn--link guide-link">
           Explorar Todos los Modelos
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="guide-icon">
-            <title>arrow-right</title>
+            <title>flecha-derecha</title>
             <path
               d="M31.057 18.286l-13.714 13.714-1.616-1.616 10.935-10.935h-26.662v-2.286h26.662l-10.935-10.935 1.616-1.616 13.714 13.714z"
             ></path>
@@ -127,7 +127,7 @@
         <a href="{% url 'create_3d_model' %}" class="btn btn--link guide-link">
           Crear Nuevo Modelo 3D
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="guide-icon">
-            <title>add</title>
+            <title>Crear</title>
             <path
               d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"
             ></path>

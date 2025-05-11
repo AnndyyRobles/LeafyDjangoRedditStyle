@@ -6,10 +6,10 @@
     <div class="card back-nav-card">
         <a href="{% url 'cultivation3d_home' %}" class="back-nav-link">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" class="back-nav-icon">
-                <title>Back to models</title>
+                <title>Regresar a los modelos 3D</title>
                 <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
             </svg>
-            Back to 3D Models
+            Regresar a los modelos 3D
         </a>
     </div>
 </div>
@@ -449,7 +449,7 @@
                         <img src="{{ model.user.avatar.url }}" alt="{{ model.user.username }}">
                     </div>
                     <div class="model-author-info">
-                        <div>Created by <a href="{% url 'user-profile' model.user.id %}" class="model-author-name">{{ model.user.username }}</a></div>
+                        <div>Creado por <a href="{% url 'user-profile' model.user.id %}" class="model-author-name">{{ model.user.username }}</a></div>
                         <div class="model-date">{{ model.created|date:"F d, Y" }}</div>
                     </div>
                 </div>
@@ -621,18 +621,18 @@
                             instructionsElement.style.borderRadius = '5px';
                             instructionsElement.style.pointerEvents = 'none';
                             instructionsElement.style.fontWeight = '500';
-                            instructionsElement.innerHTML = 'Drag to rotate | Scroll to zoom | Double-click to toggle auto-rotation';
+                            instructionsElement.innerHTML = 'Arrastra para rotar | Desplaza para acercar | Doble clic para alternar la rotación automática';
                             container.appendChild(instructionsElement);
                         }, 
                         // Progress callback
                         function(xhr) {
                             const percent = (xhr.loaded / xhr.total * 100).toFixed(0);
-                            loadingElement.textContent = `Loading 3D model: ${percent}%`;
+                            loadingElement.textContent = `Cargando modelo 3D: ${percent}%`;
                         }, 
                         // Error callback
                         function(error) {
                             console.error('Error loading model:', error);
-                            loadingElement.textContent = 'Error loading 3D model';
+                            loadingElement.textContent = 'Error al cargar el modelo 3D';
                             loadingElement.style.color = 'red';
                         });
                         
@@ -654,19 +654,19 @@
                 </script>
             {% elif model.status == 'error' %}
                 <div class="model-loading">
-                    <h3>Error generating model</h3>
-                    <p>{{ model.error_message|default:"There was an error generating the 3D model. Pleasetry again." }}</p>
+                    <h3>Error generando el modelo</h3>
+                    <p>{{ model.error_message|default:"Hubo un error generando el modelo 3D. Por favor, intenta de nuevo." }}</p>
                 </div>
             {% else %}
                 <div class="model-loading" id="loading-container">
                     <div class="model-spinner"></div>
                     <h3 id="status-message">
                         {% if model.status == 'pending' %}
-                            Preparing to generate your 3D model...
+                            Preparando para generar tu modelo 3D...
                         {% elif model.status == 'generating_image' %}
-                            Generating reference image...
+                            Generando imagen de referencia...
                         {% elif model.status == 'generating_model' %}
-                            Creating 3D model (this may take several minutes)...
+                            Creando modelo 3D (esto puede tomar varios minutos)...
                         {% endif %}
                     </h3>
                     <div class="model-progress-bar">
@@ -688,21 +688,21 @@
                 <!-- Tarjeta de información -->
                 <div class="model-card model-info-card">
                     <div class="model-info-section">
-                        <h3 class="model-info-title">Model Information</h3>
+                        <h3 class="model-info-title">Información del Modelo</h3>
                         <div class="model-info-row">
-                            <div class="model-info-label">Technique</div>
+                            <div class="model-info-label">Técnica</div>
                             <div class="model-info-value">{{ model.get_technique_display }}</div>
                         </div>
                         <div class="model-info-row">
-                            <div class="model-info-label">Dimensions</div>
+                            <div class="model-info-label">Dimensiones</div>
                             <div class="model-info-value">{{ model.width }} × {{ model.height }} × {{ model.length }} cm</div>
                         </div>
                         <div class="model-info-row">
-                            <div class="model-info-label">Location</div>
+                            <div class="model-info-label">Ubicación</div>
                             <div class="model-info-value">{{ model.get_location_display }}</div>
                         </div>
                         <div class="model-info-row">
-                            <div class="model-info-label">Created</div>
+                            <div class="model-info-label">Creado</div>
                             <div class="model-info-value">{{ model.created|date:"F d, Y" }}</div>
                         </div>
                     </div>
@@ -712,23 +712,23 @@
                 <div class="model-card model-image-card">
                     {% if model.generated_image %}
                         <img src="{{ model.generated_image.url }}" alt="Generated reference image" class="model-image">
-                        <div class="model-image-caption">Generated Reference Image</div>
+                        <div class="model-image-caption">Imagen de Referencia Generada</div>
                     {% else %}
                         <div class="model-loading">
-                            <p>No reference image available yet</p>
+                            <p>No se ha generado la imagen de referencia</p>
                         </div>
                     {% endif %}
                 </div>
                 
                 <!-- Tarjeta de materiales -->
                 <div class="model-card model-details-card">
-                    <h3 class="model-description-title">Materials</h3>
+                    <h3 class="model-description-title">Materiales</h3>
                     <div class="model-description-text">
                         {{ model.materials_description|linebreaks }}
                     </div>
                     
                     {% if model.extra_specifications %}
-                    <h3 class="model-description-title" style="margin-top: 20px;">Extra Specifications</h3>
+                    <h3 class="model-description-title" style="margin-top: 20px;">Especificaciones Adicionales</h3>
                     <div class="model-description-text">
                         {{ model.extra_specifications|linebreaks }}
                     </div>
@@ -740,7 +740,7 @@
             <div class="right-column">
                 <!-- Tarjeta de descripción - Modificada para ocupar más espacio -->
                 <div class="model-card model-description-card">
-                    <h3 class="model-description-title">Description</h3>
+                    <h3 class="model-description-title">Descripción</h3>
                     <div class="model-description-text">
                         {{ model.description|default:"No description provided."|linebreaks }}
                     </div>
@@ -748,7 +748,7 @@
                 
                 <!-- Tarjeta de prompt -->
                 <div class="model-card model-prompt-card">
-                    <h3 class="model-description-title">Generation Prompt</h3>
+                    <h3 class="model-description-title">Prompt de Generación</h3>
                     <div class="model-description-text">
                         {{ model.prompt|linebreaks }}
                     </div>
@@ -760,11 +760,11 @@
         <div class="model-card model-actions-card">
             
             {% if model.status == 'completed' and model.glb_model %}
-                <a href="{{ model.glb_model.url }}" class="model-action-button action-download" download>Download GLB Model</a>
+                <a href="{{ model.glb_model.url }}" class="model-action-button action-download" download>Descargar Modelo GLB</a>
             {% endif %}
             
             {% if model.user == request.user %}
-                <a href="{% url 'delete_3d_model' model.id %}" class="model-action-button action-delete">Delete</a>
+                <a href="{% url 'delete_3d_model' model.id %}" class="model-action-button action-delete">Eliminar</a>
             {% endif %}
         </div>
     </div>

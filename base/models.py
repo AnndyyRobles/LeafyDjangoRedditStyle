@@ -185,10 +185,10 @@ class Cultivation3DModel(models.Model):
     ]
     
     STATUS_CHOICES = [
-        ('pending', 'Pending'),
-        ('generating_image', 'Generating Image'),
-        ('generating_model', 'Generating 3D Model'),
-        ('completed', 'Completed'),
+        ('pending', 'Pendiente'),
+        ('generating_image', 'Generando Imagen'),
+        ('generating_model', 'Generando Modelo 3D'),
+        ('completed', 'Completado'),
         ('error', 'Error'),
     ]
     

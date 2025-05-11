@@ -1,0 +1,425 @@
+/* Estilos para el botón Back to Models */
+.back-nav-container {
+    max-width: 1200px;
+    margin: 1rem auto;
+    padding: 0 20px;
+}
+
+.back-nav-card {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.back-nav-link {
+    display: flex;
+    align-items: center;
+    color: var(--color-light);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.back-nav-link:hover {
+    color: #06968a;
+}
+
+.back-nav-icon {
+    margin-right: 0.5rem;
+    fill: currentColor;
+}
+
+/* Estilos para la barra de progreso dinámica */
+.progress-fill-pending {
+    width: 10%;
+}
+.progress-fill-generating-image {
+    width: 40%;
+}
+.progress-fill-generating-model {
+    width: 70%;
+}
+.progress-fill-default {
+    width: 0%; /* Para estados no especificados o inicial */
+}
+
+/* Contenedor principal */
+.model-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Estilos de la cuadrícula principal - diseño mejorado */
+.model-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 20px;
+    margin-bottom: 30px;
+}
+
+/* Estilos generales de las tarjetas */
+.model-card {
+    background-color: var(--color-dark);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Tarjeta de encabezado */
+.model-header-card {
+    grid-column: 1 / span 12;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.model-header-left {
+    flex: 3;
+}
+
+.model-header-right {
+    flex: 1;
+    text-align: right;
+}
+
+.model-technique-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    background-color: var(--color-main);
+    color: var(--color-light);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.model-title {
+    font-size: 2.2em;
+    color: var(--color-light);
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.model-status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.status-completed { background-color: var(--color-success); color: var(--color-dark); }
+.status-error { background-color: var(--color-error); color: var(--color-light); }
+.status-pending { background-color: #FFC107; color: var(--color-dark); }
+.status-generating_image, .status-generating_model { background-color: var(--color-main); color: var(--color-light); }
+
+.model-author {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.model-author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.model-author-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.model-author-info {
+    color: var(--color-light);
+}
+
+.model-author-name {
+    font-weight: bold;
+    color: var(--color-main);
+    text-decoration: none;
+}
+
+.model-author-name:hover {
+    text-decoration: underline;
+}
+
+.model-date {
+    font-size: 0.9em;
+    color: var(--color-light-gray);
+}
+
+/* Tarjeta del visor 3D */
+.model-viewer-card {
+    grid-column: 1 / span 12;
+    height: 800px;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+#model-container {
+    width: 100%;
+    height: 100%;
+    background: #f5ecd0;
+    background: radial-gradient(circle, rgba(245, 236, 208, 1) 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 247, 227, 1) 100%);
+    border-radius: 10px;
+}
+
+/* Contenedor de información y detalles */
+.info-details-container {
+    grid-column: 1 / span 12;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 20px;
+}
+
+.left-column {
+    grid-column: 1 / span 6;
+    display: grid;
+    grid-template-rows: auto 450px 1fr; /* Info card, imagen, materials card */
+    gap: 20px;
+}
+
+.right-column {
+    grid-column: 7 / span 6;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.model-info-card, .model-materials-card, .model-comments-card, .model-image-card, .model-description-card {
+    width: 100%;
+}
+
+.model-info-section {
+    margin-bottom: 20px;
+}
+
+.model-info-title {
+    font-size: 1.4em;
+    color: var(--color-main);
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--color-main-dark);
+}
+
+.model-info-item {
+    margin-bottom: 8px;
+}
+
+.model-info-item strong {
+    color: var(--color-light);
+}
+
+.model-info-item span, .model-info-item a {
+    color: var(--color-light-gray);
+}
+
+.model-info-item a:hover {
+    color: var(--color-main);
+    text-decoration: underline;
+}
+
+.model-materials-list {
+    list-style: none;
+    padding: 0;
+}
+
+.model-materials-list li {
+    background-color: var(--color-dark-light);
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    color: var(--color-light-gray);
+}
+
+.model-description p {
+    color: var(--color-light-gray);
+    line-height: 1.6;
+}
+
+/* Comentarios */
+.model-comments-card {
+    padding-top: 10px;
+}
+
+.comment-form-container {
+    margin-bottom: 20px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--color-dark-light);
+    background-color: var(--color-dark-light);
+    color: var(--color-light);
+    resize: vertical;
+    min-height: 80px;
+}
+
+.comment-form button {
+    margin-top: 10px;
+    padding: 10px 20px;
+}
+
+.comment-list .comment {
+    border-bottom: 1px solid var(--color-dark-light);
+    padding: 15px 0;
+}
+
+.comment-list .comment:last-child {
+    border-bottom: none;
+}
+
+.comment-author {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.comment-author img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-author-name {
+    font-weight: bold;
+    color: var(--color-main);
+}
+
+.comment-date {
+    font-size: 0.8em;
+    color: var(--color-light-gray);
+    margin-left: auto;
+}
+
+.comment-body {
+    color: var(--color-light-gray);
+    line-height: 1.5;
+}
+
+/* Mensajes de carga y error */
+.model-loading, .model-error {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    color: var(--color-light);
+}
+
+.model-loading h3, .model-error h3 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: var(--color-light);
+}
+
+.model-loading p, .model-error p {
+    font-size: 1em;
+    color: var(--color-light-gray);
+}
+
+.model-spinner {
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    border-left-color: var(--color-main);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.model-progress-bar {
+    width: 80%;
+    max-width: 300px;
+    height: 20px;
+    background-color: var(--color-dark-light);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.model-progress-fill {
+    height: 100%;
+    background-color: var(--color-main);
+    border-radius: 10px 0 0 10px;
+    transition: width 0.5s ease-in-out;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+/* Instrucciones para el visor */
+.model-instructions {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 992px) {
+    .model-detail-grid, 
+    .info-details-container,
+    .left-column,
+    .right-column {
+        grid-template-columns: 1fr;
+        grid-column: 1 / span 12;
+    }
+
+    .model-viewer-card {
+        height: 600px;
+    }
+    
+    .model-header-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .model-header-right {
+        text-align: left;
+        margin-top: 15px;
+    }
+    .model-image-card {
+        height: 250px; 
+    }
+    .model-description-card,
+    .model-prompt-card {
+        min-height: 0; /* Changed from auto for compatibility */
+    }
+}
+
+@media (max-width: 768px) {
+    .model-title {
+        font-size: 1.8em;
+    }
+
+    .model-viewer-card {
+        height: 450px;
+    }
+}
