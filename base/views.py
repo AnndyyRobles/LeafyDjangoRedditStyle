@@ -103,14 +103,28 @@ def room(request, pk):
                 # Si el mensaje padre no existe, crear un mensaje normal
                 pass
             
+        body = request.POST.get('body')
         message = Message.objects.create(
             user=request.user,
             room=room,
-            body=request.POST.get('body'),
+            body=body,
             parent=parent,
             depth=depth
         )
         room.participants.add(request.user)
+        
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'status': 'success',
+                'id': message.id,
+                'body': message.body,
+                'user_id': message.user.id,
+                'user_username': message.user.username,
+                'user_avatar': message.user.avatar.url if message.user.avatar else '',
+                'parent_id': parent_id if parent_id else None,
+                'depth': depth
+            })
+        
         return redirect('room', pk=room.id)
 
     context = {
@@ -478,13 +492,20 @@ def likeMessage(request, pk):
     # Alternar el estado del like
     if request.user in message.likes.all():
         message.likes.remove(request.user)
+        liked = False
     else:
         message.likes.add(request.user)
+        liked = True
+    
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({
+            'liked': liked,
+            'like_count': message.likes.count()
+        })
     
     # Redirigir a la página anterior
     referer = request.META.get('HTTP_REFERER')
-    return redirect('room', pk=message.room.id)
-
+    return redirect(referer if referer else 'home')
 
 @login_required(login_url='login')
 def likeTechnique(request, pk):

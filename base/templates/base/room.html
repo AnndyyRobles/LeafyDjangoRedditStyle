@@ -333,10 +333,10 @@
         }
       }
       
-      // Agregar funcionalidad AJAX para enviar mensajes sin recargar la página
       document.addEventListener('DOMContentLoaded', function() {
         // Inicializar event listeners para los formularios
         initializeFormListeners();
+        initializeLikeListeners();
         
         // Función para inicializar los event listeners de los formularios
         function initializeFormListeners() {
@@ -359,6 +359,16 @@
                 sendMessageAjax(this);
               });
             }
+          });
+        }
+        
+        // Función para inicializar los event listeners de los botones de like
+        function initializeLikeListeners() {
+          document.querySelectorAll('.chat-message__like, .chat-message__reply-like, .chat-message__nested-reply-like').forEach(button => {
+            button.addEventListener('click', function(e) {
+              e.preventDefault();
+              toggleLikeAjax(this);
+            });
           });
         }
         
@@ -462,6 +472,60 @@
                 input.disabled = false;
               }
             });
+          });
+        }
+        
+        // Función para alternar el estado de like mediante AJAX
+        function toggleLikeAjax(button) {
+          // Verificar si el usuario está autenticado
+          if (!button.hasAttribute('data-user-authenticated') || button.getAttribute('data-user-authenticated') !== 'true') {
+            // Redirigir a la página de inicio de sesión si no está autenticado
+            window.location.href = '/login/';
+            return;
+          }
+          
+          const likeUrl = button.getAttribute('data-url');
+          if (!likeUrl) {
+            console.error('No se encontró la URL de like');
+            return;
+          }
+          
+          // Obtener el token CSRF
+          const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+          
+          // Enviar solicitud AJAX
+          fetch(likeUrl, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': csrfToken,
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Like toggled successfully', data);
+            
+            // Actualizar la interfaz de usuario
+            if (data.liked) {
+              button.classList.add(button.classList.contains('chat-message__like') ? 'chat-message__like--active' : button.classList.contains('chat-message__reply-like') ? 'chat-message__reply-like--active' : 'chat-message__nested-reply-like--active');
+            } else {
+              button.classList.remove(button.classList.contains('chat-message__like') ? 'chat-message__like--active' : button.classList.contains('chat-message__reply-like') ? 'chat-message__reply-like--active' : 'chat-message__nested-reply-like--active');
+            }
+            
+            // Actualizar el contador de likes
+            const likeCount = button.querySelector('.like-count');
+            if (likeCount) {
+              likeCount.textContent = data.like_count;
+            }
+          })
+          .catch(error => {
+            console.error('Error en la solicitud AJAX para like:', error);
+            alert('Error al procesar el like: ' + error.message);
           });
         }
       });
