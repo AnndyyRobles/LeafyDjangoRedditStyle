@@ -9,20 +9,15 @@
       <div class="topics__header">
         <h2>Filter by Technique</h2>
       </div>
-      <ul class="topics__list">
-        <li>
+      <ul class="topics__list"><li>
           <a href="{% url 'cultivation3d_home' %}" class="topic-link {% if not request.GET.technique %}active{% endif %}">
             <span>All Techniques</span>
           </a>
-        </li>
-        {% for key, value in techniques %}
-        <li>
+        </li>{% for key, value in techniques %}<li>
           <a href="{% url 'cultivation3d_home' %}?technique={{ key }}" class="topic-link {% if request.GET.technique == key %}active{% endif %}">
             <span>{{ value }}</span>
           </a>
-        </li>
-        {% endfor %}
-      </ul>
+        </li>{% endfor %}</ul>
     </div>
     
     <!-- Mis modelos - Componente separado -->
@@ -30,20 +25,15 @@
       <div class="topics__header">
         <h2>My Models</h2>
       </div>
-      <ul class="topics__list">
-        <li>
+      <ul class="topics__list"><li>
           <a href="{% url 'cultivation3d_home' %}" class="topic-link {% if not request.GET.user %}active{% endif %}">
             <span>All Models</span>
           </a>
-        </li>
-        {% if request.user.is_authenticated %}
-        <li>
+        </li>{% if request.user.is_authenticated %}<li>
           <a href="{% url 'cultivation3d_home' %}?user={{ request.user.id }}" class="topic-link {% if request.GET.user == request.user.id|stringformat:'i' %}active{% endif %}">
             <span>My Models</span>
           </a>
-        </li>
-        {% endif %}
-      </ul>
+        </li>{% endif %}</ul>
     </div>
     
   
@@ -113,37 +103,66 @@
     </div>
   </div>
 
-  <!-- Columna derecha - Modelos recientes -->
-  <div class="activities">
-    <div class="activities__header">
-      <h2>Recent Models</h2>
-    </div>
-    <div class="activities__box">
-      <p>Check out some of the most recent 3D cultivation models:</p>
-      
-      {% for model in models|slice:":5" %}
-      <div class="activity">
-        <div class="activity__header">
-          <a href="{% url 'user-profile' model.user.id %}" class="activity__avatar">
-            <div class="avatar avatar--small">
-              <img src="{{ model.user.avatar.url }}" />
-            </div>
-          </a>
-          <p>
-            <a href="{% url 'cultivation3d_detail' model.id %}">{{ model.title }}</a>
-            <span>@{{ model.user.username }}</span>
-          </p>
-        </div>
-        <div class="activity__meta">
-          <p>{{ model.get_technique_display }}</p>
-          <span>{{ model.created|timesince }} ago</span>
-        </div>
+  <!-- Columna derecha - REEMPLAZO -->
+  <!-- Right Column Start -->
+  <div class="activities-column">
+    <!-- Activities Start -->
+    <div class="activities">
+      <div class="activities__header">
+        <h2>Modelos 3D</h2>
       </div>
-      {% empty %}
-      <p>No models created yet</p>
-      {% endfor %}
+      <div class="activities__box">
+        <p>Explora nuestra colección de modelos 3D de sistemas de cultivo para inspirarte y planificar tu próximo proyecto.</p>
+        <p>Visualiza diferentes técnicas y configuraciones en tres dimensiones.</p>
+        <a href="{% url 'cultivation3d_home' %}" class="btn btn--link guide-link">
+          Explorar Todos los Modelos
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="guide-icon">
+            <title>arrow-right</title>
+            <path
+              d="M31.057 18.286l-13.714 13.714-1.616-1.616 10.935-10.935h-26.662v-2.286h26.662l-10.935-10.935 1.616-1.616 13.714 13.714z"
+            ></path>
+          </svg>
+        </a>
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'create_3d_model' %}" class="btn btn--link guide-link">
+          Crear Nuevo Modelo 3D
+          <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="guide-icon">
+            <title>add</title>
+            <path
+              d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"
+            ></path>
+          </svg>
+        </a>
+        {% endif %}
+      </div>
+      
+      <style>
+        .guide-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 0.5rem;
+          padding: 0.75rem 1rem;
+          border-radius: 5px;
+          background-color: var(--color-dark);
+          transition: all 0.3s ease;
+        }
+        
+        .guide-link:hover {
+          background-color: var(--color-main);
+          color: var(--color-light);
+        }
+        
+        .guide-icon {
+          width: 20px;
+          height: 20px;
+          fill: var(--color-light);
+        }
+      </style>
     </div>
+    <!-- Activities End -->
   </div>
+  <!-- Right Column End -->
 </main>
 
 <style>

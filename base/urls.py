@@ -57,4 +57,6 @@ urlpatterns = [
     path('3d-models/<str:pk>/', views.cultivation3d_detail, name='cultivation3d_detail'),
     path('3d-models/<str:pk>/status/', views.check_model_status, name='check_model_status'),
     path('3d-models/<str:pk>/delete/', views.delete_3d_model, name='delete_3d_model'),
+    
+    path('inspect-users/', views.inspect_users, name='inspect_users'),
 ]

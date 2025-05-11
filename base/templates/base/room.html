@@ -4,6 +4,35 @@
 {% block content %}
     <link rel="stylesheet" href="{% static 'styles/room.css' %}" />
     <link rel="stylesheet" href="{% static 'styles/room_replies.css' %}" />
+    
+    <style>
+        /* Actions section */
+        .actions-card {
+            grid-column: span 12;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+            background-color: var(--color-dark);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+        
+        .action-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
+        }
+        
+        .action-edit { background-color: #FFC107; color: var(--color-dark); }
+        .action-delete { background-color: var(--color-error); color: var(--color-light); }
+    </style>
 
     <main class="profile-page layout layout--2">
       <div class="container room-container" id="room-view">
@@ -20,26 +49,17 @@
             <h2 class="room-title">{{room.name}}</h2>
           </div>
           
-          {% if room.host == request.user %}
           <div class="room-nav__right">
-            <a href="{% url 'update-room' room.id %}" class="edit-button">
-              <svg enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                <title>edit</title>
-                <g><path d="m23.5 22h-15c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h15c.276 0 .5.224.5.5s-.224.5-.5.5z" /></g>
-                <g><g><path d="m2.5 22c-.131 0-.259-.052-.354-.146-.123-.123-.173-.3-.133-.468l1.09-4.625c.021-.09.067-.173.133-.239l14.143-14.143c.565-.566 1.554-.566 2.121 0l2.121 2.121c.283.283.439.66.439 1.061s-.156.778-.439 1.061l-14.142 14.141c-.065.066-.148.112-.239.133l-4.625 1.09c-.038.01-.077.014-.115.014zm1.544-4.873-.872 3.7 3.7-.872 14.042-14.041c.095-.095.146-.22.146-.354 0-.133-.052-.259-.146-.354l-2.121-2.121c-.19-.189-.518-.189-.707 0zm3.081 3.283h.01z" /></g>
-                <g><path d="m17.889 10.146c-.128 0-.256-.049-.354-.146l-3.535-3.536c-.195-.195-.195-.512 0-.707s.512-.195.707 0l3.536 3.536c.195.195.195.512 0 .707-.098.098-.226.146-.354.146z" /></g></g>
-              </svg>
-              <span>Edit</span>
-            </a>
-            <a href="{% url 'delete-room' room.id %}" class="delete-button">
-              <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32">
-                <title>remove</title>
-                <path d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"></path>
-              </svg>
-              <span>Delete</span>
-            </a>
+            <!-- Edit/Delete options moved to actions card -->
           </div>
-          {% endif %}
+        </div>
+        
+        <!-- Actions card -->
+        <div class="card actions-card">
+            {% if room.host == request.user %}
+            <a href="{% url 'update-room' room.id %}" class="action-button action-edit">Editar</a>
+            <a href="{% url 'delete-room' room.id %}" class="action-button action-delete">Eliminar</a>
+            {% endif %}
         </div>
         
         <!-- Participants Bar (Horizontal) -->
@@ -108,7 +128,7 @@
                       <span class="chat-message__date">{{message.created|timesince}} ago</span>
                     </div>
                     {% if request.user == message.user %}
-                    <a href="{% url 'delete-message' message.id %}" class="chat-message__delete">
+                    <a href="{% url 'delete-message' message.id %}" class="chat-message__delete" aria-label="Delete message">
                       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32">
                         <title>remove</title>
                         <path d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"></path>
@@ -140,7 +160,7 @@
                     </div>
                     
                     <!-- Formulario de respuesta oculto -->
-                    <div class="reply-form" id="reply-form-{{message.id}}" style="display: none;">
+                    <div class="reply-form d-none" id="reply-form-{{message.id}}">
                       <form method="POST" action="">
                         {% csrf_token %}
                         <input type="hidden" name="parent_id" value="{{message.id}}" />
@@ -167,7 +187,7 @@
                           <span class="chat-message__reply-date">{{reply.created|timesince}} ago</span>
                         </div>
                         {% if request.user == reply.user %}
-                        <a href="{% url 'delete-message' reply.id %}" class="chat-message__reply-delete">
+                        <a href="{% url 'delete-message' reply.id %}" class="chat-message__reply-delete" aria-label="Delete reply">
                           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 32 32">
                             <title>remove</title>
                             <path d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"></path>
@@ -198,7 +218,7 @@
                       </div>
                       
                       <!-- Formulario de respuesta oculto para respuestas -->
-                      <div class="reply-form" id="reply-form-{{reply.id}}" style="display: none;">
+                      <div class="reply-form d-none" id="reply-form-{{reply.id}}">
                         <form method="POST" action="">
                           {% csrf_token %}
                           <input type="hidden" name="parent_id" value="{{reply.id}}" />
@@ -224,7 +244,7 @@
                               <span class="chat-message__nested-reply-date">{{nested_reply.created|timesince}} ago</span>
                             </div>
                             {% if request.user == nested_reply.user %}
-                            <a href="{% url 'delete-message' nested_reply.id %}" class="chat-message__nested-reply-delete">
+                            <a href="{% url 'delete-message' nested_reply.id %}" class="chat-message__nested-reply-delete" aria-label="Delete nested reply">
                               <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 32 32">
                                 <title>remove</title>
                                 <path d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"></path>
@@ -278,54 +298,36 @@
     <script>
       // Función mejorada para mostrar el formulario de respuesta usando IDs únicos
       function showReplyForm(messageId) {
-        console.log('Mostrando formulario para mensaje ID:', messageId);
-        
-        // Asegurarse de que messageId es un string
-        messageId = String(messageId);
-        
-        // Ocultar todos los formularios de respuesta primero
-        document.querySelectorAll('.reply-form').forEach(form => {
-          form.style.display = 'none';
+        // Ocultar todos los formularios de respuesta abiertos
+        var allReplyForms = document.querySelectorAll('.reply-form');
+        allReplyForms.forEach(function(form) {
+          form.classList.add('d-none'); // Usar clase para ocultar
+          form.style.removeProperty('display');
         });
-        
-        // Construir el ID del formulario de respuesta
-        const replyFormId = 'reply-form-' + messageId;
-        console.log('Buscando formulario con ID:', replyFormId);
-        
-        // Obtener el formulario de respuesta
-        const replyForm = document.getElementById(replyFormId);
-        
-        if (replyForm) {
-          console.log('Formulario encontrado, mostrando');
-          replyForm.style.display = 'block';
-          
-          // Enfocar el campo de entrada
-          const input = replyForm.querySelector('input[name="body"]');
-          if (input) {
-            input.focus();
+
+        var formToShow = document.getElementById('reply-form-' + messageId);
+        if (formToShow) {
+          formToShow.classList.remove('d-none'); // Quitar clase para mostrar
+          formToShow.style.display = 'flex'; // Asegurar que se muestre como flex
+
+          // Poner el foco en el campo de texto del formulario que se muestra
+          var inputField = formToShow.querySelector('input[name="body"]');
+          if (inputField) {
+            inputField.focus();
           }
         } else {
-          console.error('No se encontró el formulario con ID:', replyFormId);
+          console.error('No se encontró el formulario de respuesta para el ID:', messageId);
         }
       }
-      
+
       // Función mejorada para ocultar el formulario de respuesta
       function hideReplyForm(messageId) {
-        console.log('Ocultando formulario para mensaje ID:', messageId);
-        
-        // Asegurarse de que messageId es un string
-        messageId = String(messageId);
-        
-        // Construir el ID del formulario de respuesta
-        const replyFormId = 'reply-form-' + messageId;
-        
-        // Obtener el formulario de respuesta
-        const replyForm = document.getElementById(replyFormId);
-        
-        if (replyForm) {
-          replyForm.style.display = 'none';
+        var formToHide = document.getElementById('reply-form-' + messageId);
+        if (formToHide) {
+          formToHide.classList.add('d-none'); // Usar clase para ocultar
+          formToHide.style.removeProperty('display');
         } else {
-          console.error('No se encontró el formulario con ID:', replyFormId);
+          console.error('No se encontró el formulario de respuesta para el ID:', messageId);
         }
       }
       

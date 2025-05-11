@@ -78,9 +78,9 @@ class PlantCategory(models.Model):
 
 class PlantGuide(models.Model):
     DIFFICULTY_CHOICES = (
-        ('Easy', 'Easy'),
-        ('Medium', 'Medium'),
-        ('Hard', 'Hard'),
+        ('Easy', 'Fácil'),
+        ('Medium', 'Intermedio'),
+        ('Hard', 'Difícil'),
     )
     
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

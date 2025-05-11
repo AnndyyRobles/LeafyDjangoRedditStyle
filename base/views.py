@@ -600,20 +600,27 @@ def remove_friend(request, pk):
 # Cultivation Techniques Views
 def techniquesHome(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
-    techniques = CultivationTechnique.objects.filter(
-        Q(name__icontains=q) | 
-        Q(title__icontains=q) | 
-        Q(description__icontains=q)
-    )
+    technique_filter = request.GET.get('technique') if request.GET.get('technique') != None else ''
+    
+    if technique_filter:
+        techniques = CultivationTechnique.objects.filter(
+            Q(name=technique_filter) &
+            (Q(title__icontains=q) | Q(description__icontains=q))
+        )
+    else:
+        techniques = CultivationTechnique.objects.filter(
+            Q(title__icontains=q) | 
+            Q(description__icontains=q)
+        )
     topics = Topic.objects.all()[0:5]
     
     # Técnicas principales para mostrar en la columna derecha
     main_techniques = [
         {'name': 'Vertical', 'display_name': 'Cultivo Vertical', 'url_name': 'vertical-technique'},
-        {'name': 'Wall-mounted', 'display_name': 'Cultivo en Pared', 'url_name': 'wall-mounted-technique'},
-        {'name': 'Hydroponics', 'display_name': 'Hidroponía', 'url_name': 'hydroponics-technique'},
-        {'name': 'Recycled Materials', 'display_name': 'Materiales Reciclados', 'url_name': 'recycled-materials-technique'},
-        {'name': 'Aquaponics', 'display_name': 'Acuaponía', 'url_name': 'aquaponics-technique'}
+        {'name': 'Pared', 'display_name': 'Cultivo en Pared', 'url_name': 'wall-mounted-technique'},
+        {'name': 'Hidroponía', 'display_name': 'Hidroponía', 'url_name': 'hydroponics-technique'},
+        {'name': 'Materiales Reciclados', 'display_name': 'Materiales Reciclados', 'url_name': 'recycled-materials-technique'},
+        {'name': 'Acuaponía', 'display_name': 'Acuaponía', 'url_name': 'aquaponics-technique'}
     ]
     
     context = {
@@ -968,3 +975,15 @@ def delete_3d_model(request, pk):
         return redirect('cultivation3d_home')
     
     return render(request, 'base/delete.html', {'obj': model})
+
+def inspect_users(request):
+    """Vista temporal para inspeccionar usuarios y sus contraseñas hasheadas"""
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return HttpResponse("Acceso denegado. Solo para superusuarios.", status=403)
+    
+    users = User.objects.all()
+    output = "<h1>Inspección de Usuarios</h1><ul>"
+    for user in users:
+        output += f"<li>ID: {user.id}, Username: {user.username}, Email: {user.email}, Password (raw): {user.password[:10]}... (hasheada: {'pbkdf2_sha256' in user.password})</li>"
+    output += "</ul>"
+    return HttpResponse(output)

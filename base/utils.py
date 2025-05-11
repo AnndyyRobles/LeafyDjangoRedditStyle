@@ -2,15 +2,15 @@ def generate_prompt(model):
     """Generates a descriptive prompt based on the cultivation model data"""
     techniques = {
         'vertical': 'vertical farming system with multiple levels',
-        'wall': 'wall-mounted growing system',
-        'hydroponics': 'hydroponic growing system without soil',
-        'recycled': 'urban garden using recycled materials',
-        'aquaponics': 'aquaponic system combining fish and plant cultivation'
+        'pared': 'wall-mounted growing system',
+        'hidroponia': 'hydroponic growing system without soil',
+        'reciclados': 'urban garden using recycled materials',
+        'acuaponia': 'aquaponic system combining fish and plant cultivation'
     }
     
     locations = {
-        'indoor': 'designed for indoor spaces',
-        'outdoor': 'designed for outdoor spaces'
+        'interior': 'designed for indoor spaces',
+        'exterior': 'designed for outdoor spaces'
     }
     
     # Basic prompt with essential information

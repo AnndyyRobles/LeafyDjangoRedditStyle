@@ -6,11 +6,11 @@
     <!-- Plant Categories Start -->
     <div class="topics">
       <div class="topics__header">
-        <h2>Plant Categories</h2>
+        <h2>Categorías de Plantas</h2>
       </div>
       <ul class="topics__list">
         <li>
-          <a href="{% url 'guides' %}" {% if not request.GET.q %}class="active"{% endif %}>All<span>{{plant_count}}</span></a>
+          <a href="{% url 'guides' %}" {% if not request.GET.q %}class="active"{% endif %}>Todas<span>{{plant_count}}</span></a>
         </li>
 
         {% for category in categories %}
@@ -37,15 +37,15 @@
               d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z"
             ></path>
           </svg>
-          <input name="q" placeholder="Search guides..." />
+          <input name="q" placeholder="Buscar guías..." />
         </label>
       </form>
     </div>
 
     <div class="roomList__header">
       <div>
-        <h2>Plant Guides</h2>
-        <p>{{plant_count}} guides available</p>
+        <h2>Guías de Plantas</h2>
+        <p>{{plant_count}} guías disponibles</p>
       </div>
       {% if request.user.is_authenticated %}
       <a class="btn btn--main" href="{% url 'create-guide' %}">
@@ -55,7 +55,7 @@
             d="M16.943 0.943h-1.885v14.115h-14.115v1.885h14.115v14.115h1.885v-14.115h14.115v-1.885h-14.115v-14.115z"
           ></path>
         </svg>
-        Create Guide
+        Crear Guía
       </a>
       {% endif %}
     </div>
@@ -85,8 +85,8 @@
       </div>
       {% empty %}
       <div class="empty-state">
-        <h3>No plant guides found</h3>
-        <p>Be the first to create a guide!</p>
+        <h3>No hay guías disponibles</h3>
+        <p>¡Sé el primero en crear una guía!</p>
       </div>
       {% endfor %}
     </div>
@@ -99,13 +99,13 @@
     <!-- Activities Start -->
     <div class="activities">
       <div class="activities__header">
-        <h2>Guides</h2>
+        <h2>Guías</h2>
       </div>
       <div class="activities__box">
-        <p>Explore our collection of plant cultivation guides to learn how to grow your own plants!</p>
-        <p>From germination to harvest, we provide detailed instructions for plants of all types.</p>
+        <p>Explora nuestra colección de guías de cultivo de plantas para aprender a cultivar tus propias plantas!</p>
+        <p>Desde la germinación hasta la cosecha, proporcionamos instrucciones detalladas para plantas de todo tipo.</p>
         <a href="{% url 'guides' %}" class="btn btn--link guide-link">
-          Browse All Guides
+          Explorar Todas las Guías
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="guide-icon">
             <title>arrow-right</title>
             <path
@@ -115,7 +115,7 @@
         </a>
         {% if request.user.is_authenticated %}
         <a href="{% url 'create-guide' %}" class="btn btn--link guide-link">
-          Create New Guide
+          Crear Nueva Guía
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="guide-icon">
             <title>add</title>
             <path

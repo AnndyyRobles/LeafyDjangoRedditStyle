@@ -2,21 +2,40 @@
 
 {% block content %}
 <main class="layout layout--3 techniques-view">
-  <!-- Columna izquierda - Lista de técnicas -->
-  <div class="topics">
-    <div class="topics__header">
-      <h2>Técnicas de Cultivo</h2>
+  <!-- Columna izquierda - Filtro por técnica y lista de técnicas -->
+  <div class="layout__column layout__column--left">
+    <!-- Filtro por técnica -->
+    <div class="topics">
+      <div class="topics__header">
+        <h2>Filtrar por Técnica</h2>
+      </div>
+      <ul class="topics__list">
+        <li>
+          <a href="{% url 'techniques' %}" class="topic-link {% if not request.GET.technique %}active{% endif %}">
+            <span>Todas las Técnicas</span>
+          </a>
+        </li>
+        {% for technique in main_techniques %}
+        <li>
+          <a href="{% url 'techniques' %}?technique={{ technique.name }}" class="topic-link {% if request.GET.technique == technique.name %}active{% endif %}">
+            <span>{{ technique.display_name }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
-    <ul class="topics__list">{% for technique in techniques %}
-      <li>
-        <a href="{% url 'technique' technique.id %}" class="topic-link">
-          <span>{{ technique.title }}</span>
-        </a>
-      </li>{% endfor %}
-    </ul>
-    <a class="btn btn--link" href="{% url 'create-technique' %}">
-      Crear Nueva Técnica
-    </a>
+    
+    <!-- Lista de técnicas existentes -->
+    <div class="topics" style="margin-top: 20px;">
+      <div class="topics__header">
+        <h2>Técnicas de Cultivo</h2>
+      </div>
+      <ul class="topics__list">{% for technique in techniques %}<li>
+          <a href="{% url 'technique' technique.id %}" class="topic-link">
+            <span>{{ technique.title }}</span>
+          </a>
+        </li>{% endfor %}</ul>
+    </div>
   </div>
 
   <!-- Columna central - Tarjetas de técnicas -->
@@ -72,7 +91,7 @@
         
         <div class="technique-tags-container">
           <span class="technique-difficulty">{{ technique.difficulty }}</span>
-          <span class="technique-type">{{ technique.name }}</span>
+          <span class="technique-type">{{ technique.get_name_display }}</span>
         </div>
         
         <div class="technique-description">
@@ -137,8 +156,11 @@
       margin-bottom: 1.5rem;
       color: var(--color-light-gray);
     }
-  </main>
-  </div>
-</div>
+    
+    /* Asegurar que los recuadros tengan separación */
+    .layout__column--left .topics + .topics {
+      margin-top: 20px;
+    }
+  </style>
 </main>
 {% endblock %}
