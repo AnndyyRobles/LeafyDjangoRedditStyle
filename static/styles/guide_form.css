@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /* Estilos para los botones de selección de dificultad */
 .difficulty-preview {
   margin-top: 10px;
@@ -24,13 +26,16 @@
 }
 
 .difficulty-tag.easy {
-  background-color: #4CAF50; /* Verde para fácil */
+  background-color: var(--color-success); /* Verde para fácil */
+  color: white;
 }
 
 .difficulty-tag.medium {
-  background-color: #FFC107; /* Amarillo para medio */
+  background-color: var(--color-warning); /* Amarillo para medio */
+  color: var(--color-dark);
 }
 
 .difficulty-tag.hard {
-  background-color: #F44336; /* Rojo para difícil */
+  background-color: var(--color-error); /* Rojo para difícil */
+  color: white;
 }

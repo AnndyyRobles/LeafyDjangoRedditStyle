@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /* Estilos para el recuadro de acciones */
 .actions-container {
   max-width: 1200px;
@@ -6,7 +8,7 @@
 }
 
 .actions-card {
-  background-color: #000;
+  background-color: var(--color-dark);
   border-radius: 10px;
   padding: 15px;
   display: flex;
@@ -27,11 +29,23 @@
 }
 
 .action-edit {
-  background-color: #FFC107;
-  color: #000;
+  background-color: var(--color-warning);
+  color: var(--color-dark);
 }
 
 .action-delete {
-  background-color: #FF5252;
-  color: #fff;
+  background-color: var(--color-error);
+  color: var(--color-light);
+}
+
+.guide-hero__back a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background-color: var(--color-main-light);
+  color: var(--color-light);
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  margin-bottom: 20px;
 }

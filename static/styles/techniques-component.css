@@ -1,23 +1,47 @@
 /* Techniques component styling */
 
+@import 'base.css';
+
 .guides-banner {
   padding: 15px;
 }
 
 .guides-banner h3 {
-  color: #06968a;
+  color: var(--color-main);
   margin-bottom: 10px;
 }
 
 .guides-banner__link {
   display: inline-block;
   margin-top: 10px;
-  color: #06968a;
+  color: var(--color-main);
   font-weight: 600;
   transition: all 0.3s ease;
 }
 
 .guides-banner__link:hover {
-  color: #06968a;
+  color: var(--color-main);
   transform: translateX(5px);
+}
+
+.techniques-component__title {
+  color: var(--color-main);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.techniques-component__subtitle {
+  color: var(--color-main);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.techniques-component__item {
+  color: var(--color-main);
+  text-decoration: none;
+  display: block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.3s, transform 0.3s;
 }

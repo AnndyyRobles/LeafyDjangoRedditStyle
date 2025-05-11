@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /* Topics component styling */
 
 .topics {
@@ -5,7 +7,7 @@
   border-radius: 5px;
   padding: 2rem;
   margin-bottom: 2rem;
-  border: 1.5px solid rgba(6,150,138,1);
+  border: 1.5px solid var(--color-main);
 }
 
 .topics__header {
@@ -16,7 +18,7 @@
   text-transform: uppercase;
   font-weight: 500;
   color: var(--color-light);
-  background-color: #06968a;
+  background-color: var(--color-main);
   padding: 1rem 1.5rem;
   border-radius: 5px;
 }

@@ -1,15 +1,32 @@
 :root {
-  --color-main: #06968a;
-  --color-main-light: #c5e8e6;
-  --color-dark: #000000;
-  --color-dark-medium: #077e75;
-  --color-dark-light: #056960;
-  --color-light: #e5e5e5;
-  --color-gray: #8b8b8b;
-  --color-light-gray: #b2bdbd;
-  --color-bg: #014b45;
+  /* Colores principales de la aplicación - Restaurados a Glee */
+  --color-main: #b7b865;          /* Glee */
+  --color-main-light: #e0e1c5;     /* Glee claro */
+  --color-main-dark: #787942;      /* Glee oscuro */
+  --color-bone: #f1ede4;          /* Tono Bone - beige claro */
+  --color-bone-dark: #e8e3d9;     /* Bone más oscuro */
+  --color-bone-light: #f9f8f5;     /* Bone muy claro para el fondo */
+  --color-green-light: #c8eac8;    /* Verde muy claro para el fondo */
+  --color-dark: #faf4e8;
+  --color-dark-medium: #e8e6d6;
+  --color-dark-light: #d6d4c3;
+  --color-light: #333333;
+  --color-gray: #666666;
+  --color-light-gray: #68695b;
+  --color-bg: #d6d4c3;
   --color-success: #5dd693;
   --color-error: #fc4b0b;
+  --gradient-body-bg: linear-gradient(0deg, var(--color-dark) 0%, var(--color-dark-medium) 21%, var(--color-dark-light) 38%, var(--color-dark) 48%, var(--color-dark-medium) 66%, var(--color-dark-light) 82%, var(--color-dark) 91%, var(--color-dark-medium) 100%);
+  --gradient-room-topic-bg: var(--color-main);
+  --color-dropdown-bg: #a5a660;
+  --color-border-techniques: rgba(182,183,107,1);
+  --color-border-techniques-faint: rgba(182,183,107,0.15);
+  --color-border-techniques-light: rgba(182,183,107,0.3);
+  --color-box-shadow-dark: rgba(234, 232, 250, 0.2);
+  --color-focus-ring: rgba(182, 183, 107, 0.2);
+  --gradient-btn-shadow-hover: linear-gradient(to right, #c7c87e, #d5d68f);
+  --border-radius: 0.7rem;
+  --links: rgba(100, 187, 183, 1);
 }
 
 /*========== base styles ==========*/
@@ -46,8 +63,7 @@ body {
   font-size: 1.5rem;
   color: var(--color-light-gray);
   gap: 3rem;
-  background: rgb(9, 81, 122);
-  background: linear-gradient(0deg, rgb(8, 118, 133) 0%, rgb(12, 76, 81) 21%, rgb(11, 68, 75) 38%, rgb(10, 63, 70) 48%, rgb(8, 57, 57) 66%, rgb(6, 47, 48) 82%, rgb(5, 41, 42) 91%, rgb(3, 30, 31) 100%);
+  background: var(--color-bg);
   min-height: 100vh;
 }
 
@@ -57,7 +73,7 @@ img {
 
 a {
   display: inline-block;
-  color: #06968a;
+  color: var(--color-main);
   text-decoration: none;
 }
 

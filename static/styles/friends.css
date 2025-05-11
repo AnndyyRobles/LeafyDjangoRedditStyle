@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /* Estilos para la sección de amigos */
 .friends-bar {
   background-color: var(--color-dark);
@@ -31,14 +33,14 @@
   transform: translateX(-50%);
   width: 50px;
   height: 3px;
-  background-color: #71c6dd; /* Color cyan de la app */
+  background-color: var(--color-main); /* Color principal de la app */
   border-radius: 3px;
 }
 
 .friends-bar__header h3 span {
   font-size: 1.2rem;
   font-weight: 400;
-  color: #71c6dd; /* Color cyan de la app */
+  color: var(--color-main); /* Color principal de la app */
   margin-left: 0.5rem;
 }
 
@@ -76,7 +78,7 @@
 
 .friend-card:hover {
   transform: translateY(-5px);
-  background-color: rgba(113, 198, 221, 0.1); /* Color cyan con transparencia */
+  background-color: rgba(182, 183, 107, 0.1); /* Color Glee con transparencia */
 }
 
 .friend-name {
@@ -112,7 +114,7 @@
 }
 
 .btn-add-friend, .btn-remove-friend {
-  background-color: #71c6dd; /* Color cyan de la app */
+  background-color: var(--color-main); /* Color principal de la app */
   color: white;
   border: none;
   padding: 0.7rem 1.5rem;
@@ -126,18 +128,18 @@
 }
 
 .btn-add-friend:hover {
-  background-color: #5ab1c8;
+  background-color: var(--color-success);
   transform: translateY(-2px);
 }
 
 .btn-remove-friend {
-  background-color: #e05260; /* Rojo más suave */
+  background-color: var(--color-error); /* Rojo más suave */
   font-size: 0.9rem;
   padding: 0.5rem 1rem;
 }
 
 .btn-remove-friend:hover {
-  background-color: #c73e4c;
+  background-color: var(--color-error);
   transform: translateY(-2px);
 }
 

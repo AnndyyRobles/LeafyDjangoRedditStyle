@@ -26,6 +26,7 @@
         display: flex;
         align-items: center;
         padding: 10px 15px;
+        background-color: var(--color-dark-medium);
     }
     
     .back-nav-link {
@@ -38,7 +39,7 @@
     }
     
     .back-nav-link:hover {
-        color: #06968a;
+        color: var(--color-main);
     }
     
     .back-nav-icon {
@@ -78,10 +79,9 @@
     
     .author-card {
         grid-column: span 4; /* 30% del ancho */
+        background-color: var(--color-dark);
         display: flex;
         align-items: center;
-        margin-bottom: 0;
-        background-color: #000;
         padding: 15px;
     }
     
@@ -92,13 +92,6 @@
         background-color: var(--color-main);
         color: var(--color-light);
         font-weight: bold;
-    }
-    
-    .author-card {
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
     }
     
     .author-avatar {
@@ -139,7 +132,7 @@
     }
     
     .author-link:hover {
-        color: #06968a;
+        color: var(--color-main);
     }
     
     .creation-date {
@@ -176,7 +169,7 @@
     .meta-label {
         font-weight: bold;
         margin-bottom: 5px;
-        color: #06968a; /* Color cyan para las etiquetas */
+        color: var(--color-main); /* Color cyan para las etiquetas */
     }
     
     .meta-value {
@@ -200,7 +193,7 @@
     .card h2 {
         border-bottom: none;
         padding-bottom: 0;
-        color: #06968a;
+        color: var(--color-main);
     }
     
     /* Description card */
@@ -327,7 +320,7 @@
     }
     
     .author-link {
-        color: #06968a;
+        color: var(--color-main);
         text-decoration: none;
         transition: all 0.3s ease;
     }

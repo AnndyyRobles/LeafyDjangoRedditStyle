@@ -1,23 +1,25 @@
+@import 'base.css';
+
 /*========== Buttons and Interactive Components ==========*/
 
 .btn {
-  background-color: transparent;
-  border: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-  cursor: pointer;
-  transition: all ease-in-out 0.3s;
-  padding: 1rem 2rem;
+  display: inline-block;
+  padding: 1.2rem 2.4rem;
   border-radius: 5px;
-  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 1.6rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  outline: none;
+  background: transparent;
 }
 
 .btn--link {
   border-radius: 0;
   padding: 0;
-  color: #06968a;
+  color: var(--color-main);
   box-shadow: none;
   margin: 1.5rem;
 }
@@ -27,31 +29,23 @@
 }
 
 .btn--mainn {
-  background-color: #06968a;
+  background-color: var(--color-main);
   color: var(--color-light);
 }
 
 .btn--main {
-  background: black;
-  color: white;
-  box-shadow: 1.5px 1.5px 2px rgb(5, 85, 78);
-  margin-right: 15px;
-  height: 29px;
+  background: var(--color-dark);
+  color: var(--color-light);
+  box-shadow: 1.5px 1.5px 2px var(--color-dark-light);
 }
 
 .btn:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--color-box-shadow-dark);
 }
 
-.btn--dark {
-  background-color: var(--color-dark-medium);
-  color: var(--color-main-light);
-}
-
-.btn > svg {
-  fill: currentColor;
-  width: 1.6rem;
-  height: 1.6rem;
+.btn:active {
+  transform: translateY(1px);
 }
 
 .btn--pill {
@@ -59,14 +53,26 @@
   font-size: 1.4rem;
   font-weight: 700;
   padding: 6px 2.5rem;
-  color: #06968a;
+  color: var(--color-main);
   background: transparent;
-  border: 2px solid #06968a;
+  border: 2px solid var(--color-main);
 }
 
 .action-button {
-  background: transparent;
+  background-color: var(--color-main);
+  color: var(--color-light);
   border: none;
-  outline: none;
+  padding: 0.8rem 1.6rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  border-radius: 5px;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.shadoww:hover{
+  background: var(--gradient-btn-shadow-hover);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;  
 }

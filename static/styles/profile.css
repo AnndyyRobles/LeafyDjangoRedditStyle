@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /*========== Profile Components ==========*/
 
 .profile {
@@ -49,4 +51,114 @@
   color: var(--color-light);
   font-weight: 500;
   text-transform: uppercase;
+}
+
+.profile {
+  margin-top: 3rem;
+}
+
+.profile__banner {
+  height: 30rem;
+  background: var(--color-dark-light);
+  border-radius: 1rem 1rem 0 0;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--color-border-techniques-faint);
+  border-bottom: none;
+}
+
+.profile__banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile__avatar {
+  position: absolute;
+  bottom: -10rem;
+  left: 3rem;
+  width: 15rem;
+  height: 15rem;
+  border-radius: 50%;
+  border: 5px solid var(--color-dark);
+  overflow: hidden;
+}
+
+.profile__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile__info {
+  margin-top: 5rem;
+  margin-left: 21rem;
+  margin-bottom: 3rem;
+}
+
+.profile__info h2 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  color: var(--color-light);
+}
+
+.profile__info p {
+  color: var(--color-main);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.profile__info small {
+  display: block;
+  font-size: 1.4rem;
+  color: var(--color-gray);
+  margin-bottom: 1.5rem;
+}
+
+.profile__stats {
+  display: flex;
+  gap: 3rem;
+  margin-top: 2rem;
+}
+
+.profile__stat {
+  text-align: center;
+}
+
+.profile__stat h3 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-light);
+}
+
+.profile__stat p {
+  font-size: 1.4rem;
+  color: var(--color-gray);
+  margin: 0;
+}
+
+.profile__tabs {
+  background-color: var(--color-dark);
+  border-radius: 0 0 1rem 1rem;
+  overflow: hidden;
+  border: 1px solid var(--color-border-techniques-faint);
+  border-top: none;
+}
+
+.profile__tabs a {
+  display: inline-block;
+  padding: 1.5rem 2.5rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--color-gray);
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.profile__tabs a:hover,
+.profile__tabs a.active {
+  color: var(--color-main);
+  border-bottom-color: var(--color-main);
 }

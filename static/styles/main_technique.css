@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /* Estilos para el botón Back to Techniques */
 .back-nav-container {
     max-width: 1200px;
@@ -21,7 +23,7 @@
 }
 
 .back-nav-link:hover {
-    color: #06968a;
+    color: var(--color-main);
 }
 
 .back-nav-icon {
@@ -64,7 +66,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 0;
-    background-color: #000;
+    background-color: var(--color-dark);
     padding: 15px;
 }
 
@@ -123,11 +125,11 @@
 }
 
 .author-link:hover {
-    color: #06968a;
+    color: var(--color-main);
 }
 
 .creation-date {
-    color: #ffcc00;
+    color: var(--color-warning);
     font-size: 0.8em;
     margin: 0;
 }
@@ -163,7 +165,7 @@
 .meta-label {
     font-weight: bold;
     margin-bottom: 5px;
-    color: #06968a; /* Color cyan para las etiquetas */
+    color: var(--color-main);
 }
 
 .meta-value {
@@ -180,7 +182,7 @@
 
 /* Colores para las etiquetas de dificultad: verde, amarillo, rojo */
 .beginner { background-color: var(--color-success); color: var(--color-dark); }
-.intermediate { background-color: #FFC107; color: var(--color-dark); }
+.intermediate { background-color: var(--color-warning); color: var(--color-dark); }
 .advanced { background-color: var(--color-error); color: var(--color-light); }
 
 /* Contenido principal */

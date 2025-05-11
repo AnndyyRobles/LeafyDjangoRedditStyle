@@ -1,3 +1,5 @@
+@import 'base.css';
+
 :root {
   --color-main: #06968a;
   --color-main-light: #c5e8e6;
@@ -10,6 +12,8 @@
   --color-bg: #014b45;
   --color-success: #5dd693;
   --color-error: #fc4b0b;
+  --color-main-dark: #034d48;
+  --color-main: var(--color-main);
 }
 
 /*========== base styles ==========*/
@@ -46,7 +50,7 @@ body {
   font-size: 1.5rem;
   color: var(--color-light-gray);
   gap: 3rem;
-  background: rgb(14,60,89);
+  background: var(--color-bg);
   background: linear-gradient(0deg, rgba(14,60,89,1) 0%, rgba(12,55,81,1) 21%, rgba(11,51,75,1) 38%, rgba(10,47,70,1) 48%, rgba(8,39,57,1) 66%, rgba(6,33,48,1) 82%, rgba(5,28,42,1) 91%, rgba(3,20,31,1) 100%);
   min-height: 100vh;
 }
@@ -267,7 +271,7 @@ a {
 
 .header {
   padding: 1.5rem;
-  background-color: var(--color-dark);
+  background-color: var(--color-main-dark);
 }
 
 .header > .container {

@@ -1,4 +1,6 @@
-/* Estilos para las etiquetas de tu00e9cnicas y niveles de dificultad */
+@import 'base.css';
+
+/* Estilos para las etiquetas de técnicas y niveles de dificultad */
 .techniques-preview, .difficulty-preview {
   margin-top: 15px;
 }
@@ -16,7 +18,7 @@
 }
 
 .technique-tag, .difficulty-tag {
-  background-color: #06968a;
+  background-color: var(--color-primary);
   color: var(--color-light);
   padding: 5px 10px;
   border-radius: 5px;
@@ -30,9 +32,9 @@
   color: var(--color-white);
 }
 
-/* Estilos especu00edficos para los niveles de dificultad */
+/* Estilos específicos para los niveles de dificultad */
 .difficulty-tag.Easy {
-  background-color: #4CAF50; /* Verde para fu00e1cil */
+  background-color: var(--color-success); /* Verde para fácil */
 }
 
 .difficulty-tag.Medium {
@@ -40,12 +42,12 @@
 }
 
 .difficulty-tag.Hard {
-  background-color: #F44336; /* Rojo para difu00edcil */
+  background-color: var(--color-error); /* Rojo para difícil */
 }
 
 /* Mantenemos las clases anteriores para compatibilidad */
 .difficulty-tag.beginner {
-  background-color: #4CAF50;
+  background-color: var(--color-success);
 }
 
 .difficulty-tag.intermediate {
@@ -53,7 +55,7 @@
 }
 
 .difficulty-tag.advanced {
-  background-color: #F44336;
+  background-color: var(--color-error);
 }
 
 .difficulty-tag.expert {

@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /* Estilos para las técnicas de cultivo */
 
 /* Componente de técnicas en la página principal */
@@ -16,7 +18,7 @@
 
 .techniques-box__header {
   padding: 1.5rem;
-  background-color: #06968a;
+  background-color: var(--color-main);
   border-radius: 5px 5px 0 0;
 }
 
@@ -40,7 +42,7 @@
 .techniques-box__content p {
   margin-bottom: 1rem;
   font-size: 1.4rem;
-  color: #06968a;
+  color: var(--color-main);
 }
 
 .techniques-list {
@@ -54,12 +56,12 @@
   border-radius: 5px;
   transition: all 0.3s ease;
   background-color: var(--color-light-gray);
-  color: #06968a;
+  color: var(--color-main);
   font-weight: 500;
 }
 
 .technique-link:hover {
-  background-color: #06968a;
+  background-color: var(--color-main);
   color: var(--color-light);
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -72,7 +74,7 @@
   justify-content: center;
   width: 3rem;
   height: 3rem;
-  background-color: #06968a;
+  background-color: var(--color-main);
   border-radius: 50%;
   padding: 0.5rem;
   transition: all 0.3s ease;
@@ -89,7 +91,7 @@
 }
 
 .technique-link:hover .technique-icon svg {
-  color: #06968a;
+  color: var(--color-main);
 }
 
 /* Página de listado de técnicas */
@@ -106,7 +108,7 @@
 
 .techniques-header h1 {
   font-size: 3.6rem;
-  color: #06968a;
+  color: var(--color-main);
   margin-bottom: 1rem;
 }
 
@@ -128,7 +130,7 @@
   box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   padding: 2rem;
-  border: 2px solid #06968a;
+  border: 2px solid var(--color-main);
 }
 
 .technique-card:hover {
@@ -141,7 +143,7 @@
   font-size: 2rem;
   margin-bottom: 2rem;
   font-family: 'Raleway', sans-serif;
-  color: #06968a;
+  color: var(--color-main);
   text-align: center;
 }
 
@@ -153,7 +155,7 @@
 
 .technique-image-main {
   flex: 2;
-  border: 2px solid #06968a;
+  border: 2px solid var(--color-main);
   border-radius: 2rem;
   overflow: hidden;
   height: 18rem;
@@ -161,7 +163,7 @@
 
 .technique-image-secondary {
   flex: 1;
-  border: 2px solid #06968a;
+  border: 2px solid var(--color-main);
   border-radius: 2rem;
   overflow: hidden;
   height: 18rem;
@@ -169,7 +171,7 @@
 
 .technique-image-small {
   flex: 1;
-  border: 2px solid #06968a;
+  border: 2px solid var(--color-main);
   border-radius: 2rem;
   overflow: hidden;
   height: 10rem;
@@ -193,21 +195,21 @@
   flex: 1;
   text-align: left;
   font-family: 'Raleway', sans-serif;
-  color: #06968a;
+  color: var(--color-main);
 }
 
 .technique-likes {
   flex: 1;
   text-align: center;
   font-family: cursive;
-  color: #06968a;
+  color: var(--color-main);
 }
 
 .technique-date {
   flex: 1;
   text-align: right;
   font-family: cursive;
-  color: #06968a;
+  color: var(--color-main);
 }
 
 .technique-stats {
@@ -384,11 +386,11 @@
 }
 
 .tab-item:hover {
-  color: #06968a;
+  color: var(--color-main);
 }
 
 .tab-item.active {
-  color: #06968a;
+  color: var(--color-main);
   border-bottom-color: var(--color-main);
 }
 
@@ -477,4 +479,100 @@
     padding: 1rem 1.5rem;
     font-size: 1.4rem;
   }
+}
+
+.topics, .techniques {
+  background: var(--color-dark);
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1.5px solid var(--color-border-techniques);
+  margin-bottom: 0;
+}
+
+.topics__header, .techniques__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--color-main);
+}
+
+.topics__header h2, .techniques__header h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--color-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.topics__header a, .techniques__header a {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-light);
+}
+
+.topics__list, .techniques__list {
+  padding: 1.5rem;
+}
+
+.topics__list li, .techniques__list li {
+  margin-bottom: 1.2rem;
+}
+
+.topics__list li:last-child, .techniques__list li:last-child {
+  margin-bottom: 0;
+}
+
+.topics__list li a, .techniques__list li a {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--color-light-gray);
+  transition: all 0.3s ease;
+}
+
+.topics__list li a:hover, .techniques__list li a:hover,
+.topics__list li a.active, .techniques__list li a.active {
+  background-color: var(--color-main);
+  color: var(--color-light);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.topics-preview {
+  margin-top: 1.5rem;
+  background-color: var(--color-dark);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  border-left: 3px solid var(--color-border-techniques-light);
+}
+
+.topics-preview h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  color: var(--color-light-gray);
+}
+
+.topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.topic-tag {
+  background-color: var(--color-main);
+  color: var(--color-light);
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.topic-tag:hover {
+  border-color: var(--color-light-gray);
 }

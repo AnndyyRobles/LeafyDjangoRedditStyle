@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /* Estilos para las medallas */
 
 .profile__medals {
@@ -24,7 +26,7 @@
   transform: translateX(-50%);
   width: 50px;
   height: 3px;
-  background-color: #71c6dd; /* Color cyan de la app */
+  background-color: var(--color-main); /* Color principal de la app */
   border-radius: 3px;
 }
 
@@ -78,7 +80,7 @@
   margin-top: 1rem;
 }
 
-/* Estilos para pantallas pequeu00f1as */
+/* Estilos para pantallas pequeñas */
 @media screen and (max-width: 768px) {
   .medals-container {
     gap: 1rem;

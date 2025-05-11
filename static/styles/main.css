@@ -1,5 +1,7 @@
+@import 'base.css';
+
 body{
-    background-color: #e4f3f2;
+    background-color: var(--color-main-light);
     font-family: 'Raleway', sans-serif;
 }
 
@@ -18,7 +20,7 @@ body{
 
 /* Añadir bordes sutiles a los recuadros para mejor separación visual */
 .activities-column .activities {
-    border: 1px solid rgba(6, 150, 138, 0.2);
+    border: 1px solid var(--color-border);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     padding-bottom: 20px;
 }
@@ -28,19 +30,19 @@ body{
 }
 
 .guides-banner h3 {
-    color: #06968a;
+    color: var(--color-main);
     margin-bottom: 10px;
 }
 
 .guides-banner__link {
     display: inline-block;
     margin-top: 10px;
-    color: #06968a;
+    color: var(--color-main);
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 .guides-banner__link:hover {
-    color: #06968a;
+    color: var(--color-main);
     transform: translateX(5px);
 }

@@ -1,86 +1,86 @@
+@import 'base.css';
+
 /*========== Forms ==========*/
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  gap: 2.4rem;
+  margin-top: 2rem;
 }
 
 .form__group {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-}
-
-.form__split {
-  display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .form__group label {
+  font-weight: 700;
   font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--color-light);
+  color: var(--color-light-gray);
 }
 
 .form__group input,
-.form__group textarea,
-.form__group select {
-  background: var(--color-dark-light);
-  border: 1px solid var(--color-dark-medium);
-  padding: 1rem;
-  border-radius: 3px;
-  width: 100%;
-  color: var(--color-light);
+.form__group textarea {
+  padding: 1.5rem;
+  border-radius: 5px;
+  border: 1px solid var(--color-gray);
+  font-size: 1.6rem;
   font-weight: 500;
   outline: none;
+  background-color: var(--color-dark-light);
+  color: var(--color-light);
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
 }
 
 .form__group input:focus,
 .form__group textarea:focus {
-  border-color: var(--color-main);
+  border-bottom-color: var(--color-main);
 }
 
 .form__group textarea {
-  background: var(--color-dark-light);
-  height: 10rem;
-  resize: none;
+  min-height: 15rem;
+  resize: vertical;
 }
 
-.form__group select {
-  color: var(--color-gray);
-  font-weight: 400;
+.form__error {
+  font-size: 1.4rem;
+  color: var(--color-error);
+  margin-top: 0.5rem;
+  display: none;
 }
 
-.form__group select option {
-  background-color: var(--color-dark-light);
-  color: var(--color-light);
-  padding: 0 10rem;
-}
-
-.form__action {
+.form__avatar {
   display: flex;
-  gap: 3rem;
-}
-
-.form__hide {
-  position: absolute;
-  left: -9999px;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .form__avatar label {
   text-align: center;
   font-size: 1.8rem;
   font-weight: 500;
-  color: #06968a;
+  color: var(--color-main);
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
 }
 
-.form__avatar label:hover {
-  text-decoration: underline;
+.form__avatar img {
+  width: 15rem;
+  height: 15rem;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--color-main);
+}
+
+#room_topic:focus {
+  border-bottom-color: var(--color-main);
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-focus-ring);
+}
+
+#room_topic::placeholder {
+  color: var(--color-gray);
 }

@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /* Estilos específicos para la vista de técnicas */
 /* Estos estilos solo afectan a la vista de técnicas y no interfieren con otras vistas */
 
@@ -102,7 +104,7 @@
 }
 
 .technique-difficulty {
-  background-color: #ff6b6b;
+  background-color: var(--color-error);
   color: var(--color-light);
   padding: 0.2rem 0.5rem;
   border-radius: 3px;
@@ -111,7 +113,7 @@
 }
 
 .technique-type {
-  background-color: #06968a;
+  background-color: var(--color-main);
   color: var(--color-light);
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
@@ -137,7 +139,7 @@
 }
 
 .technique-actions .btn--main {
-  background-color: #06968a;
+  background-color: var(--color-main);
   color: var(--color-light);
   border: none;
   padding: 0.5rem 1rem;
@@ -160,7 +162,7 @@
   background-color: var(--color-dark);
   border-radius: 1rem;
   box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.3);
-  border: 2px solid #06968a;
+  border: 2px solid var(--color-main);
 }
 
 .empty-techniques p {

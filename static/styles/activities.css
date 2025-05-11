@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /*========== Activities and Feeds ==========*/
 
 .activities {
@@ -16,7 +18,7 @@
 }
 
 .activities__header h2 {
-  background-color: #06968a;
+  background-color: var(--color-main);
   text-transform: uppercase;
   font-weight: 500;
   padding: 1rem 1.5rem;
@@ -45,7 +47,7 @@
 
 /* Añadir bordes sutiles a los recuadros para mejor separación visual */
 .activities-column .activities {
-  border: 1px solid rgba(6, 150, 138, 0.2);
+  border: 1px solid var(--color-border-techniques-faint);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   padding-bottom: 20px;
 }

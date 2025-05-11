@@ -1,3 +1,5 @@
+@import 'base.css';
+
 /* Estilos para el sistema de respuestas */
 
 /* Botón de responder */
@@ -11,9 +13,9 @@
   display: flex !important;
   align-items: center !important;
   gap: 5px !important;
-  background-color: rgba(255, 255, 255, 0.1) !important;
+  background-color: var(--color-dark-light) !important;
   border: none !important;
-  color: #ffffff !important;
+  color: var(--color-light) !important;
   font-size: 13px !important;
   font-weight: 700 !important;
   cursor: pointer !important;
@@ -23,8 +25,8 @@
 }
 
 .chat-message__reply-btn:hover {
-  background-color: rgba(6, 150, 138, 0.2) !important;
-  color: #06968a !important;
+  background-color: var(--color-main-hover) !important;
+  color: var(--color-main) !important;
 }
 
 /* Formulario de respuesta */
@@ -94,17 +96,17 @@
 }
 
 .chat-message__reply {
-  background-color: #222222 !important;
+  background-color: var(--color-dark) !important;
   border-radius: 10px !important;
   padding: 10px !important;
   width: 98% !important;
   position: relative !important;
-  border-left: 3px solid #06968a !important;
+  border-left: 3px solid var(--color-main) !important;
 }
 
 .chat-message__reply--own {
-  background-color: #1e4d45 !important;
-  border-left: 3px solid #06968a !important;
+  background-color: var(--color-dark-medium) !important;
+  border-left: 3px solid var(--color-main) !important;
 }
 
 .chat-message__reply-header {
@@ -129,18 +131,18 @@
 .avatar--mini {
   width: 22px !important;
   height: 22px !important;
-  border: 1px solid #06968a !important;
+  border: 1px solid var(--color-main) !important;
 }
 
 .chat-message__reply-author-info span {
   font-size: 16px !important;
-  color: #4da6ff !important;
+  color: var(--color-light) !important;
   font-weight: 600 !important;
 }
 
 .chat-message__reply-date {
   font-size: 13px !important;
-  color: #ffffff !important;
+  color: var(--color-light) !important;
   margin-left: 6px !important;
   font-weight: 500 !important;
 }
@@ -148,7 +150,7 @@
 .chat-message__reply-content {
   font-size: 16px !important;
   line-height: 1.5 !important;
-  color: #ffffff !important;
+  color: var(--color-light) !important;
   padding: 4px 0 !important;
   word-wrap: break-word !important;
   font-weight: 400 !important;
@@ -181,16 +183,16 @@
 }
 
 .chat-message__nested-reply {
-  background-color: #222222 !important;
+  background-color: var(--color-dark) !important;
   border-radius: 10px !important;
   padding: 10px !important;
   width: 98% !important;
-  border-left: 3px solid #06968a !important;
+  border-left: 3px solid var(--color-main) !important;
 }
 
 .chat-message__nested-reply--own {
-  background-color: #1e4d45 !important;
-  border-left: 3px solid #06968a !important;
+  background-color: var(--color-dark-medium) !important;
+  border-left: 3px solid var(--color-main) !important;
 }
 
 .chat-message__nested-reply-header {
@@ -214,13 +216,13 @@
 
 .chat-message__nested-reply-author-info span {
   font-size: 16px !important;
-  color: #4da6ff !important;
+  color: var(--color-light) !important;
   font-weight: 600 !important;
 }
 
 .chat-message__nested-reply-date {
   font-size: 13px !important;
-  color: #ffffff !important;
+  color: var(--color-light) !important;
   margin-left: 6px !important;
   font-weight: 500 !important;
 }
@@ -229,7 +231,7 @@
   font-size: 16px !important;
   line-height: 1.5 !important;
   padding: 6px 0 !important;
-  color: #ffffff !important;
+  color: var(--color-light) !important;
   font-weight: 400 !important;
 }
 
