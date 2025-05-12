@@ -383,17 +383,23 @@
 }
 
 .guide-hero__title {
+  color: #fff !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+  background: none !important;
   font-size: 3.5rem;
   margin-bottom: 8px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .guide-hero__scientific {
+  color: #fff !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+  background: none !important;
   font-style: italic;
   font-size: 1.6rem;
   margin-bottom: 20px;
   opacity: 0.8;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .guide-hero__categories {
@@ -477,16 +483,15 @@
   color: var(--color-main);
 }
 
-.guide-stat__content h3 {
-  color: var(--color-light-gray);
-  font-size: 0.9rem;
-  margin-bottom: 5px;
+.guide-stat__content h3,
+.guide-author-card__info h3 {
+  font-size: 1.15rem !important;
 }
 
-.guide-stat__content p {
-  color: var(--color-light);
-  font-size: 1.3rem;
-  font-weight: 500;
+.guide-stat__content p,
+.guide-author-card__name,
+.guide-author-card__date {
+  font-size: 1.25rem !important;
 }
 
 .guide-author-card {
@@ -523,7 +528,7 @@
 .guide-author-card__name {
   display: block;
   color: var(--color-light);
-  font-size: 1.2rem;
+  font-size: 1.5rem !important;
   font-weight: 500;
   text-decoration: none;
   margin-bottom: 5px;
@@ -557,7 +562,7 @@
 
 .guide-tab {
   padding: 18px 28px;
-  color: var(--color-light-gray);
+  color: #fff !important;
   background: none;
   border: none;
   cursor: pointer;
@@ -974,4 +979,10 @@
 
 .guide-create-form button[type="submit"]:hover {
   background-color: var(--color-dark-medium);
+}
+
+.guide-hero__categories .guide-category {
+  font-size: 1.3rem;
+  color: #fff !important;
+  font-weight: 600;
 }

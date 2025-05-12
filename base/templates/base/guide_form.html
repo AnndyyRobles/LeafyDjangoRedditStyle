@@ -2,15 +2,15 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'styles/guide_form.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/technique_form.css' %}">
 
 <main class="create-guide layout">
-  <div class="container wide-container">
+  <div class="container">
     <div class="layout__box">
       <div class="layout__boxHeader">
         <div class="layout__boxTitle">
-          <a href="{% url 'guides' %}" title="Volver a la lista de guías">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <a href="{{request.META.HTTP_REFERER}}">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" style="fill: white;">
               <title>flecha-izquierda</title>
               <path
                 d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"
@@ -21,139 +21,126 @@
         </div>
       </div>
       <div class="layout__body">
-        <form class="form guide-form" action="" method="POST" enctype="multipart/form-data">
+        <form class="form" action="" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           
-          <div class="guide-form__grid">
-            <!-- Column 1: Basic Information -->
-            <div class="guide-form__column">
-              <h4 class="column-title">Información Básica</h4>
-              
-              <div class="form__group">
-                <label for="common_name">Nombre Común</label>
-                <input required type="text" value="{{guide.common_name}}" name="common_name" id="common_name" placeholder="ej., Tomate, Albahaca, etc." />
-              </div>
+          <div class="form__group">
+            <label for="common_name">Nombre Común</label>
+            <input required type="text" value="{{guide.common_name}}" name="common_name" id="common_name" placeholder="ej., Tomate, Albahaca, etc." />
+          </div>
 
-              <div class="form__group">
-                <label for="scientific_name">Nombre Científico</label>
-                <input required type="text" value="{{guide.scientific_name}}" name="scientific_name" id="scientific_name" placeholder="ej., Solanum lycopersicum" />
-              </div>
+          <div class="form__group">
+            <label for="scientific_name">Nombre Científico</label>
+            <input required type="text" value="{{guide.scientific_name}}" name="scientific_name" id="scientific_name" placeholder="ej., Solanum lycopersicum" />
+          </div>
 
-              <div class="form__group">
-                <label for="plant_category">Categorías de Plantas</label>
-                <input required type="text" name="category" list="category-list" id="plant_category" placeholder="Selecciona una categoría existente o escribe una nueva" autocomplete="off">
-                <datalist id="category-list">
-                  {% for category in categories %}
-                  <option value="{{category.name}}">{{category.name}}</option>
-                  {% endfor %}
-                </datalist>
-                <small class="form__info">Elige entre categorías existentes o crea una nueva</small>
-                
-                <div class="categories-preview">
-                  <h4>Categorías Populares:</h4>
-                  <div class="categories-tags">
-                    {% for category in categories|slice:'0:10' %}
-                    <div class="category-tag" onclick="selectCategory('{{category.name}}')" >{{category.name}}</div>
-                    {% endfor %}
-                  </div>
-                </div>
-              </div>
-              
-              <script>
-                function selectCategory(categoryName) {
-                  document.getElementById('plant_category').value = categoryName;
-                }
-              </script>
-
-              <div class="form__group">
-                <label for="guide_picture">Imagen de la Planta</label>
-                {% if guide.guide_picture %}
-                <p>Imagen actual: {{ guide.guide_picture.url }}</p>
-                {% endif %}
-                <input type="file" name="guide_picture" id="guide_picture" accept="image/*" {% if not guide %}required{% endif %} />
-              </div>
-              
-              <div class="form__group">
-                <label for="difficulty">Nivel de Dificultad</label>
-                <input type="text" name="difficulty" id="difficulty" list="difficulty-list" placeholder="Selecciona un nivel de dificultad" value="{% if guide %}{{ guide.difficulty }}{% endif %}" required autocomplete="off">
-                <datalist id="difficulty-list">
-                  <option value="Easy">Fácil</option>
-                  <option value="Medium">Intermedio</option>
-                  <option value="Hard">Difícil</option>
-                </datalist>
-                <small class="form__info">Elige un nivel de dificultad o haz clic en una de las opciones de abajo</small>
-                
-                <div class="difficulty-preview">
-                  <h4>Niveles de Dificultad:</h4>
-                  <div class="difficulty-tags">
-                    <div class="difficulty-tag easy" onclick="selectDifficulty('Easy')">Fácil</div>
-                    <div class="difficulty-tag medium" onclick="selectDifficulty('Medium')">Intermedio</div>
-                    <div class="difficulty-tag hard" onclick="selectDifficulty('Hard')">Difícil</div>
-                  </div>
-                </div>
-              </div>
-              
-              <script>
-                function selectDifficulty(difficultyLevel) {
-                  document.getElementById('difficulty').value = difficultyLevel;
-                }
-              </script>
-
-              <div class="form__group">
-                <label for="growing_season">Temporada de Cultivo</label>
-                <input required type="text" value="{{guide.growing_season}}" name="growing_season" id="growing_season" placeholder="ej., Primavera, Verano, Todo el Año" />
-              </div>
-
-              <div class="form__group">
-                <label for="days_to_harvest">Días hasta la Cosecha</label>
-                <input required type="text" value="{{guide.days_to_harvest}}" name="days_to_harvest" id="days_to_harvest" placeholder="ej., 60-80 días" />
-              </div>
-            </div>
+          <div class="form__group">
+            <label for="plant_category">Categorías de Plantas</label>
+            <input required type="text" name="category" list="category-list" id="plant_category" placeholder="Selecciona una categoría existente o escribe una nueva" autocomplete="off">
+            <datalist id="category-list">
+              {% for category in categories %}
+              <option value="{{category.name}}">{{category.name}}</option>
+              {% endfor %}
+            </datalist>
+            <p class="form__info">
+              <i class="fa fa-info-circle"></i> Elige entre categorías existentes o crea una nueva. Las categorías populares se muestran a continuación.
+            </p>
             
-            <!-- Column 2: Plant Description -->
-            <div class="guide-form__column">
-              <h4 class="column-title">Descripción de la Planta e Instrucciones de Cultivo</h4>
-              
-              <div class="form__group">
-                <label for="description">Descripción</label>
-                <textarea name="description" id="description" placeholder="Descripción general de la planta">{{guide.description}}</textarea>
-              </div>
-              
-              <div class="form__group">
-                <label for="germination">Instrucciones de Germinación</label>
-                <textarea name="germination" id="germination" placeholder="Cómo germinar las semillas">{{guide.germination}}</textarea>
-              </div>
-
-              <div class="form__group">
-                <label for="transplanting">Instrucciones de Trasplante</label>
-                <textarea name="transplanting" id="transplanting" placeholder="Cómo trasplantar las plántulas">{{guide.transplanting}}</textarea>
+            <div class="categories-preview">
+              <h4>Categorías Populares:</h4>
+              <div class="categories-tags">
+                {% for category in categories|slice:'0:10' %}
+                <div class="category-tag" onclick="selectCategory('{{category.name}}')" >{{category.name}}</div>
+                {% endfor %}
               </div>
             </div>
+          </div>
+          
+          <script>
+            function selectCategory(categoryName) {
+              document.getElementById('plant_category').value = categoryName;
+            }
+          </script>
+
+          <div class="form__group">
+            <label for="guide_picture">Imagen de la Planta</label>
+            {% if guide.guide_picture %}
+            <p>Imagen actual: {{ guide.guide_picture.url }}</p>
+            {% endif %}
+            <input type="file" name="guide_picture" id="guide_picture" accept="image/*" {% if not guide %}required{% endif %} />
+          </div>
+          
+          <div class="form__group">
+            <label for="difficulty">Nivel de Dificultad</label>
+            <input type="text" name="difficulty" id="difficulty" list="difficulty-list" placeholder="Selecciona un nivel de dificultad" value="{% if guide %}{{ guide.difficulty }}{% endif %}" required autocomplete="off">
+            <datalist id="difficulty-list">
+              <option value="Easy">Fácil</option>
+              <option value="Medium">Intermedio</option>
+              <option value="Hard">Difícil</option>
+            </datalist>
+            <p class="form__info">
+              <i class="fa fa-info-circle"></i> Elige un nivel de dificultad o haz clic en una de las opciones a continuación.
+            </p>
             
-            <!-- Column 3: Care Instructions -->
-            <div class="guide-form__column">
-              <h4 class="column-title">Instrucciones de Cuidado y Cosecha</h4>
-              
-              <div class="form__group">
-                <label for="watering">Instrucciones de Riego</label>
-                <textarea name="watering" id="watering" placeholder="Frecuencia y cantidad de riego">{{guide.watering}}</textarea>
-              </div>
-
-              <div class="form__group">
-                <label for="sunlight">Requerimientos de Luz Solar</label>
-                <textarea name="sunlight" id="sunlight" placeholder="Necesidades de luz solar">{{guide.sunlight}}</textarea>
-              </div>
-
-              <div class="form__group">
-                <label for="harvest">Instrucciones de Cosecha</label>
-                <textarea name="harvest" id="harvest" placeholder="Cuándo y cómo cosechar">{{guide.harvest}}</textarea>
-              </div>
-
-              <div class="form__group">
-                <label for="extra_care">Consejos Adicionales de Cuidado</label>
-                <textarea name="extra_care" id="extra_care" placeholder="Instrucciones adicionales de cuidado">{{guide.extra_care}}</textarea>
+            <div class="difficulty-preview">
+              <h4>Niveles de Dificultad:</h4>
+              <div class="difficulty-tags">
+                <div class="difficulty-tag easy" onclick="selectDifficulty('Easy')">Fácil</div>
+                <div class="difficulty-tag medium" onclick="selectDifficulty('Medium')">Intermedio</div>
+                <div class="difficulty-tag hard" onclick="selectDifficulty('Hard')">Difícil</div>
               </div>
             </div>
+          </div>
+          
+          <script>
+            function selectDifficulty(difficultyLevel) {
+              document.getElementById('difficulty').value = difficultyLevel;
+            }
+          </script>
+
+          <div class="form__group">
+            <label for="growing_season">Temporada de Cultivo</label>
+            <input required type="text" value="{{guide.growing_season}}" name="growing_season" id="growing_season" placeholder="ej., Primavera, Verano, Todo el Año" />
+          </div>
+
+          <div class="form__group">
+            <label for="days_to_harvest">Días hasta la Cosecha</label>
+            <input required type="text" value="{{guide.days_to_harvest}}" name="days_to_harvest" id="days_to_harvest" placeholder="ej., 60-80 días" />
+          </div>
+
+          <div class="form__group">
+            <label for="description">Descripción</label>
+            <textarea name="description" id="description" placeholder="Descripción general de la planta">{{guide.description}}</textarea>
+          </div>
+          
+          <div class="form__group">
+            <label for="germination">Instrucciones de Germinación</label>
+            <textarea name="germination" id="germination" placeholder="Cómo germinar las semillas">{{guide.germination}}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="transplanting">Instrucciones de Trasplante</label>
+            <textarea name="transplanting" id="transplanting" placeholder="Cómo trasplantar las plántulas">{{guide.transplanting}}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="watering">Instrucciones de Riego</label>
+            <textarea name="watering" id="watering" placeholder="Frecuencia y cantidad de riego">{{guide.watering}}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="sunlight">Requerimientos de Luz Solar</label>
+            <textarea name="sunlight" id="sunlight" placeholder="Necesidades de luz solar">{{guide.sunlight}}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="harvest">Instrucciones de Cosecha</label>
+            <textarea name="harvest" id="harvest" placeholder="Cuándo y cómo cosechar">{{guide.harvest}}</textarea>
+          </div>
+
+          <div class="form__group">
+            <label for="extra_care">Consejos Adicionales de Cuidado</label>
+            <textarea name="extra_care" id="extra_care" placeholder="Instrucciones adicionales de cuidado">{{guide.extra_care}}</textarea>
           </div>
 
           <div class="form__action">

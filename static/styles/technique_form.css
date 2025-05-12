@@ -1,0 +1,135 @@
+@import 'base.css';
+
+/* Estilos para los botones de selección de técnica */
+.techniques-preview {
+  margin-top: 10px;
+}
+
+.techniques-preview h4 {
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 5px;
+}
+
+.techniques-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.technique-tag {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: var(--color-main);
+  color: white;
+}
+
+.technique-tag:hover {
+  opacity: 0.85;
+}
+
+/* Estilos para los botones de selección de ubicación */
+.location-preview {
+  margin-top: 10px;
+}
+
+.location-preview h4 {
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 5px;
+}
+
+.location-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.location-tag {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: var(--color-main);
+  color: white;
+}
+
+.location-tag:hover {
+  opacity: 0.85;
+}
+
+/* Estilos para los botones de selección de dificultad */
+.difficulty-preview {
+  margin-top: 10px;
+}
+
+.difficulty-preview h4 {
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 5px;
+}
+
+.difficulty-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.difficulty-tag {
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+  text-align: center;
+}
+
+.difficulty-tag:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+/* Colores específicos para cada nivel de dificultad */
+.difficulty-tag.easy,
+.difficulty-tag.Easy {
+  background-color: #4CAF50; /* Verde */
+  color: white;
+}
+
+.difficulty-tag.medium,
+.difficulty-tag.Medium {
+  background-color: #FFC107; /* Amarillo */
+  color: #333;
+}
+
+.difficulty-tag.hard,
+.difficulty-tag.Hard {
+  background-color: #F44336; /* Rojo */
+  color: white;
+}
+
+/* Estilos para el mensaje informativo */
+.form__info {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-main);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 20px 0;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.form__info i {
+  color: var(--color-main);
+  margin-right: 8px;
+} 

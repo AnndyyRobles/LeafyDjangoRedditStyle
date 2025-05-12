@@ -6,7 +6,7 @@ from django.db.models import Q, Count
 from django.contrib.auth import authenticate, login, logout
 from .models import Room, Topic, Message, User, PlantCategory, PlantGuide, CultivationTechnique, Friendship, Medal, UserMedal
 from .medals import check_and_award_medals
-from .forms import RoomForm, UserForm, MyUserCreationForm
+from .forms import RoomForm, UserForm, MyUserCreationForm, Cultivation3DModelForm
 
 def loginPage(request):
     page = 'login'
@@ -14,46 +14,52 @@ def loginPage(request):
         return redirect('home')
 
     if request.method == 'POST':
-        email = request.POST.get('email').lower()
-        password = request.POST.get('password')
+        email = request.POST.get('email', '').lower()
+        password = request.POST.get('password', '')
+        
+        print(f"Intento de login con email: {email}")  # Debug
+        
+        if not email or not password:
+            messages.error(request, 'Por favor ingresa tu email y contraseña')
+            return render(request, 'base/login_register.html', {'page': page})
         
         try:
-            # Debug: Imprimir usuarios con este email
-            users = User.objects.filter(email=email)
-            print(f'Found {users.count()} users with email {email}')
+            # Buscar el usuario exactamente como está en la base de datos
+            users = User.objects.filter(email__iexact=email)
+            print(f"Usuarios encontrados: {users.count()}")  # Debug
+            
             for user in users:
-                print(f'User ID: {user.id}, Username: {user.username}, Email: {user.email}')
+                print(f"Usuario encontrado - ID: {user.id}, Email: {user.email}, Username: {user.username}")  # Debug
             
-            # Verificamos si el usuario existe
-            if not users.exists():
-                messages.error(request, 'Email does not exist')
-                context = {'page': page}
-                return render(request, 'base/login_register.html', context)
+            user = users.first()
             
-            # Intenta autenticar al usuario
+            if user is None:
+                print(f"No se encontró usuario con email: {email}")  # Debug
+                messages.error(request, 'No existe una cuenta con este email')
+                return render(request, 'base/login_register.html', {'page': page})
+            
+            # Intentamos autenticar con el email
             user = authenticate(request, username=email, password=password)
             
-            # Si falla con username=email, intenta con email=email
-            if user is None:
-                user = authenticate(request, email=email, password=password)
-            
             if user is not None:
+                print(f"Usuario autenticado exitosamente: {user.email}")  # Debug
                 login(request, user)
                 return redirect('home')
             else:
-                print(f'Authentication failed for {email}')
-                messages.error(request, 'Invalid password - Please make sure you are using the right credentials')
+                print(f"Autenticación fallida para email: {email}")  # Debug
+                messages.error(request, 'Contraseña incorrecta')
                 
         except Exception as e:
-            print(f'Login error: {str(e)}')
-            messages.error(request, f'An error occurred: {str(e)}')
+            print(f'Error en login: {str(e)}')  # Debug
+            messages.error(request, f'Error al iniciar sesión: {str(e)}')
     
     context = {'page': page}
     return render(request, 'base/login_register.html', context)
 
 def logoutUser(request):
     logout(request)
-    return redirect('home')
+    request.session.flush()  # Limpia toda la sesión
+    return redirect('login')  # Redirigimos al login en lugar de home
 
 def registerPage(request):
     form = MyUserCreationForm()
@@ -324,17 +330,21 @@ def activityPage(request):
 def guidesHome(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
     categories = PlantCategory.objects.all().order_by('name')
-    
-    if q:
+
+    # Buscar si q es una categoría exacta
+    category_match = PlantCategory.objects.filter(name__iexact=q).first() if q else None
+
+    if category_match:
+        plant_guides = PlantGuide.objects.filter(categories=category_match)
+    elif q:
         plant_guides = PlantGuide.objects.filter(
-            Q(categories__name__icontains=q) |
             Q(common_name__icontains=q) |
             Q(scientific_name__icontains=q) |
             Q(description__icontains=q)
         ).distinct()
     else:
         plant_guides = PlantGuide.objects.all()
-        
+
     context = {
         'categories': categories,
         'plant_guides': plant_guides,
@@ -900,7 +910,6 @@ import requests
 from django.conf import settings
 from django.core.files.base import ContentFile
 from .models import Cultivation3DModel
-from .forms import Cultivation3DModelForm
 from .utils import generate_prompt
 
 @login_required(login_url='login')
@@ -996,6 +1005,33 @@ def delete_3d_model(request, pk):
         return redirect('cultivation3d_home')
     
     return render(request, 'base/delete.html', {'obj': model})
+
+def update_3d_model(request, pk):
+    model = get_object_or_404(Cultivation3DModel, id=pk)
+    if request.user != model.user:
+        messages.error(request, 'No tienes permiso para editar este modelo.')
+        return redirect('cultivation3d_detail', pk=model.id)
+
+    if request.method == 'POST':
+        form = Cultivation3DModelForm(request.POST, instance=model)
+        if form.is_valid():
+            updated_model = form.save(commit=False)
+            # Regenerar el prompt automáticamente (si tienes una función para esto)
+            from .utils import generate_prompt
+            updated_model.prompt = generate_prompt(updated_model)
+            updated_model.save()
+            messages.success(request, 'Modelo actualizado correctamente.')
+            return redirect('cultivation3d_detail', pk=model.id)
+    else:
+        form = Cultivation3DModelForm(instance=model)
+
+    context = {
+        'form': form,
+        'model': model,
+        'technique_choices': Cultivation3DModel.TECHNIQUE_CHOICES,
+        'location_choices': Cultivation3DModel.LOCATION_CHOICES,
+    }
+    return render(request, 'base/update_3d_model.html', context)
 
 def inspect_users(request):
     """Vista temporal para inspeccionar usuarios y sus contraseñas hasheadas"""

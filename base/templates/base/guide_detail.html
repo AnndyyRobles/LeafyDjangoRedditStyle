@@ -152,7 +152,7 @@
   {% if guide.author == request.user %}
   <div class="actions-container">
     <div class="actions-card">
-      <a href="{% url 'update-guide' guide.id %}" class="action-button action-edit">Editar</a>
+      <a href="{% url 'update-guide' guide.id %}" style="background-color: #FFC107; color: #fff; border: none; padding: 0.8rem 1.6rem; font-size: 1.4rem; font-weight: 600; border-radius: 5px; cursor: pointer; transition: all 0.3s ease; text-decoration: none;">Editar</a>
       <a href="{% url 'delete-guide' guide.id %}" class="action-button action-delete">Eliminar</a>
     </div>
   </div>

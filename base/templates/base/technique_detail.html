@@ -9,7 +9,7 @@
                 <title>Back to techniques</title>
                 <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
             </svg>
-            Back to Techniques
+            Regresar a técnicas
         </a>
     </div>
 </div>
@@ -56,6 +56,7 @@
         grid-gap: 15px;
         padding: 0 20px;
         row-gap: 15px;
+        align-items: stretch;
     }
     
     .card {
@@ -144,7 +145,11 @@
     /* Main image card */
     .main-image-card {
         grid-column: span 8;
-        height: 400px; /* Increased height to match meta info card */
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
     }
     
     .main-image-card img {
@@ -159,7 +164,9 @@
         grid-column: span 4;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
+        align-items: flex-start;
+        height: 100%;
     }
     
     .meta-item {
@@ -349,7 +356,7 @@
             <img src="{{ technique.author.avatar.url }}" alt="Avatar del usuario">
         </div>
         <div class="author-details">
-            <p class="author-label">Technique by</p>
+            <p class="author-label">Técnica por</p>
             <p class="author-name"><a href="{% url 'user-profile' technique.author.id %}" class="author-link">{{ technique.author.username }}</a></p>
             <p class="creation-date">{{ technique.created|date:"F d, Y" }}</p>
         </div>
@@ -379,11 +386,6 @@
         <div class="meta-item">
             <div class="meta-label">Espacio Requerido</div>
             <div class="meta-value">{{ technique.space_requirements }}</div>
-        </div>
-        
-        <div class="meta-item">
-            <div class="meta-label">Tiempo de Configuración</div>
-            <div class="meta-value">{{ technique.setup_time }}</div>
         </div>
     </div>
     

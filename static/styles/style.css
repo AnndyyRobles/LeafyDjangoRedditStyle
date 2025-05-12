@@ -655,6 +655,10 @@ a {
   color: var(--color-light);
 }
 
+.topics--filter .topics__list li a span {
+  background-color: transparent !important;
+}
+
 .topics-page a:hover {
   text-decoration: underline;
 }

@@ -1,14 +1,17 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/technique_form.css' %}">
+
 <main class="create-room layout">
   <div class="container">
     <div class="layout__box">
       <div class="layout__boxHeader">
         <div class="layout__boxTitle">
-          <a href="{% url 'techniques' %}" title="Volver a la lista de técnicas">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-              <title>arrow-left</title>
+          <a href="{{request.META.HTTP_REFERER}}">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" style="fill: white;">
+              <title>flecha-izquierda</title>
               <path
                 d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
               </path>
@@ -91,9 +94,9 @@
             <div class="difficulty-preview">
               <h4>Niveles de Dificultad:</h4>
               <div class="difficulty-tags">
-                {% for choice_id, choice_label in difficulty_levels %}
-                <div class="difficulty-tag {{ choice_id }}" onclick="selectDifficulty('{{ choice_id }}')">{{ choice_label }}</div>
-                {% endfor %}
+                <div class="difficulty-tag easy" onclick="selectDifficulty('Easy')">Fácil</div>
+                <div class="difficulty-tag medium" onclick="selectDifficulty('Medium')">Intermedio</div>
+                <div class="difficulty-tag hard" onclick="selectDifficulty('Hard')">Difícil</div>
               </div>
             </div>
           </div>

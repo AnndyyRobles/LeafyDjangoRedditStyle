@@ -1,0 +1,122 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/technique_form.css' %}">
+
+<main class="create-room layout">
+  <div class="container">
+    <div class="layout__box">
+      <div class="layout__boxHeader">
+        <div class="layout__boxTitle">
+          <a href="{{ request.META.HTTP_REFERER|default:'#' }}">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" style="fill: white;">
+              <title>flecha-izquierda</title>
+              <path d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z"></path>
+            </svg>
+          </a>
+          <h3>Editar Modelo 3D</h3>
+        </div>
+      </div>
+      <div class="layout__body">
+        <form class="form" method="POST">
+          {% csrf_token %}
+          <div class="form__group">
+            <label for="title">Título</label>
+            <input id="title" name="title" type="text" value="{{ form.title.value|default_if_none:'' }}" required />
+          </div>
+          <div class="form__group">
+            <label for="description">Descripción</label>
+            <textarea name="description" id="description">{{ form.description.value|default_if_none:'' }}</textarea>
+          </div>
+          <div class="form__group">
+            <label for="technique">Técnica de Cultivo</label>
+            <input type="text" name="technique" id="technique" list="technique-list" value="{{ form.technique.value|default_if_none:'' }}" required autocomplete="off">
+            <datalist id="technique-list">
+              {% for key, value in technique_choices %}
+              {% if key != '' %}
+              <option value="{{ key }}">{{ value }}</option>
+              {% endif %}
+              {% endfor %}
+            </datalist>
+            <small class="form__info">Elige una técnica o haz clic en una de las opciones a continuación</small>
+            <div class="techniques-preview">
+              <h4>Tipos de Técnicas:</h4>
+              <div class="techniques-tags">
+                {% for key, value in technique_choices %}
+                {% if key != '' %}
+                <div class="technique-tag" onclick="selectTechnique('{{ key }}')">{{ value }}</div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <script>
+            function selectTechnique(techniqueType) {
+              document.getElementById('technique').value = techniqueType;
+            }
+          </script>
+          <div class="form__group form__group--inline">
+            <div class="form__field">
+              <label for="width">Ancho (cm)</label>
+              <input type="number" name="width" id="width" min="1" max="1000" value="{{ form.width.value|default_if_none:'' }}" required />
+            </div>
+            <div class="form__field">
+              <label for="height">Alto (cm)</label>
+              <input type="number" name="height" id="height" min="1" max="1000" value="{{ form.height.value|default_if_none:'' }}" required />
+            </div>
+            <div class="form__field">
+              <label for="length">Largo (cm)</label>
+              <input type="number" name="length" id="length" min="1" max="1000" value="{{ form.length.value|default_if_none:'' }}" required />
+            </div>
+          </div>
+          <div class="form__group">
+            <label for="location">Ubicación</label>
+            <input type="text" name="location" id="location" list="location-list" value="{{ form.location.value|default_if_none:'' }}" required autocomplete="off">
+            <datalist id="location-list">
+              {% for key, value in location_choices %}
+              {% if key != '' %}
+              <option value="{{ key }}">{{ value }}</option>
+              {% endif %}
+              {% endfor %}
+            </datalist>
+            <small class="form__info">Elige una ubicación o haz clic en una de las opciones a continuación</small>
+            <div class="location-preview">
+              <h4>Ubicaciones:</h4>
+              <div class="location-tags">
+                {% for key, value in location_choices %}
+                {% if key != '' %}
+                <div class="location-tag" onclick="selectLocation('{{ key }}')">{{ value }}</div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <script>
+            function selectLocation(locationType) {
+              document.getElementById('location').value = locationType;
+            }
+          </script>
+          <div class="form__group">
+            <label for="materials_description">Descripción de Materiales</label>
+            <textarea name="materials_description" id="materials_description" required>{{ form.materials_description.value|default_if_none:'' }}</textarea>
+          </div>
+          <div class="form__group">
+            <label for="extra_specifications">Especificaciones Adicionales (Opcional)</label>
+            <textarea name="extra_specifications" id="extra_specifications">{{ form.extra_specifications.value|default_if_none:'' }}</textarea>
+          </div>
+          <div class="form__group">
+            <p class="form__info">
+              <i class="fa fa-info-circle"></i> Al actualizar la información, el sistema regenerará el prompt para tu modelo 3D. Los archivos generados (imagen y modelo 3D) se mantendrán sin cambios.
+            </p>
+          </div>
+          <div class="form__action">
+            <a class="btn btn--dark" href="{% url 'cultivation3d_detail' model.id %}">Cancelar</a>
+            <button class="btn btn--main" type="submit">Guardar Cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %} 

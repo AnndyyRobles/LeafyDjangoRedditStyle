@@ -1,28 +1,28 @@
 def generate_prompt(model):
-    """Generates a descriptive prompt based on the cultivation model data"""
+    """Genera un prompt descriptivo basado en los datos del modelo de cultivo"""
     techniques = {
-        'vertical': 'vertical farming system with multiple levels',
-        'pared': 'wall-mounted growing system',
-        'hidroponia': 'hydroponic growing system without soil',
-        'reciclados': 'urban garden using recycled materials',
-        'acuaponia': 'aquaponic system combining fish and plant cultivation'
+        'vertical': 'sistema de cultivo vertical con múltiples niveles',
+        'pared': 'sistema de cultivo montado en pared',
+        'hidroponia': 'sistema hidropónico sin suelo',
+        'reciclados': 'huerto urbano usando materiales reciclados',
+        'acuaponia': 'sistema acuapónico que combina peces y plantas'
     }
     
     locations = {
-        'interior': 'designed for indoor spaces',
-        'exterior': 'designed for outdoor spaces'
+        'interior': 'diseñado para espacios interiores',
+        'exterior': 'diseñado para espacios exteriores'
     }
     
-    # Basic prompt with essential information
-    prompt = f"Create a detailed 3D model of a {techniques[model.technique]} for urban farming, "
+    # Prompt básico con información esencial
+    prompt = f"Crea un modelo 3D detallado de un {techniques[model.technique]} para agricultura urbana, "
     prompt += f"{locations[model.location]}, "
-    prompt += f"with dimensions {model.width}cm width, {model.height}cm height, and {model.length}cm length. "
-    prompt += f"Materials include: {model.materials_description}. "
+    prompt += f"con dimensiones de {model.width}cm de ancho, {model.height}cm de alto y {model.length}cm de largo. "
+    prompt += f"Los materiales incluyen: {model.materials_description}. "
     
-    # Add extra specifications if they exist
+    # Agregar especificaciones extra si existen
     if model.extra_specifications:
-        prompt += f"Additional specifications: {model.extra_specifications}. "
+        prompt += f"Especificaciones adicionales: {model.extra_specifications}. "
     
-    prompt += "The model should be modern, practical and appropriate for visualization in an urban farming app."
+    prompt += "El modelo debe ser moderno, práctico y apropiado para su visualización en una app de agricultura urbana."
     
     return prompt

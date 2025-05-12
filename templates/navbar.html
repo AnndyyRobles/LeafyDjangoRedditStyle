@@ -1,9 +1,14 @@
 {% load static %}
+{% block extra_head %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap" rel="stylesheet">
+{% endblock %}
 <header class="header header--loggedIn">
     <div class="container">
       <a href="{% url 'home' %}" class="header__logo">
         <img src="{% static 'images/logoleafy.png' %}" alt="Logo de Leafy" />
-        <h1 class="shadoww" style="color: white;">Leafy.ai                </h1>
+        <h1 class="shadoww navbar__brand" style="color: white; font-family: 'Alexandria', sans-serif; font-weight: 600; font-size: 2.2rem;">Leafy.ai</h1>
       </a>
       <form class="header__search" method="GET" action= "{% url 'home' %}">
         <label>

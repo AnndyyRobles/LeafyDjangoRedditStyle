@@ -1,20 +1,23 @@
 {% extends 'main.html' %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/technique_form.css' %}">
+
 <main class="create-room layout">
   <div class="container">
     <div class="layout__box">
       <div class="layout__boxHeader">
         <div class="layout__boxTitle">
-          <a href="{% url 'cultivation3d_home' %}" title="Volver al inicio">
-            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-              <title>arrow-left</title>
+          <a href="{{request.META.HTTP_REFERER}}">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" style="fill: white;">
+              <title>flecha-izquierda</title>
               <path
                 d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
               </path>
             </svg>
           </a>
-          <h3>Crear Modelo de Cultivo 3D</h3>
+          <h3>{% if model3d %}Editar{% else %}Crear{% endif %} Modelo 3D</h3>
         </div>
       </div>
 
@@ -93,10 +96,10 @@
             
             <div class="location-preview">
               <h4>Ubicaciones:</h4>
-              <div class="techniques-tags">
+              <div class="location-tags">
                 {% for key, value in form.fields.location.choices %}
                 {% if key != '' %}
-                <div class="technique-tag" onclick="selectLocation('{{ key }}')">{{ value }}</div>
+                <div class="location-tag" onclick="selectLocation('{{ key }}')">{{ value }}</div>
                 {% endif %}
                 {% endfor %}
               </div>
@@ -121,7 +124,7 @@
 
           <div class="form__group">
             <p class="form__info">
-              <i class="fa fa-info-circle"></i> Después de enviar, el sistema generará un modelo 3D basado en tus especificaciones. Este proceso puede tardar varios minutos.
+              <i class="fa fa-info-circle"></i> Después de enviar, el sistema generará un modelo 3D basado en tus especificaciones. Este proceso puede tardar varios minutos, siéntete libre de seguir explorando Leafy.ai sin inconvenientes, el modelo se seguirá generando automáticamente.
             </p>
           </div>
 

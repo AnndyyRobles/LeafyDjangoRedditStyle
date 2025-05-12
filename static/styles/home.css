@@ -12,6 +12,7 @@
 /* Room list styling */
 .roomList {
   margin-bottom: 2rem;
+  width: 100%;
 }
 
 .roomList__header {
@@ -19,6 +20,18 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2.5rem;
+  width: 100%;
+  background-color: var(--color-dark);
+  padding: 1rem;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.roomList__header > div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
 }
 
 .roomList__header h2 {
@@ -28,11 +41,18 @@
   background-color: var(--color-main);
   padding: 1rem 1.5rem;
   border-radius: 5px;
+  margin: 0;
+  white-space: nowrap;
 }
 
 .roomList__header p {
   color: var(--color-bg);
-  margin-left: 15px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.roomList__header .btn {
+  margin-left: auto;
 }
 
 /* Room list room styling */
@@ -394,4 +414,15 @@
 .activity-card:hover {
   background-color: var(--color-main);
   transform: translateY(-5px);
+}
+
+.navbar__brand {
+  color: white !important;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.navbar__brand:hover {
+  color: #d3e97a !important;
+  text-decoration: none;
 }
